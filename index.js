@@ -7,6 +7,7 @@ const nocache = require('nocache')
 
 const departures = require('./lib/departures')
 const journeys = require('./lib/journeys')
+const locations = require('./lib/locations')
 
 const headers = corser.simpleRequestHeaders.concat(['User-Agent', 'X-Identifier'])
 
@@ -38,6 +39,7 @@ const createApi = (hafas, config) => {
 	const noCache = nocache()
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
+	api.get('/locations', locations(hafas, config))
 
 	api.use(handleErrors)
 
