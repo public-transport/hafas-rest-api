@@ -5,6 +5,7 @@ const corser = require('corser')
 const compression = require('compression')
 const nocache = require('nocache')
 
+const nearby = require('./lib/nearby')
 const departures = require('./lib/departures')
 const journeys = require('./lib/journeys')
 const locations = require('./lib/locations')
@@ -37,6 +38,7 @@ const createApi = (hafas, config) => {
 	})
 
 	const noCache = nocache()
+	api.get('/stations/nearby', nearby(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
 	api.get('/locations', locations(hafas, config))
