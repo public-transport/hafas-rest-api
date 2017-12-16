@@ -26,6 +26,9 @@ const handleErrors = (err, req, res, next) => {
 }
 
 const createApi = (hafas, config) => {
+	let journeyPart = null
+	if (hafas.profile.journeyPart) journeyPart = require('./lib/journey-part')
+
 	const api = express()
 
 	api.use(corser.create({requestHeaders: headers})) // CORS
@@ -41,6 +44,9 @@ const createApi = (hafas, config) => {
 	api.get('/stations/nearby', nearby(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
+	if (journeyPart) {
+		api.get('/journeys/parts/:ref', noCache, journeyPart(hafas, config))
+	}
 	api.get('/locations', locations(hafas, config))
 
 	api.use(handleErrors)
