@@ -1,0 +1,43 @@
+{
+	"name": "hafas-rest-api",
+	"description": "Expose a HAFAS client via an HTTP REST API.",
+	"version": "0.1.0",
+	"main": "index.js",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"hafas",
+		"public",
+		"transport",
+		"transit",
+		"api",
+		"http",
+		"fptf"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/hafas-rest-api",
+	"repository": "derhuerst/hafas-rest-api",
+	"bugs": "https://github.com/derhuerst/hafas-rest-api/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
+	"dependencies": {
+		"compression": "^1.7.1",
+		"corser": "^2.0.1",
+		"express": "^4.16.2",
+		"morgan": "^1.9.0",
+		"nocache": "^2.0.0",
+		"shorthash": "0.0.2",
+		"vbb-logos": "github:derhuerst/vbb-logos#v2"
+	},
+	"devDependencies": {
+		"tap-min": "^1.2.2",
+		"tape": "^4.8.0"
+	},
+	"scripts": {
+		"test": "node test.js | tap-min",
+		"prepublishOnly": "npm test"
+	}
+}
