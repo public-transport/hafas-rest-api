@@ -28,6 +28,8 @@ const handleErrors = (err, req, res, next) => {
 const createApi = (hafas, config) => {
 	let journeyPart = null
 	if (hafas.profile.journeyPart) journeyPart = require('./lib/journey-part')
+	let radar = null
+	if (hafas.profile.radar) radar = require('./lib/radar')
 
 	const api = express()
 
@@ -48,6 +50,7 @@ const createApi = (hafas, config) => {
 		api.get('/journeys/parts/:ref', noCache, journeyPart(hafas, config))
 	}
 	api.get('/locations', locations(hafas, config))
+	if (radar) api.get('/radar', noCache, radar(hafas, config))
 
 	api.use(handleErrors)
 
