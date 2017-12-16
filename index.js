@@ -6,6 +6,7 @@ const compression = require('compression')
 const nocache = require('nocache')
 
 const departures = require('./lib/departures')
+const journeys = require('./lib/journeys')
 
 const headers = corser.simpleRequestHeaders.concat(['User-Agent', 'X-Identifier'])
 
@@ -36,7 +37,7 @@ const createApi = (hafas, config) => {
 
 	const noCache = nocache()
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
-	// todo
+	api.get('/journeys', noCache, journeys(hafas, config))
 
 	api.use(handleErrors)
 
