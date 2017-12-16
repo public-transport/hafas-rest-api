@@ -5,14 +5,9 @@ const corser = require('corser')
 const compression = require('compression')
 const nocache = require('nocache')
 
-const headers = corser.simpleRequestHeaders.concat(['User-Agent', 'X-Identifier'])
+const departures = require('./lib/departures')
 
-const poweredByHeader = (req, res, next) => {
-	if (!res.headersSent) {
-		res.setHeader('X-Powered-By', config.name + ' ' + config.homepage)
-	}
-	next()
-}
+const headers = corser.simpleRequestHeaders.concat(['User-Agent', 'X-Identifier'])
 
 const handleErrors = (err, req, res, next) => {
 	if (process.env.NODE_ENV === 'dev') console.error(err)
@@ -32,9 +27,15 @@ const createApi = (hafas, config) => {
 
 	api.use(corser.create({requestHeaders: headers})) // CORS
 	api.use(compression())
-	api.use(poweredByHeader)
+	api.use((req, res, next) => {
+		if (!res.headersSent) {
+			res.setHeader('X-Powered-By', config.name + ' ' + config.homepage)
+		}
+		next()
+	})
 
 	const noCache = nocache()
+	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	// todo
 
 	api.use(handleErrors)

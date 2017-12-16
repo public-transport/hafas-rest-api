@@ -27,8 +27,10 @@
 		"compression": "^1.7.1",
 		"corser": "^2.0.1",
 		"express": "^4.16.2",
+		"hafas-departures-in-direction": "^0.1.0",
 		"morgan": "^1.9.0",
 		"nocache": "^2.0.0",
+		"parse-messy-time": "^2.1.0",
 		"shorthash": "0.0.2",
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
 	},
