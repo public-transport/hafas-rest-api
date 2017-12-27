@@ -38,6 +38,7 @@
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
 	},
 	"devDependencies": {
+		"hafas-client": "^2.0.0-alpha.5",
 		"tap-min": "^1.2.2",
 		"tape": "^4.8.0"
 	},
