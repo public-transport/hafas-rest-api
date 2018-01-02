@@ -18,7 +18,24 @@ npm install hafas-rest-api
 ## Usage
 
 ```js
-todo
+const hafas = require('hafas-client')
+const dbProfile = require('hafas-client/p/db')
+
+const createApi = require('.')
+
+const config = {
+	hostname: 'example.org',
+	port: 3000,
+	name: 'my-hafas-rest-api',
+	homepage: 'https://github.com/someone/my-hafas-rest-api'
+}
+
+const client = hafas(dbProfile)
+const api = createApi(client, config)
+
+api.listen(config.port, (err) => {
+	if (err) console.error(err)
+})
 ```
 
 

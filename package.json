@@ -35,13 +35,14 @@
 		"morgan": "^1.9.0",
 		"nocache": "^2.0.0",
 		"parse-messy-time": "^2.1.0",
-		"shorthash": "0.0.2",
-		"vbb-logos": "github:derhuerst/vbb-logos#v2"
+		"shorthash": "0.0.2"
 	},
 	"devDependencies": {
 		"hafas-client": "^2.0.0-alpha.6",
+		"serve-static": "^1.13.1",
 		"tap-min": "^1.2.2",
-		"tape": "^4.8.0"
+		"tape": "^4.8.0",
+		"vbb-logos": "github:derhuerst/vbb-logos#v2"
 	},
 	"scripts": {
 		"test": "node test.js | tap-min",
