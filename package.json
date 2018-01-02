@@ -31,6 +31,7 @@
 		"corser": "^2.0.1",
 		"express": "^4.16.2",
 		"hafas-departures-in-direction": "^0.1.0",
+		"hsts": "^2.1.0",
 		"morgan": "^1.9.0",
 		"nocache": "^2.0.0",
 		"parse-messy-time": "^2.1.0",
@@ -38,7 +39,7 @@
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
 	},
 	"devDependencies": {
-		"hafas-client": "^2.0.0-alpha.5",
+		"hafas-client": "^2.0.0-alpha.6",
 		"tap-min": "^1.2.2",
 		"tape": "^4.8.0"
 	},

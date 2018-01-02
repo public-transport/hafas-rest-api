@@ -4,6 +4,7 @@ const express = require('express')
 const corser = require('corser')
 const compression = require('compression')
 const nocache = require('nocache')
+const hsts = require('hsts')
 
 const nearby = require('./lib/nearby')
 const departures = require('./lib/departures')
@@ -35,6 +36,9 @@ const createApi = (hafas, config) => {
 
 	api.use(corser.create({requestHeaders: headers})) // CORS
 	api.use(compression())
+	api.use(hsts({
+		maxAge: 10 * 24 * 60 * 60 * 1000
+	}))
 	api.use((req, res, next) => {
 		if (!res.headersSent) {
 			res.setHeader('X-Powered-By', config.name + ' ' + config.homepage)
