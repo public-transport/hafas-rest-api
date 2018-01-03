@@ -5,22 +5,29 @@ const compression = require('compression')
 const nocache = require('nocache')
 const hsts = require('hsts')
 
-const createCors = require('./cors')
 const nearby = require('./routes/nearby')
 const departures = require('./routes/departures')
 const journeys = require('./routes/journeys')
 const locations = require('./routes/locations')
-const handleErrors = require('./handle-errors')
+
+const defaultConfig = {
+	cors: true,
+	handleErrors: true
+}
 
 const createApi = (hafas, config) => {
-	let journeyPart = null
-	if (hafas.profile.journeyPart) journeyPart = require('./routes/journey-part')
-	let radar = null
-	if (hafas.profile.radar) radar = require('./routes/radar')
+	config = Object.assign({}, defaultConfig, config)
 
 	const api = express()
 
-	api.use(createCors(['User-Agent', 'X-Identifier']))
+	if (config.cors) {
+		const createCors = require('./cors')
+		api.use(createCors(['User-Agent', 'X-Identifier']))
+	}
+	if (config.logging) {
+		const createLogging = require('./logging')
+		api.use(createLogging())
+	}
 	api.use(compression())
 	api.use(hsts({
 		maxAge: 10 * 24 * 60 * 60 * 1000
@@ -36,15 +43,20 @@ const createApi = (hafas, config) => {
 	api.get('/stations/nearby', nearby(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
-	if (journeyPart) {
+	if (hafas.profile.journeyPart) {
+		const journeyPart = require('./routes/journey-part')
 		api.get('/journeys/parts/:ref', noCache, journeyPart(hafas, config))
 	}
 	api.get('/locations', locations(hafas, config))
-	if (radar) {
+	if (hafas.profile.radar) {
+		const radar = require('./routes/radar')
 		api.get('/radar', noCache, radar(hafas, config))
 	}
 
-	api.use(handleErrors)
+	if (config.handleErrors) {
+		const handleErrors = require('./handle-errors')
+		api.use(handleErrors)
+	}
 
 	return api
 }

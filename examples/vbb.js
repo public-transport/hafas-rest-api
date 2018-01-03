@@ -6,19 +6,18 @@ const path = require('path')
 const serve = require('serve-static')
 
 const createApi = require('..')
-const createLogging = require('../logging')
 
 const config = {
 	hostname: process.env.HOSTNAME || 'vbb.transport.rest',
 	port: process.env.PORT || 3000,
 	name: 'vbb-rest',
-	homepage: 'https://github.com/derhuerst/vbb-rest'
+	homepage: 'https://github.com/derhuerst/vbb-rest',
+	logging: true
 }
 
 const client = hafas(vbbProfile)
 
 const api = createApi(client, config)
-api.use(createLogging())
 
 const logosDir = path.dirname(require.resolve('vbb-logos/bus.svg'))
 api.use('/logos', serve(logosDir, {index: false}))

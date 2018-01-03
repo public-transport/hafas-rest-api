@@ -4,19 +4,18 @@ const hafas = require('hafas-client')
 const dbProfile = require('hafas-client/p/db')
 
 const createApi = require('..')
-const createLogging = require('../logging')
 
 const config = {
 	hostname: process.env.HOSTNAME || 'db.transport.rest',
 	port: process.env.PORT || 3000,
 	name: 'db-rest',
-	homepage: 'https://github.com/derhuerst/db-rest'
+	homepage: 'https://github.com/derhuerst/db-rest',
+	logging: true
 }
 
 const client = hafas(dbProfile)
 
 const api = createApi(client, config)
-api.use(createLogging())
 
 api.listen(config.port, (err) => {
 	if (err) {
