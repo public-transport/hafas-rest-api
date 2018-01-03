@@ -6,17 +6,17 @@ const nocache = require('nocache')
 const hsts = require('hsts')
 
 const createCors = require('./cors')
-const nearby = require('./lib/nearby')
-const departures = require('./lib/departures')
-const journeys = require('./lib/journeys')
-const locations = require('./lib/locations')
+const nearby = require('./routes/nearby')
+const departures = require('./routes/departures')
+const journeys = require('./routes/journeys')
+const locations = require('./routes/locations')
 const handleErrors = require('./handle-errors')
 
 const createApi = (hafas, config) => {
 	let journeyPart = null
-	if (hafas.profile.journeyPart) journeyPart = require('./lib/journey-part')
+	if (hafas.profile.journeyPart) journeyPart = require('./routes/journey-part')
 	let radar = null
-	if (hafas.profile.radar) radar = require('./lib/radar')
+	if (hafas.profile.radar) radar = require('./routes/radar')
 
 	const api = express()
 

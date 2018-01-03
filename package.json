@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
-		"lib",
+		"routes",
 		"logging.js",
 		"cors.js",
 		"handle-errors.js"
