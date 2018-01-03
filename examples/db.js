@@ -15,7 +15,7 @@ const config = {
 
 const client = hafas(dbProfile)
 
-const api = createApi(client, config)
+const api = createApi(client, config, () => {})
 
 api.listen(config.port, (err) => {
 	if (err) {

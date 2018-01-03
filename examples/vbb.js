@@ -1,8 +1,8 @@
 'use strict'
 
+const path = require('path')
 const hafas = require('hafas-client')
 const vbbProfile = require('hafas-client/p/vbb')
-const path = require('path')
 const serve = require('serve-static')
 
 const createApi = require('..')
@@ -15,12 +15,13 @@ const config = {
 	logging: true
 }
 
+const logosDir = path.dirname(require.resolve('vbb-logos/package.json'))
+
 const client = hafas(vbbProfile)
 
-const api = createApi(client, config)
-
-const logosDir = path.dirname(require.resolve('vbb-logos/bus.svg'))
-api.use('/logos', serve(logosDir, {index: false}))
+const api = createApi(client, config, (api) => {
+	api.use('/logos', serve(logosDir, {index: false}))
+})
 
 api.listen(config.port, (err) => {
 	if (err) {

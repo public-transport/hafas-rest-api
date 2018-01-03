@@ -15,7 +15,7 @@ const defaultConfig = {
 	handleErrors: true
 }
 
-const createApi = (hafas, config) => {
+const createApi = (hafas, config, attachMiddleware) => {
 	config = Object.assign({}, defaultConfig, config)
 
 	const api = express()
@@ -38,6 +38,8 @@ const createApi = (hafas, config) => {
 		}
 		next()
 	})
+
+	attachMiddleware(api)
 
 	const noCache = nocache()
 	api.get('/stations/nearby', nearby(hafas, config))
