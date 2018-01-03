@@ -1,30 +1,16 @@
 'use strict'
 
 const express = require('express')
-const corser = require('corser')
 const compression = require('compression')
 const nocache = require('nocache')
 const hsts = require('hsts')
 
+const createCors = require('./cors')
 const nearby = require('./lib/nearby')
 const departures = require('./lib/departures')
 const journeys = require('./lib/journeys')
 const locations = require('./lib/locations')
-
-const headers = corser.simpleRequestHeaders.concat(['User-Agent', 'X-Identifier'])
-
-const handleErrors = (err, req, res, next) => {
-	if (process.env.NODE_ENV === 'dev') console.error(err)
-	if (res.headersSent) return next()
-
-	let msg = err.message, code = null
-	if (err.isHafasError) {
-		msg = 'VBB error: ' + msg
-		code = 502
-	}
-	res.status(code || 500).json({error: true, msg})
-	next()
-}
+const handleErrors = require('./handle-errors')
 
 const createApi = (hafas, config) => {
 	let journeyPart = null
@@ -34,7 +20,7 @@ const createApi = (hafas, config) => {
 
 	const api = express()
 
-	api.use(corser.create({requestHeaders: headers})) // CORS
+	api.use(createCors(['User-Agent', 'X-Identifier']))
 	api.use(compression())
 	api.use(hsts({
 		maxAge: 10 * 24 * 60 * 60 * 1000
@@ -54,7 +40,9 @@ const createApi = (hafas, config) => {
 		api.get('/journeys/parts/:ref', noCache, journeyPart(hafas, config))
 	}
 	api.get('/locations', locations(hafas, config))
-	if (radar) api.get('/radar', noCache, radar(hafas, config))
+	if (radar) {
+		api.get('/radar', noCache, radar(hafas, config))
+	}
 
 	api.use(handleErrors)
 

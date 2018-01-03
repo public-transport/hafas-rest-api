@@ -6,7 +6,9 @@
 	"files": [
 		"index.js",
 		"lib",
-		"logging.js"
+		"logging.js",
+		"cors.js",
+		"handle-errors.js"
 	],
 	"keywords": [
 		"hafas",
