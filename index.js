@@ -45,9 +45,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 	api.get('/stations/nearby', nearby(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
-	if (hafas.profile.journeyPart) {
-		const journeyPart = require('./routes/journey-part')
-		api.get('/journeys/parts/:ref', noCache, journeyPart(hafas, config))
+	if (hafas.profile.journeyLeg) {
+		const journeyLeg = require('./routes/journey-leg')
+		api.get('/journeys/legs/:ref', noCache, journeyLeg(hafas, config))
 	}
 	api.get('/locations', locations(hafas, config))
 	if (hafas.profile.radar) {

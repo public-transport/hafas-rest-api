@@ -13,8 +13,8 @@ const err400 = (msg) => {
 
 const createRoute = (hafas, config) => {
 	let depsInDirection = null
-	if (hafas.journeyPart) {
-		depsInDirection = createDepsInDir(hafas.departures, hafas.journeyPart)
+	if (hafas.profile.journeyLeg) {
+		depsInDirection = createDepsInDir(hafas.departures, hafas.journeyLeg)
 	}
 
 	const departures = (req, res, next) => {
