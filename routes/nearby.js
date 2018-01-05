@@ -19,7 +19,11 @@ const createRoute = (hafas, config) => {
 		if ('stations' in req.query) opt.stations = parse(req.query.stations)
 		if ('poi' in req.query) opt.poi = parse(req.query.poi)
 
-		hafas.nearby(+req.query.latitude, +req.query.longitude, opt)
+		hafas.nearby({
+			type: 'location',
+			latitude: +req.query.latitude,
+			longitude: +req.query.longitude
+		}, opt)
 		.then((nearby) => {
 			res.json(nearby)
 			next()
