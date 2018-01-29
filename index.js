@@ -6,6 +6,7 @@ const nocache = require('nocache')
 const hsts = require('hsts')
 
 const nearby = require('./routes/nearby')
+const station = require('./routes/station')
 const departures = require('./routes/departures')
 const journeys = require('./routes/journeys')
 const locations = require('./routes/locations')
@@ -43,6 +44,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	const noCache = nocache()
 	api.get('/stations/nearby', nearby(hafas, config))
+	api.get('/stations/:id', station(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
 	if (hafas.profile.journeyLeg) {
