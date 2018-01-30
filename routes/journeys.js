@@ -13,16 +13,13 @@ const location = (q, t) => {
 	if (q[t]) return q[t] // station id
 	else if (q[t + '.latitude'] && q[t + '.longitude']) {
 		const l = {
-			type: 'address',
-			name: 'foo bar', // todo
+			type: 'location',
 			latitude: +q[t + `.latitude`],
 			longitude: +q[t + `.longitude`]
 		}
 		if (q[t + '.name']) l.name = q[t + '.name']
-		if (q[t + '.id']) {
-			l.type = 'poi'
-			l.id = q[t + '.id']
-		}
+		if (q[t + '.id']) l.id = q[t + '.id']
+		if (q[t + '.address']) l.address = q[t + '.address']
 		return l
 	}
 	else return null
