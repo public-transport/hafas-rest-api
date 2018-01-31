@@ -60,6 +60,7 @@ const createRoute = (hafas, config) => {
 		const productsMap = {}
 		for (let info of hafas.profile.products) {
 			const p = info.product
+			if (!opt.products) opt.products = Object.create(null)
 			if (p in req.query) opt.products[p] = parse(req.query[p])
 		}
 		if (Object.keys(productsMap)) opt.products = productsMap
