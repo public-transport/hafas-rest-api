@@ -31,7 +31,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 	api.use(compression())
 	api.use(hsts({
-		maxAge: 10 * 24 * 60 * 60 * 1000
+		maxAge: 10 * 24 * 60 * 60
 	}))
 	api.use((req, res, next) => {
 		if (!res.headersSent) {

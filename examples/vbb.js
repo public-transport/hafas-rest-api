@@ -8,7 +8,7 @@ const serve = require('serve-static')
 const createApi = require('..')
 
 const config = {
-	hostname: process.env.HOSTNAME || 'vbb.transport.rest',
+	hostname: process.env.HOSTNAME || '2.vbb.transport.rest',
 	port: process.env.PORT || 3000,
 	name: 'vbb-rest',
 	homepage: 'https://github.com/derhuerst/vbb-rest',
