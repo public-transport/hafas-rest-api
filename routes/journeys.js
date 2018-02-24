@@ -63,7 +63,7 @@ const createRoute = (hafas, config) => {
 			if (!opt.products) opt.products = Object.create(null)
 			if (p in req.query) opt.products[p] = parse(req.query[p])
 		}
-		if (Object.keys(productsMap)) opt.products = productsMap
+		if (Object.keys(productsMap).length > 0) opt.products = productsMap
 
 		hafas.journeys(from, to, opt)
 		.then((journeys) => {

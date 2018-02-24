@@ -29,10 +29,10 @@
 	},
 	"dependencies": {
 		"cli-native": "^1.0.0",
-		"compression": "^1.7.1",
+		"compression": "^1.7.2",
 		"corser": "^2.0.1",
 		"express": "^4.16.2",
-		"hafas-departures-in-direction": "^0.1.0",
+		"hafas-departures-in-direction": "^0.2.0",
 		"hsts": "^2.1.0",
 		"morgan": "^1.9.0",
 		"nocache": "^2.0.0",
@@ -40,10 +40,10 @@
 		"shorthash": "0.0.2"
 	},
 	"devDependencies": {
-		"hafas-client": "^2.3.0",
-		"serve-static": "^1.13.1",
+		"hafas-client": "^2.3.2",
+		"serve-static": "^1.13.2",
 		"tap-min": "^1.2.2",
-		"tape": "^4.8.0",
+		"tape": "^4.9.0",
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
 	},
 	"scripts": {
