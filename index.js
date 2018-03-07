@@ -42,7 +42,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	})
 	if (config.aboutPage) {
 		const aboutPage = require('./about-page')
-		api.use(aboutPage(config.name, config.description, config.docsLink))
+		api.get('/', aboutPage(config.name, config.description, config.docsLink))
 	}
 
 	attachMiddleware(api)
