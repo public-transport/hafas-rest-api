@@ -11,8 +11,11 @@ const config = {
 	hostname: process.env.HOSTNAME || '2.vbb.transport.rest',
 	port: process.env.PORT || 3000,
 	name: 'vbb-rest',
+	description: 'An HTTP API for Berlin & Brandenburg public transport.',
 	homepage: 'https://github.com/derhuerst/vbb-rest',
-	logging: true
+	docsLink: 'https://github.com/derhuerst/vbb-rest/blob/2/docs/index.md',
+	logging: true,
+	aboutPage: true
 }
 
 const logosDir = path.dirname(require.resolve('vbb-logos/package.json'))

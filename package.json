@@ -8,7 +8,8 @@
 		"routes",
 		"logging.js",
 		"cors.js",
-		"handle-errors.js"
+		"handle-errors.js",
+		"about-page.js"
 	],
 	"keywords": [
 		"hafas",
@@ -37,7 +38,8 @@
 		"morgan": "^1.9.0",
 		"nocache": "^2.0.0",
 		"parse-messy-time": "^2.1.0",
-		"shorthash": "0.0.2"
+		"shorthash": "0.0.2",
+		"stringify-entities": "^1.3.1"
 	},
 	"devDependencies": {
 		"hafas-client": "^2.3.2",

@@ -13,7 +13,8 @@ const locations = require('./routes/locations')
 
 const defaultConfig = {
 	cors: true,
-	handleErrors: true
+	handleErrors: true,
+	aboutPage: true
 }
 
 const createApi = (hafas, config, attachMiddleware) => {
@@ -39,6 +40,10 @@ const createApi = (hafas, config, attachMiddleware) => {
 		}
 		next()
 	})
+	if (config.aboutPage) {
+		const aboutPage = require('./about-page')
+		api.use(aboutPage(config.name, config.description, config.docsLink))
+	}
 
 	attachMiddleware(api)
 
