@@ -23,6 +23,7 @@ const createRoute = (hafas, config) => {
 			opt.when = isNumber.test(w) ? new Date(w * 1000) : parseTime(w)
 		}
 
+		config.addHafasOpts(opt, 'journeyLeg', req)
 		hafas.journeyLeg(ref, lineName, opt)
 		.then((journeyLeg) => {
 			res.json(journeyLeg)

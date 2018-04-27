@@ -65,6 +65,7 @@ const createRoute = (hafas, config) => {
 		}
 		if (Object.keys(productsMap).length > 0) opt.products = productsMap
 
+		config.addHafasOpts(opt, 'journeys', req)
 		hafas.journeys(from, to, opt)
 		.then((journeys) => {
 			res.json(journeys)

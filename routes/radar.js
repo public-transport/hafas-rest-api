@@ -22,6 +22,7 @@ const createRoute = (hafas, config) => {
 		if ('duration' in q) opt.duration = parseInt(q.duration)
 		if ('frames' in q) opt.frames = parseInt(q.frames)
 
+		config.addHafasOpts(opt, 'radar', req)
 		hafas.radar(+q.north, +q.west, +q.south, +q.east, opt)
 		.then((movements) => {
 			res.json(movements)

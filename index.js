@@ -14,7 +14,8 @@ const locations = require('./routes/locations')
 const defaultConfig = {
 	cors: true,
 	handleErrors: true,
-	aboutPage: true
+	aboutPage: true,
+	addHafasOpts: () => {}
 }
 
 const createApi = (hafas, config, attachMiddleware) => {

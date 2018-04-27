@@ -45,10 +45,12 @@ const createRoute = (hafas, config) => {
 				opt.maxQueries = Math.max(0, Math.min(mQ, 30))
 			}
 
+			config.addHafasOpts(opt, 'departures', req)
 			task = depsInDirection(id, nS, opt)
 		} else {
 			if ('direction' in req.query) opt.direction = req.query.direction
 			if ('duration' in req.query) opt.duration = +req.query.duration
+			config.addHafasOpts(opt, 'departures', req)
 			task = hafas.departures(id, opt)
 		}
 

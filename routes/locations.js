@@ -18,6 +18,7 @@ const createRoute = (hafas, config) => {
 		if ('addresses' in req.query) opt.addresses = parse(req.query.addresses)
 		if ('poi' in req.query) opt.poi = parse(req.query.poi)
 
+		config.addHafasOpts(opt, 'locations', req)
 		hafas.locations(req.query.query, opt)
 		.then((locations) => {
 			res.json(locations)
