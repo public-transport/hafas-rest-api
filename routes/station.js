@@ -7,8 +7,9 @@ const createRoute = (hafas, config) => {
 		const id = req.params.id.trim()
 		if (!ibnr.test(id)) return next()
 
+		const opt = {}
 		config.addHafasOpts(opt, 'location', req)
-		hafas.location(id)
+		hafas.location(id, opt)
 		.then((station) => {
 			res.json(station)
 			next()
