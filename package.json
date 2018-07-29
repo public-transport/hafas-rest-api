@@ -33,7 +33,6 @@
 		"compression": "^1.7.2",
 		"corser": "^2.0.1",
 		"express": "^4.16.2",
-		"hafas-departures-in-direction": "^0.2.0",
 		"hsts": "^2.1.0",
 		"morgan": "^1.9.0",
 		"nocache": "^2.0.0",
@@ -42,7 +41,7 @@
 		"stringify-entities": "^1.3.1"
 	},
 	"devDependencies": {
-		"hafas-client": "^2.3.2",
+		"hafas-client": "^3.0.0-alpha.19",
 		"serve-static": "^1.13.2",
 		"tap-min": "^1.2.2",
 		"tape": "^4.9.0",

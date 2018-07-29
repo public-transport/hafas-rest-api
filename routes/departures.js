@@ -1,7 +1,6 @@
 'use strict'
 
 const parse = require('parse-messy-time')
-const createDepsInDir = require('hafas-departures-in-direction')
 
 const isNumber = /^\d+$/
 
@@ -12,15 +11,11 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	let depsInDirection = null
-	if (hafas.profile.journeyLeg) {
-		depsInDirection = createDepsInDir(hafas.departures, hafas.journeyLeg)
-	}
-
 	const departures = (req, res, next) => {
 		const id = req.params.id.trim()
 
 		const opt = {}
+
 		if ('when' in req.query) {
 			if (isNumber.exec(req.query.when)) {
 				opt.when = new Date(req.query.when * 1000)
@@ -28,33 +23,23 @@ const createRoute = (hafas, config) => {
 				opt.when = parse(req.query.when)
 			}
 		}
-
-		let task
-		if (depsInDirection && ('nextStation' in req.query)) {
-			const nS = req.query.nextStation
-			if (!isNumber.exec(nS)) return next(err400('Invalid nextStation parameter.'))
-
-			if ('results' in req.query) {
-				const r = +req.query.results
-				if (Number.isNaN(r)) return next(err400('Invalid results parameter.'))
-				opt.results = Math.max(0, Math.min(r, 20))
+		if ('direction' in req.query) {
+			const dir = req.query.direction
+			if (!isNumber.exec(dir)) {
+				return next(err400('Invalid direction parameter.'))
 			}
-			if ('maxQueries' in req.query) {
-				const mQ = +req.query.maxQueries
-				if (Number.isNaN(mQ)) return next(err400('Invalid maxQueries parameter.'))
-				opt.maxQueries = Math.max(0, Math.min(mQ, 30))
+			opt.direction = dir
+		}
+		if ('duration' in req.query) {
+			const dur = parseInt(req.query.duration)
+			if (Number.isNaN(dur)) {
+				return next(err400('Invalid duration parameter.'))
 			}
-
-			config.addHafasOpts(opt, 'departures', req)
-			task = depsInDirection(id, nS, opt)
-		} else {
-			if ('direction' in req.query) opt.direction = req.query.direction
-			if ('duration' in req.query) opt.duration = +req.query.duration
-			config.addHafasOpts(opt, 'departures', req)
-			task = hafas.departures(id, opt)
+			opt.duration = dur
 		}
 
-		task
+		config.addHafasOpts(opt, 'departures', req)
+		hafas.departures(id, opt)
 		.then((deps) => {
 			res.json(deps)
 			next()

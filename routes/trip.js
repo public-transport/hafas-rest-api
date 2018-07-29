@@ -11,7 +11,7 @@ const err400 = (msg) => {
 const isNumber = /^\d+$/
 
 const createRoute = (hafas, config) => {
-	const journeyLeg = (req, res, next) => {
+	const trip = (req, res, next) => {
 		const ref = req.params.ref.trim()
 
 		const lineName = req.query.lineName
@@ -23,15 +23,15 @@ const createRoute = (hafas, config) => {
 			opt.when = isNumber.test(w) ? new Date(w * 1000) : parseTime(w)
 		}
 
-		config.addHafasOpts(opt, 'journeyLeg', req)
-		hafas.journeyLeg(ref, lineName, opt)
-		.then((journeyLeg) => {
-			res.json(journeyLeg)
+		config.addHafasOpts(opt, 'trip', req)
+		hafas.trip(ref, lineName, opt)
+		.then((trip) => {
+			res.json(trip)
 			next()
 		})
 		.catch(next)
 	}
-	return journeyLeg
+	return trip
 }
 
 module.exports = createRoute

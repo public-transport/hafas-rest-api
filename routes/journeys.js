@@ -42,10 +42,12 @@ const createRoute = (hafas, config) => {
 				opt.when = time(req.query.when)
 			}
 		}
+		// todo: new `hafas-client@3` opts
+		// see https://github.com/public-transport/hafas-client/blob/0466e570ad3fcdc952dc99da1ef30a084ab79f13/index.js#L117-L129
 		if ('results' in req.query) opt.results = +req.query.results
 		if ('via' in req.query) opt.via = req.query.via
-		if ('passedStations' in req.query) {
-			opt.passedStations = parse(req.query.passedStations)
+		if ('stopovers' in req.query) {
+			opt.stopovers = parse(req.query.stopovers)
 		}
 		if ('transfers' in req.query) opt.transfers = +req.query.transfers
 		if ('transferTime' in req.query) {
@@ -57,13 +59,11 @@ const createRoute = (hafas, config) => {
 		if ('bike' in req.query) opt.bike = parse(req.query.bike)
 		if ('tickets' in req.query) opt.tickets = parse(req.query.tickets)
 
-		const productsMap = {}
+		opt.products = Object.create(null)
 		for (let info of hafas.profile.products) {
 			const p = info.product
-			if (!opt.products) opt.products = Object.create(null)
 			if (p in req.query) opt.products[p] = parse(req.query[p])
 		}
-		if (Object.keys(productsMap).length > 0) opt.products = productsMap
 
 		config.addHafasOpts(opt, 'journeys', req)
 		hafas.journeys(from, to, opt)
