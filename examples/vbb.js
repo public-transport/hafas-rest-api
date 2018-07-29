@@ -1,7 +1,7 @@
 'use strict'
 
 const path = require('path')
-const hafas = require('hafas-client')
+const createHafas = require('hafas-client')
 const vbbProfile = require('hafas-client/p/vbb')
 const serve = require('serve-static')
 
@@ -20,9 +20,9 @@ const config = {
 
 const logosDir = path.dirname(require.resolve('vbb-logos/package.json'))
 
-const client = hafas(vbbProfile)
+const hafas = createHafas(vbbProfile, 'hafas-rest-api-example')
 
-const api = createApi(client, config, (api) => {
+const api = createApi(hafas, config, (api) => {
 	api.use('/logos', serve(logosDir, {index: false}))
 })
 

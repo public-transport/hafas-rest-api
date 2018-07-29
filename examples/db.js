@@ -1,6 +1,6 @@
 'use strict'
 
-const hafas = require('hafas-client')
+const createHafas = require('hafas-client')
 const dbProfile = require('hafas-client/p/db')
 
 const createApi = require('..')
@@ -13,9 +13,9 @@ const config = {
 	logging: true
 }
 
-const client = hafas(dbProfile)
+const hafas = createHafas(dbProfile, 'hafas-rest-api-example')
 
-const api = createApi(client, config, () => {})
+const api = createApi(hafas, config, () => {})
 
 api.listen(config.port, (err) => {
 	if (err) {

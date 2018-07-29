@@ -1,6 +1,6 @@
 # hafas-rest-api
 
-**Expose a HAFAS client via an HTTP REST API.**
+**Expose a [`hafas-client`](https://github.com/public-transport/hafas-client/tree/0466e570ad3fcdc952dc99da1ef30a084ab79f13) instance as an HTTP REST API.**
 
 [![npm version](https://img.shields.io/npm/v/hafas-rest-api.svg)](https://www.npmjs.com/package/hafas-rest-api)
 [![build status](https://api.travis-ci.org/derhuerst/hafas-rest-api.svg?branch=master)](https://travis-ci.org/derhuerst/hafas-rest-api)
@@ -19,7 +19,7 @@ npm install hafas-rest-api
 ## Usage
 
 ```js
-const hafas = require('hafas-client')
+const createHafas = require('hafas-client')
 const dbProfile = require('hafas-client/p/db')
 
 const createApi = require('.')
@@ -31,8 +31,8 @@ const config = {
 	homepage: 'https://github.com/someone/my-hafas-rest-api'
 }
 
-const client = hafas(dbProfile)
-const api = createApi(client, config)
+const hafas = createHafas(dbProfile, 'my-hafas-rest-api')
+const api = createApi(hafas, config)
 
 api.listen(config.port, (err) => {
 	if (err) console.error(err)
