@@ -12,19 +12,24 @@ const isNumber = /^\d+$/
 
 const createRoute = (hafas, config) => {
 	const trip = (req, res, next) => {
-		const ref = req.params.ref.trim()
+		const id = req.params.id.trim()
 
 		const lineName = req.query.lineName
 		if (!lineName) return next(err400('Missing lineName.'))
 
 		const opt = {}
-		if ('when' in req.query) {
-			const w = req.query.when
-			opt.when = isNumber.test(w) ? new Date(w * 1000) : parseTime(w)
+		if ('stopovers' in req.query) {
+			opt.stopovers = parse(req.query.stopovers)
+		}
+		if ('remarks' in req.query) {
+			opt.remarks = parse(req.query.remarks)
+		}
+		if ('polyline' in req.query) {
+			opt.polyline = parse(req.query.polyline)
 		}
 
 		config.addHafasOpts(opt, 'trip', req)
-		hafas.trip(ref, lineName, opt)
+		hafas.trip(id, lineName, opt)
 		.then((trip) => {
 			res.json(trip)
 			next()

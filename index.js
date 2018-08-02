@@ -55,7 +55,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	api.get('/journeys', noCache, journeys(hafas, config))
 	if (hafas.profile.trip) {
 		const trip = require('./routes/trip')
-		api.get('/journeys/legs/:ref', noCache, trip(hafas, config))
+		api.get('/trips/:id', noCache, trip(hafas, config))
 	}
 	api.get('/locations', locations(hafas, config))
 	if (hafas.profile.radar) {
