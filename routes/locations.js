@@ -13,10 +13,13 @@ const createRoute = (hafas, config) => {
 		if (!req.query.query) return next(err400('Missing query.'))
 
 		const opt = {}
+		if ('fuzzy' in req.query) opt.fuzzy = parse(req.query.fuzzy)
 		if ('results' in req.query) opt.results = +req.query.results
 		if ('stations' in req.query) opt.stations = parse(req.query.stations)
 		if ('addresses' in req.query) opt.addresses = parse(req.query.addresses)
 		if ('poi' in req.query) opt.poi = parse(req.query.poi)
+		if ('stationLines' in req.query) opt.stationLines = parse(req.query.stationLines)
+		if ('language' in req.query) opt.language = req.query.language
 
 		config.addHafasOpts(opt, 'locations', req)
 		hafas.locations(req.query.query, opt)

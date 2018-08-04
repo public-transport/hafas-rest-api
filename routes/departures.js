@@ -1,6 +1,7 @@
 'use strict'
 
-const parse = require('parse-messy-time')
+const parseWhen = require('parse-messy-time')
+const parse = require('cli-native').to
 
 const isNumber = /^\d+$/
 
@@ -20,7 +21,7 @@ const createRoute = (hafas, config) => {
 			if (isNumber.exec(req.query.when)) {
 				opt.when = new Date(req.query.when * 1000)
 			} else {
-				opt.when = parse(req.query.when)
+				opt.when = parseWhen(req.query.when)
 			}
 		}
 		if ('direction' in req.query) {
@@ -37,6 +38,16 @@ const createRoute = (hafas, config) => {
 			}
 			opt.duration = dur
 		}
+		if ('stationLines' in req.query) {
+			opt.stationLines = parse(req.query.stationLines)
+		}
+		if ('remarks' in req.query) {
+			opt.remarks = parse(req.query.remarks)
+		}
+		if ('includeRelatedStations' in req.query) {
+			opt.includeRelatedStations = parse(req.query.includeRelatedStations)
+		}
+		if ('language' in req.query) opt.language = req.query.language
 
 		config.addHafasOpts(opt, 'departures', req)
 		hafas.departures(id, opt)

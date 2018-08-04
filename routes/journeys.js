@@ -1,6 +1,6 @@
 'use strict'
 
-const time = require('parse-messy-time')
+const parseTime = require('parse-messy-time')
 const parse  = require('cli-native').to
 
 const err400 = (msg) => {
@@ -35,15 +35,19 @@ const createRoute = (hafas, config) => {
 		if (!to) return next(err400('Missing destination.'))
 
 		const opt = {}
-		if ('when' in req.query) {
-			if (isNumber.test(req.query.when)) {
-				opt.when = new Date(req.query.when * 1000)
+		if ('departure' in req.query) {
+			if (isNumber.test(req.query.departure)) {
+				opt.departure = new Date(req.query.departure * 1000)
 			} else {
-				opt.when = time(req.query.when)
+				opt.departure = parseTime(req.query.departure)
+			}
+		} else if ('arrival' in req.query) {
+			if (isNumber.test(req.query.arrival)) {
+				opt.arrival = new Date(req.query.arrival * 1000)
+			} else {
+				opt.arrival = parseTime(req.query.arrival)
 			}
 		}
-		// todo: new `hafas-client@3` opts
-		// see https://github.com/public-transport/hafas-client/blob/0466e570ad3fcdc952dc99da1ef30a084ab79f13/index.js#L117-L129
 		if ('results' in req.query) opt.results = +req.query.results
 		if ('via' in req.query) opt.via = req.query.via
 		if ('stopovers' in req.query) {
@@ -58,6 +62,12 @@ const createRoute = (hafas, config) => {
 		}
 		if ('bike' in req.query) opt.bike = parse(req.query.bike)
 		if ('tickets' in req.query) opt.tickets = parse(req.query.tickets)
+		if ('polylines' in req.query) opt.polylines = parse(req.query.polylines)
+		if ('remarks' in req.query) opt.remarks = parse(req.query.remarks)
+		if ('startWithWalking' in req.query) {
+			opt.startWithWalking = parse(req.query.startWithWalking)
+		}
+		if ('language' in req.query) opt.language = req.query.language
 
 		opt.products = Object.create(null)
 		for (let info of hafas.profile.products) {

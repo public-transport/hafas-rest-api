@@ -1,6 +1,7 @@
 'use strict'
 
 const parseTime = require('parse-messy-time')
+const parse  = require('cli-native').to
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -27,6 +28,7 @@ const createRoute = (hafas, config) => {
 		if ('polyline' in req.query) {
 			opt.polyline = parse(req.query.polyline)
 		}
+		if ('language' in req.query) opt.language = req.query.language
 
 		config.addHafasOpts(opt, 'trip', req)
 		hafas.trip(id, lineName, opt)

@@ -18,6 +18,8 @@ const createRoute = (hafas, config) => {
 		if ('distance' in req.query) opt.distance = parseInt(req.query.distance)
 		if ('stations' in req.query) opt.stations = parse(req.query.stations)
 		if ('poi' in req.query) opt.poi = parse(req.query.poi)
+		if ('stationLines' in req.query) opt.stationLines = parse(req.query.stationLines)
+		if ('language' in req.query) opt.language = req.query.language
 
 		config.addHafasOpts(opt, 'nearby', req)
 		hafas.nearby({
