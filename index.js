@@ -62,6 +62,10 @@ const createApi = (hafas, config, attachMiddleware) => {
 		const radar = require('./routes/radar')
 		api.get('/radar', noCache, radar(hafas, config))
 	}
+	if (hafas.profile.refreshJourney) {
+		const refreshJourney = require('./routes/refresh-journey')
+		api.get('/journeys/:ref', noCache, refreshJourney(hafas, config))
+	}
 
 	if (config.handleErrors) {
 		const handleErrors = require('./handle-errors')
