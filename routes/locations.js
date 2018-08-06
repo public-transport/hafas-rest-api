@@ -1,6 +1,11 @@
 'use strict'
 
-const parse = require('cli-native').to
+const {
+	parseInteger,
+	parseBoolean,
+	parseString,
+	parseQuery
+} = require('../lib/parse')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -8,20 +13,23 @@ const err400 = (msg) => {
 	return err
 }
 
+const parsers = {
+	fuzzy: parseBoolean,
+	results: parseInteger,
+	stations: parseBoolean,
+	addresses: parseBoolean,
+	poi: parseBoolean,
+	stationLines: parseBoolean,
+	language: parseString
+}
+
 const createRoute = (hafas, config) => {
 	const locations = (req, res, next) => {
 		if (!req.query.query) return next(err400('Missing query.'))
 
-		const opt = {}
-		if ('fuzzy' in req.query) opt.fuzzy = parse(req.query.fuzzy)
-		if ('results' in req.query) opt.results = +req.query.results
-		if ('stations' in req.query) opt.stations = parse(req.query.stations)
-		if ('addresses' in req.query) opt.addresses = parse(req.query.addresses)
-		if ('poi' in req.query) opt.poi = parse(req.query.poi)
-		if ('stationLines' in req.query) opt.stationLines = parse(req.query.stationLines)
-		if ('language' in req.query) opt.language = req.query.language
-
+		const opt = parseQuery(parsers, req.query)
 		config.addHafasOpts(opt, 'locations', req)
+
 		hafas.locations(req.query.query, opt)
 		.then((locations) => {
 			res.json(locations)

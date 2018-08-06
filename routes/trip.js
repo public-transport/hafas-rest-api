@@ -1,7 +1,10 @@
 'use strict'
 
-const parseTime = require('parse-messy-time')
-const parse  = require('cli-native').to
+const {
+	parseBoolean,
+	parseString,
+	parseQuery
+} = require('../lib/parse')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -9,7 +12,12 @@ const err400 = (msg) => {
 	return err
 }
 
-const isNumber = /^\d+$/
+const parsers = {
+	stopovers: parseBoolean,
+	remarks: parseBoolean,
+	polyline: parseBoolean,
+	language: parseString
+}
 
 const createRoute = (hafas, config) => {
 	const trip = (req, res, next) => {
@@ -18,19 +26,9 @@ const createRoute = (hafas, config) => {
 		const lineName = req.query.lineName
 		if (!lineName) return next(err400('Missing lineName.'))
 
-		const opt = {}
-		if ('stopovers' in req.query) {
-			opt.stopovers = parse(req.query.stopovers)
-		}
-		if ('remarks' in req.query) {
-			opt.remarks = parse(req.query.remarks)
-		}
-		if ('polyline' in req.query) {
-			opt.polyline = parse(req.query.polyline)
-		}
-		if ('language' in req.query) opt.language = req.query.language
-
+		const opt = parseQuery(parsers, res.query)
 		config.addHafasOpts(opt, 'trip', req)
+
 		hafas.trip(id, lineName, opt)
 		.then((trip) => {
 			res.json(trip)

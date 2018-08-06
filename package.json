@@ -6,6 +6,7 @@
 	"files": [
 		"index.js",
 		"routes",
+		"lib",
 		"logging.js",
 		"cors.js",
 		"handle-errors.js",
@@ -29,7 +30,6 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"cli-native": "^1.0.0",
 		"compression": "^1.7.2",
 		"corser": "^2.0.1",
 		"express": "^4.16.2",

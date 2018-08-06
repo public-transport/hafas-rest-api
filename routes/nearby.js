@@ -1,6 +1,12 @@
 'use strict'
 
-const parse = require('cli-native').to
+const {
+	parseInteger,
+	parseNumber,
+	parseBoolean,
+	parseString,
+	parseQuery
+} = require('../lib/parse')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -8,20 +14,23 @@ const err400 = (msg) => {
 	return err
 }
 
+const parsers = {
+	results: parseInteger,
+	distance: parseNumber,
+	stations: parseBoolean,
+	poi: parseBoolean,
+	stationLines: parseBoolean,
+	language: parseString
+}
+
 const createRoute = (hafas, config) => {
 	const nearby = (req, res, next) => {
 		if (!req.query.latitude) return next(err400('Missing latitude.'))
 		if (!req.query.longitude) return next(err400('Missing longitude.'))
 
-		const opt = {}
-		if ('results' in req.query) opt.results = parseInt(req.query.results)
-		if ('distance' in req.query) opt.distance = parseInt(req.query.distance)
-		if ('stations' in req.query) opt.stations = parse(req.query.stations)
-		if ('poi' in req.query) opt.poi = parse(req.query.poi)
-		if ('stationLines' in req.query) opt.stationLines = parse(req.query.stationLines)
-		if ('language' in req.query) opt.language = req.query.language
-
+		const opt = parseQuery(parsers, req.query)
 		config.addHafasOpts(opt, 'nearby', req)
+
 		hafas.nearby({
 			type: 'location',
 			latitude: +req.query.latitude,

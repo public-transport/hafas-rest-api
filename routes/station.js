@@ -1,21 +1,26 @@
 'use strict'
 
-const parse  = require('cli-native').to
+const {
+	parseStation,
+	parseBoolean,
+	parseString,
+	parseQuery
+} = require('../lib/parse')
 
-const ibnr = /^\d{6,}$/g
+const parsers = {
+	stationLines: parseBoolean,
+	language: parseString
+}
 
 const createRoute = (hafas, config) => {
 	const route = (req, res, next) => {
-		const id = req.params.id.trim()
-		if (!ibnr.test(id)) return next()
+		if (res.headersSent) return next()
 
-		const opt = {}
-		if ('stationLines' in req.query) {
-			opt.stationLines = parse(req.query.stationLines)
-		}
-		if ('language' in req.query) opt.language = req.query.language
+		const id = parseStation('id', req.params.id)
 
+		const opt = parseQuery(parsers, req.query)
 		config.addHafasOpts(opt, 'station', req)
+
 		hafas.station(id, opt)
 		.then((station) => {
 			res.json(station)
