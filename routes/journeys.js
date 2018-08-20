@@ -20,6 +20,9 @@ const err400 = (msg) => {
 const parsers = {
 	departure: parseWhen,
 	arrival: parseWhen,
+	earlierThan: parseString,
+	laterThan: parseString,
+
 	results: parseInteger,
 	stopovers: parseBoolean,
 	transfers: parseInteger,
