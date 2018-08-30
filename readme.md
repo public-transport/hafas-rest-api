@@ -28,7 +28,8 @@ const config = {
 	hostname: 'example.org',
 	port: 3000,
 	name: 'my-hafas-rest-api',
-	homepage: 'https://github.com/someone/my-hafas-rest-api'
+	homepage: 'https://github.com/someone/my-hafas-rest-api',
+	version: '1.0.0'
 }
 
 const hafas = createHafas(dbProfile, 'my-hafas-rest-api')

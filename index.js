@@ -38,7 +38,10 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}))
 	api.use((req, res, next) => {
 		if (!res.headersSent) {
-			res.setHeader('X-Powered-By', config.name + ' ' + config.homepage)
+			res.setHeader('X-Powered-By', [
+				config.name, config.version, config.homepage
+			].filter(str => !!str).join(' '))
+			if (config.version) res.setHeader('X-API-Version', config.version)
 		}
 		next()
 	})
