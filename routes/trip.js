@@ -26,7 +26,7 @@ const createRoute = (hafas, config) => {
 		const lineName = req.query.lineName
 		if (!lineName) return next(err400('Missing lineName.'))
 
-		const opt = parseQuery(parsers, res.query)
+		const opt = parseQuery(parsers, req.query)
 		config.addHafasOpts(opt, 'trip', req)
 
 		hafas.trip(id, lineName, opt)
