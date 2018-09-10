@@ -26,7 +26,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	if (config.cors) {
 		const createCors = require('./cors')
-		api.use(createCors(['User-Agent', 'X-Identifier']))
+		const cors = createCors()
+		api.options('*', cors)
+		api.use(cors)
 	}
 	if (config.logging) {
 		const createLogging = require('./logging')

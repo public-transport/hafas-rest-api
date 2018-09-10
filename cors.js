@@ -1,13 +1,9 @@
 'use strict'
 
-const corser = require('corser')
+const cors = require('cors')
 
-const defaultHeaders = ['User-Agent', 'X-Identifier']
+// todo: [breaking] delete this file
 
-const createCorsMiddleware = (headers = defaultHeaders) => {
-	return corser.create({
-		requestHeaders: corser.simpleRequestHeaders.concat(headers)
-	})
-}
+const createCorsMiddleware = () => cors()
 
 module.exports = createCorsMiddleware
