@@ -16,11 +16,41 @@ const defaultConfig = {
 	cors: true,
 	handleErrors: true,
 	aboutPage: true,
+	logging: false,
+	healthCheck: null,
 	addHafasOpts: () => {}
+}
+
+assertNonEmptyString = (cfg, key) => {
+	if ('string' !== typeof cfg[key]) {
+		throw new Error(`config.${key} must be a string`)
+	}
+	if (!cfg[key]) throw new Error(`config.${key} must not be empty`)
+}
+assertBoolean = (cfg, key) => {
+	if ('boolean' !== typeof cfg[key]) {
+		throw new Error(`config.${key} must be a boolean`)
+	}
 }
 
 const createApi = (hafas, config, attachMiddleware) => {
 	config = Object.assign({}, defaultConfig, config)
+	// mandatory
+	assertNonEmptyString(config, 'hostname')
+	if ('number' !== typeof config.port) throw new Error('cfg.port must be a number')
+	assertNonEmptyString(config, 'name')
+	// optional
+	if ('cors' in config) assertBoolean(config, 'cors')
+	if ('handleErrors' in config) assertBoolean(config, 'handleErrors')
+	if ('logging' in config) assertBoolean(config, 'logging')
+	if ('healthCheck' in config && 'function' !== typeof config.healthCheck) {
+		throw new Error('cfg.healthCheck must be a function')
+	}
+	if ('version' in config) assertNonEmptyString(config, 'version')
+	if ('homepage' in config) assertNonEmptyString(config, 'homepage')
+	if ('aboutPage' in config) assertBoolean(config, 'aboutPage')
+	if ('description' in config) assertNonEmptyString(config, 'description')
+	if ('docsLink' in config) assertNonEmptyString(config, 'docsLink')
 
 	const api = express()
 
