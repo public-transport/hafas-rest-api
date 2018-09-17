@@ -10,7 +10,11 @@ const config = {
 	port: process.env.PORT || 3000,
 	name: 'db-rest',
 	homepage: 'https://github.com/derhuerst/db-rest',
-	logging: true
+	logging: true,
+	healthCheck: () => {
+		return hafas.station('8011306')
+		.then((station) => !!station)
+	}
 }
 
 const hafas = createHafas(dbProfile, 'hafas-rest-api-example')

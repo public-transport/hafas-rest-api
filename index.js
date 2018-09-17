@@ -53,8 +53,27 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 
 	attachMiddleware(api)
-
 	const noCache = nocache()
+
+	if (config.healthCheck) {
+		api.get('/health', noCache, (req, res, next) => {
+			try {
+				config.healthCheck()
+				.then((isHealthy) => {
+					if (isHealthy === true) {
+						res.status(200)
+						res.json({ok: true})
+					} else {
+						res.status(503)
+						res.json({ok: false})
+					}
+				}, next)
+			} catch (err) {
+				next(err)
+			}
+		})
+	}
+
 	api.get('/stations/nearby', nearby(hafas, config))
 	api.get('/stations/:id', station(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))

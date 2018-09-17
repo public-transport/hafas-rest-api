@@ -15,7 +15,11 @@ const config = {
 	homepage: 'https://github.com/derhuerst/vbb-rest',
 	docsLink: 'https://github.com/derhuerst/vbb-rest/blob/2/docs/index.md',
 	logging: true,
-	aboutPage: true
+	aboutPage: true,
+	healthCheck: () => {
+		return hafas.station('900000100001')
+		.then((station) => !!station)
+	}
 }
 
 const logosDir = path.dirname(require.resolve('vbb-logos/package.json'))
