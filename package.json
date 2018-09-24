@@ -41,14 +41,17 @@
 		"stringify-entities": "^1.3.1"
 	},
 	"devDependencies": {
+		"axios": "^0.18.0",
+		"get-port": "^4.0.0",
 		"hafas-client": "^3.0.0",
 		"serve-static": "^1.13.2",
 		"tap-min": "^1.2.2",
 		"tape": "^4.9.0",
+		"tape-promise": "^4.0.0",
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
 	},
 	"scripts": {
-		"test": "node test.js | tap-min",
+		"test": "node test/index.js | tap-min",
 		"prepublishOnly": "npm test"
 	}
 }
