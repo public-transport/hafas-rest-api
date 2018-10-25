@@ -6,7 +6,7 @@ const handleErrors = (err, req, res, next) => {
 
 	let msg = err.message, code = err.statusCode || null
 	if (err.isHafasError) {
-		msg = 'VBB error: ' + msg
+		msg = 'HAFAS error: ' + msg
 		code = 502
 	}
 	res.status(code || 500).json({error: true, msg})

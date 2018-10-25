@@ -7,9 +7,11 @@ const createApi = require('..')
 
 const config = {
 	hostname: process.env.HOSTNAME || 'db.transport.rest',
-	port: process.env.PORT || 3000,
+	port: process.env.PORT || 3000, // todo [breaking]: remove, not necessary
 	name: 'db-rest',
-	homepage: 'https://github.com/derhuerst/db-rest',
+	description: 'An HTTP API for Deutsche Bahn.',
+	homepage: 'http://example.org/',
+	docsLink: 'http://example.org/docs',
 	logging: true,
 	healthCheck: () => {
 		return hafas.station('8011306')

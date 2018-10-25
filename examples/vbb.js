@@ -12,8 +12,8 @@ const config = {
 	port: process.env.PORT || 3000,
 	name: 'vbb-rest',
 	description: 'An HTTP API for Berlin & Brandenburg public transport.',
-	homepage: 'https://github.com/derhuerst/vbb-rest',
-	docsLink: 'https://github.com/derhuerst/vbb-rest/blob/2/docs/index.md',
+	homepage: 'http://example.org/',
+	docsLink: 'http://example.org/docs',
 	logging: true,
 	aboutPage: true,
 	healthCheck: () => {

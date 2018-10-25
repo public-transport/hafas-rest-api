@@ -21,13 +21,13 @@ const defaultConfig = {
 	addHafasOpts: () => {}
 }
 
-assertNonEmptyString = (cfg, key) => {
+const assertNonEmptyString = (cfg, key) => {
 	if ('string' !== typeof cfg[key]) {
 		throw new Error(`config.${key} must be a string`)
 	}
 	if (!cfg[key]) throw new Error(`config.${key} must not be empty`)
 }
-assertBoolean = (cfg, key) => {
+const assertBoolean = (cfg, key) => {
 	if ('boolean' !== typeof cfg[key]) {
 		throw new Error(`config.${key} must be a boolean`)
 	}
