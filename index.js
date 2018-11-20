@@ -43,7 +43,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	if ('cors' in config) assertBoolean(config, 'cors')
 	if ('handleErrors' in config) assertBoolean(config, 'handleErrors')
 	if ('logging' in config) assertBoolean(config, 'logging')
-	if ('healthCheck' in config && 'function' !== typeof config.healthCheck) {
+	if (config.healthCheck !== null && 'function' !== typeof config.healthCheck) {
 		throw new Error('cfg.healthCheck must be a function')
 	}
 	if ('version' in config) assertNonEmptyString(config, 'version')
