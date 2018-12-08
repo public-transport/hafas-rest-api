@@ -13,7 +13,7 @@ const createRoute = (hafas, config) => {
 		const q = req.query
 
 		if (!q.north) return next(err400('Missing north latitude.'))
-		if (!q.west) return next(err400('Missing west longitude.'))hafas-rest
+		if (!q.west) return next(err400('Missing west longitude.'))
 		if (!q.south) return next(err400('Missing south latitude.'))
 		if (!q.east) return next(err400('Missing east longitude.'))
 
