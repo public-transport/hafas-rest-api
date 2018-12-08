@@ -13,7 +13,7 @@ const createRoute = (hafas, config) => {
 		const q = req.query
 
 		if (!q.north) return next(err400('Missing north latitude.'))
-		if (!q.west) return next(err400('Missing west longitude.'))
+		if (!q.west) return next(err400('Missing west longitude.'))hafas-rest
 		if (!q.south) return next(err400('Missing south latitude.'))
 		if (!q.east) return next(err400('Missing east longitude.'))
 
@@ -23,7 +23,7 @@ const createRoute = (hafas, config) => {
 		if ('frames' in q) opt.frames = parseInt(q.frames)
 
 		config.addHafasOpts(opt, 'radar', req)
-		hafas.radar(+q.north, +q.west, +q.south, +q.east, opt)
+		hafas.radar({north: +q.north, west: +q.west, south: +q.south, east: +q.east}, opt)
 		.then((movements) => {
 			res.json(movements)
 			next()
