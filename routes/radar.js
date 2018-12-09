@@ -32,8 +32,7 @@ const createRoute = (hafas, config) => {
 
 		const opt = parseQuery(parsers, q)
 		config.addHafasOpts(opt, 'radar', req)
-
-		hafas.radar(+q.north, +q.west, +q.south, +q.east, opt)
+		hafas.radar({north: +q.north, west: +q.west, south: +q.south, east: +q.east}, opt)
 		.then((movements) => {
 			res.json(movements)
 			next()
