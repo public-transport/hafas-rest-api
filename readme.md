@@ -57,6 +57,8 @@ key | description | mandatory? | default value
 `description` | Used for the about page. | ✗ | –
 `docsLink` | Used for the about page. | ✗ | –
 
+*Pro Tip:* Use [`hafas-client-health-check`](https://github.com/derhuerst/hafas-client-health-check) for `config.healthCheck`.
+
 
 ## Contributing
 
