@@ -4,6 +4,8 @@ const express = require('express')
 const compression = require('compression')
 const nocache = require('nocache')
 const hsts = require('hsts')
+const { assertNonEmptyString, assertBoolean } = require('./assert')
+const docs = require('./docs')
 
 const nearby = require('./routes/nearby')
 const station = require('./routes/station')
@@ -15,22 +17,10 @@ const locations = require('./routes/locations')
 const defaultConfig = {
 	cors: true,
 	handleErrors: true,
-	aboutPage: true,
+	docs: true,
 	logging: false,
 	healthCheck: null,
 	addHafasOpts: () => {}
-}
-
-const assertNonEmptyString = (cfg, key) => {
-	if ('string' !== typeof cfg[key]) {
-		throw new Error(`config.${key} must be a string`)
-	}
-	if (!cfg[key]) throw new Error(`config.${key} must not be empty`)
-}
-const assertBoolean = (cfg, key) => {
-	if ('boolean' !== typeof cfg[key]) {
-		throw new Error(`config.${key} must be a boolean`)
-	}
 }
 
 const createApi = (hafas, config, attachMiddleware) => {
@@ -48,9 +38,8 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 	if ('version' in config) assertNonEmptyString(config, 'version')
 	if ('homepage' in config) assertNonEmptyString(config, 'homepage')
-	if ('aboutPage' in config) assertBoolean(config, 'aboutPage')
+	if ('docs' in config) assertBoolean(config, 'docs')
 	if ('description' in config) assertNonEmptyString(config, 'description')
-	if ('docsLink' in config) assertNonEmptyString(config, 'docsLink')
 
 	const api = express()
 
@@ -77,9 +66,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 		}
 		next()
 	})
-	if (config.aboutPage) {
-		const aboutPage = require('./about-page')
-		api.get('/', aboutPage(config.name, config.description, config.docsLink))
+	if (config.docs) {
+		const docs = require('./docs')
+		api.get('/', docs(config, hafas.profile))
 	}
 
 	attachMiddleware(api)
