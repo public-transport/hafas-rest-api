@@ -81,6 +81,10 @@ const createApi = (hafas, config, attachMiddleware) => {
 		const aboutPage = require('./about-page')
 		api.get('/', aboutPage(config.name, config.description, config.docsLink))
 	}
+	if (config.docsAsMarkdown) {
+		const docs = require('./docs')
+		api.get('/docs', docs(config))
+	}
 
 	attachMiddleware(api)
 	const noCache = nocache()
