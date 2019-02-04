@@ -1,7 +1,7 @@
 {
 	"name": "hafas-rest-api",
 	"description": "Expose a HAFAS client via an HTTP REST API.",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -10,7 +10,8 @@
 		"logging.js",
 		"cors.js",
 		"handle-errors.js",
-		"about-page.js"
+		"about-page.js",
+		"docs.js"
 	],
 	"keywords": [
 		"hafas",
