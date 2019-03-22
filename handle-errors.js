@@ -1,8 +1,8 @@
 'use strict'
 
-const createErrorHandler = () => {
+const createErrorHandler = (logger) => {
 	const handleErrors = (err, req, res, next) => {
-		if (process.env.NODE_ENV === 'dev') console.error(err)
+		logger.error(err)
 		if (res.headersSent) return next()
 
 		let msg = err.message, code = err.statusCode || null

@@ -4,6 +4,7 @@ const express = require('express')
 const compression = require('compression')
 const nocache = require('nocache')
 const hsts = require('hsts')
+const pino = require('pino')
 
 const nearby = require('./routes/nearby')
 const station = require('./routes/station')
@@ -53,6 +54,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	if ('docsLink' in config) assertNonEmptyString(config, 'docsLink')
 
 	const api = express()
+	api.locals.logger = pino()
 
 	if (config.cors) {
 		const createCors = require('./cors')
@@ -62,7 +64,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 	if (config.logging) {
 		const createLogging = require('./logging')
-		api.use(createLogging())
+		api.use(createLogging(api.locals.logger))
 	}
 	api.use(compression())
 	api.use(hsts({
@@ -129,7 +131,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	if (config.handleErrors) {
 		const handleErrors = require('./handle-errors')
-		api.use(handleErrors())
+		api.use(handleErrors(api.locals.logger))
 	}
 
 	return api

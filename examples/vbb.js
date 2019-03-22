@@ -7,6 +7,8 @@ const serve = require('serve-static')
 
 const createApi = require('..')
 
+// pro tip: pipe this script into `pino-pretty` to get nice logs
+
 const config = {
 	hostname: process.env.HOSTNAME || '2.vbb.transport.rest',
 	port: process.env.PORT || 3000,
@@ -30,11 +32,12 @@ const api = createApi(hafas, config, (api) => {
 	api.use('/logos', serve(logosDir, {index: false}))
 })
 
+const {logger} = api.locals
 api.listen(config.port, (err) => {
 	if (err) {
-		console.error(err)
+		logger.error(err)
 		process.exitCode = 1
 	} else {
-		console.info(`Listening on ${config.hostname}:${config.port}.`)
+		logger.info(`Listening on ${config.hostname}:${config.port}.`)
 	}
 })

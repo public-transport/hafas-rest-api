@@ -1,12 +1,19 @@
 'use strict'
 
+const {stdSerializers} = require('pino')
 const shorthash = require('shorthash').unique
-const morgan = require('morgan')
+const expressPino = require('express-pino-logger')
 
-morgan.token('id', req => req.headers['x-identifier'] || shorthash(req.ip))
-
-const loggingMiddleware = () => {
-	return morgan(':date[iso] :id :method :url :status :response-time ms')
+const reqSerializer = stdSerializers.req
+const withoutRemoteAddress = (req) => {
+	const log = reqSerializer(req)
+	if (req.headers['x-identifier']) log.remoteAddress = req.headers['x-identifier']
+	else if (log.remoteAddress) log.remoteAddress = shorthash(log.remoteAddress)
+	return log
 }
 
-module.exports = loggingMiddleware
+const serializers = Object.assign({}, stdSerializers, {req: withoutRemoteAddress})
+
+const createLoggingMiddleware = logger => expressPino({logger, serializers})
+
+module.exports = createLoggingMiddleware

@@ -48,7 +48,7 @@ key | description | mandatory? | default value
 `port` | The port to listen on. | ✔︎ | –
 `cors` | Enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)? | ✗ | `true`
 `handleErrors` | Handle errors by sending `5**` codes and JSON. | ✗ | `true`
-`logging` | Log requests using [`morgan`](https://npmjs.com/package/morgan)? | ✗ | `false`
+`logging` | Log requests using [`pino`](https://npmjs.com/package/pino)? | ✗ | `false`
 `healthCheck` | A function that returning [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that resolve with `true` (for healthy) or `false`. | ✗ | –
 `name` | The name of the API. Used for the `X-Powered-By` header and the about page. | ✔︎ | –
 `version` | Used for the `X-Powered-By` and `X-API-Version` headers. | ✗ | –
