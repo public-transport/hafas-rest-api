@@ -129,7 +129,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	if (config.handleErrors) {
 		const handleErrors = require('./handle-errors')
-		api.use(handleErrors)
+		api.use(handleErrors())
 	}
 
 	return api
