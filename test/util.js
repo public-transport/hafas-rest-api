@@ -22,7 +22,7 @@ const stationB = {
 	location: {type: 'location', latitude: 2.34, longitude: 4.32}
 }
 
-const createHealthCheck = hafas => () => hafas.station('8011306').then(st => !!st)
+const createHealthCheck = hafas => () => hafas.stop('8011306').then(st => !!st)
 
 const unmocked = createHafas(dbProfile, 'hafas-rest-api test')
 

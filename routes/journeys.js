@@ -50,8 +50,8 @@ const createRoute = (hafas, config) => {
 		config.addHafasOpts(opt, 'journeys', req)
 
 		hafas.journeys(from, to, opt)
-		.then((journeys) => {
-			res.json(journeys)
+		.then((res) => {
+			res.json(res)
 			next()
 		})
 		.catch(next)

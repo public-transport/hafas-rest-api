@@ -19,8 +19,8 @@ const config = {
 	logging: true,
 	aboutPage: true,
 	healthCheck: () => {
-		return hafas.station('900000100001')
-		.then((station) => !!station)
+		return hafas.stop('900000100001')
+		.then((stop) => !!stop)
 	}
 }
 

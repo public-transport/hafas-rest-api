@@ -16,10 +16,10 @@ const err400 = (msg) => {
 const parsers = {
 	fuzzy: parseBoolean,
 	results: parseInteger,
-	stations: parseBoolean,
+	stops: parseBoolean,
 	addresses: parseBoolean,
 	poi: parseBoolean,
-	stationLines: parseBoolean,
+	linesOfStops: parseBoolean,
 	language: parseString
 }
 

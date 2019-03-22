@@ -16,8 +16,8 @@ const config = {
 	docsLink: 'http://example.org/docs',
 	logging: true,
 	healthCheck: () => {
-		return hafas.station('8011306')
-		.then((station) => !!station)
+		return hafas.stop('8011306')
+		.then((stop) => !!stop)
 	}
 }
 

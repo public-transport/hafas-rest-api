@@ -17,9 +17,9 @@ const err400 = (msg) => {
 const parsers = {
 	results: parseInteger,
 	distance: parseNumber,
-	stations: parseBoolean,
+	stops: parseBoolean,
 	poi: parseBoolean,
-	stationLines: parseBoolean,
+	linesOfStops: parseBoolean,
 	language: parseString
 }
 

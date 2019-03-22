@@ -2,7 +2,7 @@
 
 const {
 	parseWhen,
-	parseStation,
+	parseStop,
 	parseInteger,
 	parseBoolean,
 	parseString,
@@ -18,9 +18,9 @@ const err400 = (msg) => {
 
 const parsers = {
 	when: parseWhen,
-	direction: parseStation,
+	direction: parseStop,
 	duration: parseInteger,
-	stationLines: parseBoolean,
+	linesOfStops: parseBoolean,
 	remarks: parseBoolean,
 	includeRelatedStations: parseBoolean,
 	language: parseString
@@ -28,7 +28,7 @@ const parsers = {
 
 const createRoute = (hafas, config) => {
 	const arrivals = (req, res, next) => {
-		const id = parseStation('id', req.params.id)
+		const id = parseStop('id', req.params.id)
 
 		const opt = parseQuery(parsers, req.query)
 		opt.products = parseProducts(hafas.profile.products, req.query)

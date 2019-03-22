@@ -1,14 +1,14 @@
 'use strict'
 
 const {
-	parseStation,
+	parseStop,
 	parseBoolean,
 	parseString,
 	parseQuery
 } = require('../lib/parse')
 
 const parsers = {
-	stationLines: parseBoolean,
+	linesOfStops: parseBoolean,
 	language: parseString
 }
 
@@ -16,14 +16,14 @@ const createRoute = (hafas, config) => {
 	const route = (req, res, next) => {
 		if (res.headersSent) return next()
 
-		const id = parseStation('id', req.params.id)
+		const id = parseStop('id', req.params.id)
 
 		const opt = parseQuery(parsers, req.query)
-		config.addHafasOpts(opt, 'station', req)
+		config.addHafasOpts(opt, 'stop', req)
 
-		hafas.station(id, opt)
-		.then((station) => {
-			res.json(station)
+		hafas.stop(id, opt)
+		.then((stop) => {
+			res.json(stop)
 			next()
 		})
 		.catch(next)

@@ -46,7 +46,7 @@
 	"devDependencies": {
 		"axios": "^0.18.0",
 		"get-port": "^4.0.0",
-		"hafas-client": "^3.0.0",
+		"hafas-client": "^4.0.1",
 		"pino-pretty": "^2.5.0",
 		"serve-static": "^1.13.2",
 		"tap-min": "^1.2.2",

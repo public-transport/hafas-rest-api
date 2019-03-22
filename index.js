@@ -7,7 +7,7 @@ const hsts = require('hsts')
 const pino = require('pino')
 
 const nearby = require('./routes/nearby')
-const station = require('./routes/station')
+const stop = require('./routes/stop')
 const departures = require('./routes/departures')
 const arrivals = require('./routes/arrivals')
 const journeys = require('./routes/journeys')
@@ -111,7 +111,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 
 	api.get('/stations/nearby', nearby(hafas, config))
-	api.get('/stations/:id', station(hafas, config))
+	api.get('/stations/:id', stop(hafas, config))
 	api.get('/stations/:id/departures', noCache, departures(hafas, config))
 	api.get('/stations/:id/arrivals', noCache, arrivals(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
