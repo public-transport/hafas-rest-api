@@ -1,7 +1,7 @@
 {
 	"name": "hafas-rest-api",
 	"description": "Expose a HAFAS client via an HTTP REST API.",
-	"version": "1.2.1",
+	"version": "2.0.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -28,7 +28,7 @@
 	"bugs": "https://github.com/derhuerst/hafas-rest-api/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=6"
+		"node": ">=8"
 	},
 	"dependencies": {
 		"compression": "^1.7.2",
@@ -41,7 +41,7 @@
 		"parse-messy-time": "^2.1.0",
 		"pino": "^5.11.3",
 		"shorthash": "0.0.2",
-		"stringify-entities": "^1.3.1"
+		"stringify-entities": "^2.0.0"
 	},
 	"devDependencies": {
 		"axios": "^0.18.0",
@@ -49,7 +49,7 @@
 		"hafas-client": "^4.0.1",
 		"pino-pretty": "^2.5.0",
 		"serve-static": "^1.13.2",
-		"tap-min": "^1.2.2",
+		"tap-min": "^2.0.0",
 		"tape": "^4.9.0",
 		"tape-promise": "^4.0.0",
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
