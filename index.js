@@ -100,7 +100,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 						res.status(200)
 						res.json({ok: true})
 					} else {
-						res.status(503)
+						res.status(502)
 						res.json({ok: false})
 					}
 				}, next)
