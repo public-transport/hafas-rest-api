@@ -36,7 +36,7 @@
 		"express": "^4.16.2",
 		"express-pino-logger": "^4.0.0",
 		"hsts": "^2.1.0",
-		"markdown-it": "^8.4.2",
+		"markdown-it": "^9.0.1",
 		"nocache": "^2.0.0",
 		"parse-messy-time": "^2.1.0",
 		"pino": "^5.11.3",
@@ -44,10 +44,10 @@
 		"stringify-entities": "^2.0.0"
 	},
 	"devDependencies": {
-		"axios": "^0.18.0",
-		"get-port": "^4.0.0",
+		"axios": "^0.19.0",
+		"get-port": "^5.0.0",
 		"hafas-client": "^4.0.1",
-		"pino-pretty": "^2.5.0",
+		"pino-pretty": "^3.2.0",
 		"serve-static": "^1.13.2",
 		"tap-min": "^2.0.0",
 		"tape": "^4.9.0",
