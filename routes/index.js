@@ -24,6 +24,10 @@ const getRoutes = (hafas, config) => {
 		routes['/trips/:id'] = trip(hafas, config)
 	}
 	routes['/locations'] = locations(hafas, config)
+	if (config.events) {
+		const events = require('./events')
+		routes['/events'] = events(hafas, config)
+	}
 	if (hafas.radar) {
 		const radar = require('./radar')
 		routes['/radar'] = radar(hafas, config)

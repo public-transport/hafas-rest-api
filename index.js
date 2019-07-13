@@ -17,6 +17,7 @@ const defaultConfig = {
 	aboutPage: true,
 	logging: false,
 	healthCheck: null,
+	events: false,
 	addHafasOpts: () => {}
 }
 
