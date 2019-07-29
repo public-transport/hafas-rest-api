@@ -52,7 +52,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 	if ('docsLink' in config) assertNonEmptyString(config, 'docsLink')
 
 	const api = express()
-	api.locals.logger = pino()
+	api.locals.logger = pino({
+		level: process.env.LOGGING_LEVEL || 'info'
+	})
 
 	if (config.cors) {
 		const cors = createCors()

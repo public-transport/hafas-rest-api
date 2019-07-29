@@ -1,9 +1,12 @@
 'use strict'
 
 const createServer = require('hafas-monitor-trips-server')
+const createMonitor = require('hafas-monitor-trips')
 const SSE = require('ssestream').default
+const throttle = require('lodash/throttle')
 const {parseNumber} = require('../lib/parse')
 
+const INTERVAL = parseInt(process.env.MONITOR_INTERVAL || 60) * 1000
 const EVENT_STREAM = 'text/event-stream'
 
 const EVENTS = [
@@ -38,8 +41,11 @@ const sseWriter = (req, res, evNames) => {
 }
 
 const createEventsRoute = (hafas, config) => {
-routes/monitor.js
-	const monitor = createServer(hafas)
+	const monitor = createServer(hafas, {
+		createMonitor: (hafas, bbox) => {
+			return createMonitor(hafas, bbox, INTERVAL)
+		}
+	})
 
 	const events = (req, res, next) => {
 		const {logger} = req.app.locals
@@ -72,8 +78,13 @@ routes/monitor.js
 		})
 
 		logger.info({bbox}, 'starting monitor')
+		const logInfos = throttle((stats) => {
+			logger.info({...stats, bbox})
+		}, 10 * 1000)
+		sub.on('stats', logInfos)
 		res.once('close', () => {
 			logger.info({bbox}, 'stopping monitor')
+			sub.removeListener('stats', logInfos)
 			sub.destroy()
 		})
 
