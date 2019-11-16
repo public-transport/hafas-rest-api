@@ -17,26 +17,26 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	departure: parseWhen,
-	arrival: parseWhen,
-	earlierThan: parseString,
-	laterThan: parseString,
-
-	results: parseInteger,
-	stopovers: parseBoolean,
-	transfers: parseInteger,
-	transferTime: parseNumber,
-	accessibility: parseString,
-	bike: parseBoolean,
-	tickets: parseBoolean,
-	polylines: parseBoolean,
-	remarks: parseBoolean,
-	startWithWalking: parseBoolean,
-	language: parseString
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		departure: parseWhen(hafas.profile.timezone),
+		arrival: parseWhen(hafas.profile.timezone),
+		earlierThan: parseString,
+		laterThan: parseString,
+
+		results: parseInteger,
+		stopovers: parseBoolean,
+		transfers: parseInteger,
+		transferTime: parseNumber,
+		accessibility: parseString,
+		bike: parseBoolean,
+		tickets: parseBoolean,
+		polylines: parseBoolean,
+		remarks: parseBoolean,
+		startWithWalking: parseBoolean,
+		language: parseString
+	}
+
 	const journeys = (req, res, next) => {
 		const from = parseLocation(req.query, 'from')
 		if (!from) return next(err400('Missing origin.'))

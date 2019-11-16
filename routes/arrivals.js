@@ -16,17 +16,17 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	when: parseWhen,
-	direction: parseStop,
-	duration: parseInteger,
-	linesOfStops: parseBoolean,
-	remarks: parseBoolean,
-	includeRelatedStations: parseBoolean,
-	language: parseString
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		when: parseWhen(hafas.profile.timezone),
+		direction: parseStop,
+		duration: parseInteger,
+		linesOfStops: parseBoolean,
+		remarks: parseBoolean,
+		includeRelatedStations: parseBoolean,
+		language: parseString
+	}
+
 	const arrivals = (req, res, next) => {
 		const id = parseStop('id', req.params.id)
 
