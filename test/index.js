@@ -42,4 +42,30 @@ test('/stop/:id', async(t) => {
 	t.end()
 })
 
+test('/journeys with POI', async(t) => {
+	// fake data
+	const someJourney = {_: Math.random().toString(16).slice(2)}
+
+	const {fetch, stop} = await createTestApi({
+		journeys: (from, to) => {
+			t.equal(from, '123')
+			t.deepEqual(to, {
+				type: 'location',
+				id: '321',
+				poi: true,
+				name: 'Foo',
+				latitude: 1.23,
+				longitude: 3.21
+			})
+			return Promise.resolve([someJourney])
+		}
+	})
+
+	const {data} = await fetch('/journeys?from=123&to.id=321&to.name=Foo&to.latitude=1.23&to.longitude=3.21')
+	t.deepEqual(data, [someJourney])
+
+	await stop()
+	t.end()
+})
+
 // todo
