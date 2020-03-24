@@ -1,6 +1,5 @@
 'use strict'
 
-// const escape = require('stringify-entities')
 const MarkdownRender = require('markdown-it')
 
 const md = new MarkdownRender()

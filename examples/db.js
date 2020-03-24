@@ -8,7 +8,7 @@ const createApi = require('..')
 // pro tip: pipe this script into `pino-pretty` to get nice logs
 
 const config = {
-	hostname: process.env.HOSTNAME || 'db.transport.rest',
+	hostname: process.env.HOSTNAME || '3.db.transport.rest',
 	name: 'db-rest',
 	description: 'An HTTP API for Deutsche Bahn.',
 	homepage: 'http://example.org/',

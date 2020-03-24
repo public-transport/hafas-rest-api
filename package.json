@@ -1,7 +1,7 @@
 {
 	"name": "hafas-rest-api",
 	"description": "Expose a HAFAS client via an HTTP REST API.",
-	"version": "2.1.4",
+	"version": "3.0.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -41,7 +41,7 @@
 		"parse-human-relative-time": "^2.0.2",
 		"pino": "^5.11.3",
 		"shorthash": "0.0.2",
-		"stringify-entities": "^2.0.0"
+		"stringify-entities": "^3.0.0"
 	},
 	"devDependencies": {
 		"axios": "^0.19.0",
