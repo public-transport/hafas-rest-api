@@ -11,7 +11,6 @@ const createApi = require('..')
 
 const config = {
 	hostname: process.env.HOSTNAME || '2.vbb.transport.rest',
-	port: process.env.PORT || 3000,
 	name: 'vbb-rest',
 	description: 'An HTTP API for Berlin & Brandenburg public transport.',
 	homepage: 'http://example.org/',
@@ -33,11 +32,12 @@ const api = createApi(hafas, config, (api) => {
 })
 
 const {logger} = api.locals
-api.listen(config.port, (err) => {
+const port = process.env.PORT || 3000
+api.listen(port, (err) => {
 	if (err) {
 		logger.error(err)
 		process.exitCode = 1
 	} else {
-		logger.info(`Listening on ${config.hostname}:${config.port}.`)
+		logger.info(`Listening on ${config.hostname}:${port}.`)
 	}
 })

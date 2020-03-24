@@ -9,7 +9,6 @@ const createApi = require('..')
 
 const config = {
 	hostname: process.env.HOSTNAME || 'db.transport.rest',
-	port: process.env.PORT || 3000, // todo [breaking]: remove, not necessary
 	name: 'db-rest',
 	description: 'An HTTP API for Deutsche Bahn.',
 	homepage: 'http://example.org/',
@@ -26,11 +25,12 @@ const hafas = createHafas(dbProfile, 'hafas-rest-api-example')
 const api = createApi(hafas, config, () => {})
 
 const {logger} = api.locals
-api.listen(config.port, (err) => {
+const port = process.env.PORT || 3000
+api.listen(port, (err) => {
 	if (err) {
 		logger.error(err)
 		process.exitCode = 1
 	} else {
-		logger.info(`Listening on ${config.hostname}:${config.port}.`)
+		logger.info(`Listening on ${config.hostname}:${port}.`)
 	}
 })

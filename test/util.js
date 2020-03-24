@@ -36,17 +36,18 @@ const createTestApi = async (mocks, cfg) => {
 		logging: false,
 		healthCheck: createHealthCheck(mocked)
 	}, cfg)
-	cfg.port = await getPort()
 
 	const api = createApi(mocked, cfg, () => {})
 	const server = createServer(api)
-	await promisify(server.listen.bind(server))(cfg.port)
+
+	const port = await getPort()
+	await promisify(server.listen.bind(server))(port)
 
 	const stop = () => promisify(server.close.bind(server))()
 	const fetch = (path, opt = {}) => {
 		opt = Object.assign({
 			method: 'get',
-			baseURL: `http://localhost:${cfg.port}/`,
+			baseURL: `http://localhost:${port}/`,
 			url: path,
 			timeout: 5000
 		}, opt)

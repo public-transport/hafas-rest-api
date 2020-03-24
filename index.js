@@ -39,7 +39,6 @@ const createApi = (hafas, config, attachMiddleware) => {
 	config = Object.assign({}, defaultConfig, config)
 	// mandatory
 	assertNonEmptyString(config, 'hostname')
-	if ('number' !== typeof config.port) throw new Error('cfg.port must be a number')
 	assertNonEmptyString(config, 'name')
 	// optional
 	if ('cors' in config) assertBoolean(config, 'cors')

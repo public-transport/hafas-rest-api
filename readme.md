@@ -26,7 +26,6 @@ const createApi = require('.')
 
 const config = {
 	hostname: 'example.org',
-	port: 3000,
 	name: 'my-hafas-rest-api',
 	homepage: 'https://github.com/someone/my-hafas-rest-api',
 	version: '1.0.0'
@@ -35,7 +34,7 @@ const config = {
 const hafas = createHafas(dbProfile, 'my-hafas-rest-api')
 const api = createApi(hafas, config)
 
-api.listen(config.port, (err) => {
+api.listen(3000, (err) => {
 	if (err) console.error(err)
 })
 ```
