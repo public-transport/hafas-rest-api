@@ -114,9 +114,6 @@ const createApi = (hafas, config, attachMiddleware) => {
 	api.get('/stops/:id', stop(hafas, config))
 	api.get('/stops/:id/departures', noCache, departures(hafas, config))
 	api.get('/stops/:id/arrivals', noCache, arrivals(hafas, config))
-	// todo: remove `/stations/:id/*` [breaking]
-	api.get('/stations/:id/departures', noCache, departures(hafas, config))
-	api.get('/stations/:id/arrivals', noCache, arrivals(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
 	if (hafas.profile.trip) {
 		const trip = require('./routes/trip')
