@@ -8,7 +8,6 @@
 		"routes",
 		"lib",
 		"logging.js",
-		"cors.js",
 		"handle-errors.js",
 		"about-page.js",
 		"docs.js"

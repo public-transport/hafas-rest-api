@@ -5,6 +5,7 @@ const compression = require('compression')
 const nocache = require('nocache')
 const hsts = require('hsts')
 const pino = require('pino')
+const createCors = require('cors')
 
 const nearby = require('./routes/nearby')
 const stop = require('./routes/stop')
@@ -57,7 +58,6 @@ const createApi = (hafas, config, attachMiddleware) => {
 	api.locals.logger = pino()
 
 	if (config.cors) {
-		const createCors = require('./cors')
 		const cors = createCors()
 		api.options('*', cors)
 		api.use(cors)
