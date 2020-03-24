@@ -17,6 +17,13 @@ const err400 = (msg) => {
 	return err
 }
 
+const parseWalkingSpeed = (key, val) => {
+	if (!['slow', 'normal', 'fast'].includes(val)) {
+		throw new Error(key + ' must be `slow`, `normal`, or `fast`')
+	}
+	return val
+}
+
 const createRoute = (hafas, config) => {
 	const parsers = {
 		departure: parseWhen(hafas.profile.timezone),
@@ -33,7 +40,9 @@ const createRoute = (hafas, config) => {
 		tickets: parseBoolean,
 		polylines: parseBoolean,
 		remarks: parseBoolean,
+		walkingSpeed: parseWalkingSpeed,
 		startWithWalking: parseBoolean,
+		scheduledDays: parseBoolean,
 		language: parseString
 	}
 

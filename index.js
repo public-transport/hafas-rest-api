@@ -114,16 +114,16 @@ const createApi = (hafas, config, attachMiddleware) => {
 	api.get('/stops/:id/departures', noCache, departures(hafas, config))
 	api.get('/stops/:id/arrivals', noCache, arrivals(hafas, config))
 	api.get('/journeys', noCache, journeys(hafas, config))
-	if (hafas.profile.trip) {
+	if (hafas.trip) {
 		const trip = require('./routes/trip')
 		api.get('/trips/:id', noCache, trip(hafas, config))
 	}
 	api.get('/locations', locations(hafas, config))
-	if (hafas.profile.radar) {
+	if (hafas.radar) {
 		const radar = require('./routes/radar')
 		api.get('/radar', noCache, radar(hafas, config))
 	}
-	if (hafas.profile.refreshJourney) {
+	if (hafas.refreshJourney) {
 		const refreshJourney = require('./routes/refresh-journey')
 		api.get('/journeys/:ref', noCache, refreshJourney(hafas, config))
 	}

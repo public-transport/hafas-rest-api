@@ -9,6 +9,8 @@ const createErrorHandler = (logger) => {
 		if (err.isHafasError) {
 			msg = 'HAFAS error: ' + msg
 			code = 502
+		} else if (err.name === 'TypeError') {
+			code = 400
 		}
 		res.status(code || 500).json({error: true, msg})
 		next()

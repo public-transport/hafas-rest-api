@@ -21,10 +21,16 @@ const createRoute = (hafas, config) => {
 		when: parseWhen(hafas.profile.timezone),
 		direction: parseStop,
 		duration: parseInteger,
+		results: parseInteger,
 		linesOfStops: parseBoolean,
 		remarks: parseBoolean,
-		includeRelatedStations: parseBoolean,
 		language: parseString
+	}
+	if (hafas.profile.departuresStbFltrEquiv !== false) {
+		parsers.includeRelatedStations = parseBoolean
+	}
+	if (hafas.profile.departuresGetPasslist !== false) {
+		parsers.stopovers = parseBoolean
 	}
 
 	const arrivals = (req, res, next) => {

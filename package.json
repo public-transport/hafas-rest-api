@@ -27,7 +27,7 @@
 	"bugs": "https://github.com/derhuerst/hafas-rest-api/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=8"
+		"node": ">=10"
 	},
 	"dependencies": {
 		"compression": "^1.7.2",
@@ -46,13 +46,16 @@
 	"devDependencies": {
 		"axios": "^0.19.0",
 		"get-port": "^5.0.0",
-		"hafas-client": "^4.0.1",
+		"hafas-client": "^5.3.1",
 		"pino-pretty": "^3.2.0",
 		"serve-static": "^1.13.2",
 		"tap-min": "^2.0.0",
 		"tape": "^4.9.0",
 		"tape-promise": "^4.0.0",
 		"vbb-logos": "github:derhuerst/vbb-logos#v2"
+	},
+	"peerDependencies": {
+		"hafas-client": "^5"
 	},
 	"scripts": {
 		"test": "node test/index.js | tap-min",

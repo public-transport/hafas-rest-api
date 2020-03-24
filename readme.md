@@ -1,6 +1,6 @@
 # hafas-rest-api
 
-**Expose a [`hafas-client@4`](https://github.com/public-transport/hafas-client/tree/4) instance as an HTTP REST API.**
+**Expose a [`hafas-client@5`](https://github.com/public-transport/hafas-client/tree/5) instance as an HTTP REST API.**
 
 [![npm version](https://img.shields.io/npm/v/hafas-rest-api.svg)](https://www.npmjs.com/package/hafas-rest-api)
 [![build status](https://api.travis-ci.org/derhuerst/hafas-rest-api.svg?branch=master)](https://travis-ci.org/derhuerst/hafas-rest-api)
