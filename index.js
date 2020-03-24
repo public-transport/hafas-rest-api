@@ -110,6 +110,10 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 
 	api.get('/stops/nearby', nearby(hafas, config))
+	if (hafas.reachableFrom) {
+		const reachableFrom = require('./routes/reachable-from')
+		api.get('/stops/reachable-from', reachableFrom(hafas, config))
+	}
 	api.get('/stops/:id', stop(hafas, config))
 	api.get('/stops/:id/departures', noCache, departures(hafas, config))
 	api.get('/stops/:id/arrivals', noCache, arrivals(hafas, config))
