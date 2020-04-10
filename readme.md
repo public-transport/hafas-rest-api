@@ -55,6 +55,7 @@ key | description | mandatory? | default value
 `aboutPage` | Enable the about page on `GET /`? | ✗ | `true`
 `description` | Used for the about page. | ✗ | –
 `docsLink` | Used for the about page. | ✗ | –
+`addHafasOpts` | Computes additional `hafas-client` opts. `(opt, hafasClientMethod, httpReq) => additionaOpts` | ✗ | –
 
 *Pro Tip:* Use [`hafas-client-health-check`](https://github.com/derhuerst/hafas-client-health-check) for `config.healthCheck`.
 
