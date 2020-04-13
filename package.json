@@ -21,9 +21,9 @@
 		"fptf"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/derhuerst/hafas-rest-api",
-	"repository": "derhuerst/hafas-rest-api",
-	"bugs": "https://github.com/derhuerst/hafas-rest-api/issues",
+	"homepage": "https://github.com/public-transport/hafas-rest-api",
+	"repository": "public-transport/hafas-rest-api",
+	"bugs": "https://github.com/public-transport/hafas-rest-api/issues",
 	"license": "ISC",
 	"engines": {
 		"node": ">=10"
