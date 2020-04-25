@@ -81,6 +81,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 		}
 
 		if (!res.headersSent) {
+			// https://helmetjs.github.io/docs/dont-sniff-mimetype/
+			res.setHeader('X-Content-Type-Options', 'nosniff')
+			res.setHeader('content-security-policy', `default-src 'none'`)
 			res.setHeader('X-Powered-By', [
 				config.name, config.version, config.homepage
 			].filter(str => !!str).join(' '))
@@ -88,6 +91,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		}
 		next()
 	})
+
 	if (config.aboutPage) {
 		const aboutPage = require('./about-page')
 		api.get('/', aboutPage(config.name, config.description, config.docsLink))

@@ -12,7 +12,11 @@ const createErrorHandler = (logger) => {
 		} else if (err.name === 'TypeError') {
 			code = 400
 		}
-		res.status(code || 500).json({error: true, msg})
+		res.status(code || 500).json({
+			error: true,
+			...err,
+			msg,
+		})
 		next()
 	}
 	return handleErrors
