@@ -1,5 +1,6 @@
 'use strict'
 
+const max = require('lodash/max')
 const {
 	parseWhen,
 	parseStop,
@@ -9,6 +10,11 @@ const {
 	parseQuery,
 	parseProducts
 } = require('../lib/parse')
+const {
+	formatWhen,
+} = require('../lib/format')
+
+const MINUTE = 60 * 1000
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -33,6 +39,24 @@ const createRoute = (hafas, config) => {
 		parsers.stopovers = parseBoolean
 	}
 
+	const linkHeader = (req, opt, departures) => {
+		let tNext = null
+		if (opt.when && Number.isInteger(opt.duration)) {
+			return Date.parse(opt.when) + opt.duration * MINUTE + MINUTE
+		} else {
+			const ts = departures
+			.map(dep => Date.parse(dep.when || dep.plannedWhen))
+			.filter(t => Number.isInteger(t))
+			tNext = max(ts) + MINUTE
+		}
+
+		if (tNext === null) return {}
+		const next = req.searchWithNewParams({
+			when: formatWhen(tNext, hafas.profile.timezone),
+		})
+		return {next}
+	}
+
 	const departures = (req, res, next) => {
 		const id = parseStop('id', req.params.id)
 
@@ -42,6 +66,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.departures(id, opt)
 		.then((deps) => {
+			res.setLinkHeader(linkHeader(req, opt, deps))
 			res.json(deps)
 			next()
 		})

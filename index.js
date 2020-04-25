@@ -8,6 +8,7 @@ const pino = require('pino')
 const createCors = require('cors')
 const getRoutes = require('./routes')
 const routeUriTemplate = require('./lib/route-uri-template')
+const linkHeader = require('./lib/link-header')
 
 const defaultConfig = {
 	cors: true,
@@ -65,6 +66,18 @@ const createApi = (hafas, config, attachMiddleware) => {
 		maxAge: 10 * 24 * 60 * 60
 	}))
 	api.use((req, res, next) => {
+		res.setLinkHeader = (linkSpec) => {
+			res.setHeader('Link', linkHeader(linkSpec))
+		}
+		req.searchWithNewParams = (newParams) => {
+			const u = new URL(req.url, 'http://example.org')
+			for (const [name, val] of Object.entries(newParams)) {
+				if (val === null) u.searchParams.delete(name)
+				else u.searchParams.set(name, val)
+			}
+			return u.search
+		}
+
 		if (!res.headersSent) {
 			res.setHeader('X-Powered-By', [
 				config.name, config.version, config.homepage

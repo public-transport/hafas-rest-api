@@ -2,6 +2,7 @@
 
 const tape = require('tape')
 const tapePromise = require('tape-promise').default
+const LinkHeader = require('http-link-header')
 
 const {
 	stationA, stationB,
@@ -91,11 +92,21 @@ test('/journeys with POI', async(t) => {
 
 	const query = '?from=123&to.id=321&to.name=Foo&to.latitude=1.23&to.longitude=3.21'
 	const path = '/journeys' + query
-	const {data} = await fetchWithTestApi(mockHafas, {}, path)
+	const {data, headers: h} = await fetchWithTestApi(mockHafas, {}, path)
 
 	t.deepEqual(data.journeys, [someJourney])
 	t.equal(data.earlierRef, earlierRef)
 	t.equal(data.laterRef, laterRef)
+
+	t.ok(h.link)
+	const l = LinkHeader.parse(h.link)
+	t.deepEqual(l.refs, [{
+		rel: 'prev',
+		uri: query + '&earlierThan=some-earlier-ref',
+	}, {
+		rel: 'next',
+		uri: query + '&laterThan=some-later-ref',
+	}])
 	t.end()
 })
 

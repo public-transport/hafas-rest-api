@@ -9,6 +9,9 @@ const {
 	parseQuery,
 	parseProducts
 } = require('../lib/parse')
+const {
+	formatWhen,
+} = require('../lib/format')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -33,6 +36,15 @@ const createRoute = (hafas, config) => {
 		parsers.stopovers = parseBoolean
 	}
 
+	const linkHeader = (req, opt, arrivals) => {
+		if (!opt.when || !Number.isInteger(opt.duration)) return {}
+		const tNext = Date.parse(opt.when) - opt.duration * 60 * 1000
+		const next = req.searchWithNewParams({
+			when: formatWhen(tNext, hafas.profile.timezone),
+		})
+		return {next}
+	}
+
 	const arrivals = (req, res, next) => {
 		const id = parseStop('id', req.params.id)
 
@@ -42,6 +54,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.arrivals(id, opt)
 		.then((arrs) => {
+			res.setLinkHeader(linkHeader(req, opt, arrs))
 			res.json(arrs)
 			next()
 		})

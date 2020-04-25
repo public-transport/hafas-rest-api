@@ -60,6 +60,23 @@ const createRoute = (hafas, config) => {
 
 		hafas.journeys(from, to, opt)
 		.then((data) => {
+			res.setLinkHeader({
+				prev: (data.earlierRef
+					? req.searchWithNewParams({
+						departure: null, arrival: null,
+						earlierThan: data.earlierRef,
+					})
+					: null
+				),
+				next: (data.laterRef
+					? req.searchWithNewParams({
+						departure: null, arrival: null,
+						laterThan: data.laterRef,
+					})
+					: null
+				),
+			})
+
 			res.json(data)
 			next()
 		})
