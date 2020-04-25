@@ -11,6 +11,29 @@ const {
 
 const test = tapePromise(tape)
 
+test('basic headers', async(t) => {
+	const {headers: h} = await fetchWithTestApi({}, {}, '/', {
+		headers: {accept: 'application/json'},
+	})
+	t.equal(h['x-powered-by'], 'test 1.2.3a http://example.org')
+	t.equal(h['access-control-allow-origin'], '*')
+	t.equal(h['strict-transport-security'], 'max-age=864000; includeSubDomains')
+	t.equal(h['x-content-type-options'], 'nosniff')
+	t.equal(h['content-security-policy'], `default-src 'none'`)
+	t.equal(h['x-api-version'], '1.2.3a')
+	t.equal(h['content-type'] ,'application/json; charset=utf-8')
+	t.ok(h['content-length'])
+	t.ok(h['etag'])
+
+	const {headers: h2} = await fetchWithTestApi({}, {
+		cors: false,
+	}, '/', {
+		headers: {accept: 'application/json'},
+	})
+	t.notOk(h2['access-control-allow-origin'])
+	t.end()
+})
+
 test('/stop/:id', async(t) => {
 	const mockHafas = {
 		stop: (id) => {
