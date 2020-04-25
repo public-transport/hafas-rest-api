@@ -36,6 +36,15 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	trip.cache = false
+	trip.pathParameters = [
+		'id',
+	]
+	trip.queryParameters = [
+		'lineName',
+		...Object.keys(parsers),
+	]
 	return trip
 }
 

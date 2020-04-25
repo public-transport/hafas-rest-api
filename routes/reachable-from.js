@@ -43,6 +43,12 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	reachableFrom.queryParameters = [
+		...hafas.profile.products.map(p => p.id),
+		...Object.keys(parsers),
+		'latitude', 'longitude', 'address',
+	]
 	return reachableFrom
 }
 

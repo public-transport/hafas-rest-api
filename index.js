@@ -6,13 +6,7 @@ const nocache = require('nocache')
 const hsts = require('hsts')
 const pino = require('pino')
 const createCors = require('cors')
-
-const nearby = require('./routes/nearby')
-const stop = require('./routes/stop')
-const departures = require('./routes/departures')
-const arrivals = require('./routes/arrivals')
-const journeys = require('./routes/journeys')
-const locations = require('./routes/locations')
+const getRoutes = require('./routes')
 
 const defaultConfig = {
 	cors: true,
@@ -109,27 +103,10 @@ const createApi = (hafas, config, attachMiddleware) => {
 		})
 	}
 
-	api.get('/stops/nearby', nearby(hafas, config))
-	if (hafas.reachableFrom) {
-		const reachableFrom = require('./routes/reachable-from')
-		api.get('/stops/reachable-from', reachableFrom(hafas, config))
-	}
-	api.get('/stops/:id', stop(hafas, config))
-	api.get('/stops/:id/departures', noCache, departures(hafas, config))
-	api.get('/stops/:id/arrivals', noCache, arrivals(hafas, config))
-	api.get('/journeys', noCache, journeys(hafas, config))
-	if (hafas.trip) {
-		const trip = require('./routes/trip')
-		api.get('/trips/:id', noCache, trip(hafas, config))
-	}
-	api.get('/locations', locations(hafas, config))
-	if (hafas.radar) {
-		const radar = require('./routes/radar')
-		api.get('/radar', noCache, radar(hafas, config))
-	}
-	if (hafas.refreshJourney) {
-		const refreshJourney = require('./routes/refresh-journey')
-		api.get('/journeys/:ref', noCache, refreshJourney(hafas, config))
+	const routes = getRoutes(hafas, config)
+	for (const [path, route] of Object.entries(routes)) {
+		if (route.cache === false) api.get(path, noCache, route)
+		else api.get(path, route)
 	}
 
 	if (config.handleErrors) {

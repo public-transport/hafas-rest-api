@@ -13,7 +13,7 @@ const parsers = {
 }
 
 const createRoute = (hafas, config) => {
-	const route = (req, res, next) => {
+	const stop = (req, res, next) => {
 		if (res.headersSent) return next()
 
 		const id = parseStop('id', req.params.id)
@@ -28,7 +28,14 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
-	return route
+
+	stop.pathParameters = [
+		'id',
+	]
+	stop.queryParameters = [
+		...Object.keys(parsers),
+	]
+	return stop
 }
 
 module.exports = createRoute

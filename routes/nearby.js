@@ -42,6 +42,11 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	nearby.queryParameters = [
+		...Object.keys(parsers),
+		'latitude', 'longitude',
+	]
 	return nearby
 }
 

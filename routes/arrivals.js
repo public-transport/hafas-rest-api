@@ -47,6 +47,15 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	arrivals.cache = false
+	arrivals.pathParameters = [
+		'id',
+	]
+	arrivals.queryParameters = [
+		...hafas.profile.products.map(p => p.id),
+		...Object.keys(parsers),
+	]
 	return arrivals
 }
 

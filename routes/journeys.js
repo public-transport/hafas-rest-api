@@ -65,6 +65,15 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	journeys.cache = false
+	journeys.queryParameters = [
+		...hafas.profile.products.map(p => p.id),
+		...Object.keys(parsers),
+		'from', 'from.id', 'from.latitude', 'from.longitude', 'from.address', 'from.name',
+		'via', 'via.id', 'via.latitude', 'via.longitude', 'via.address', 'via.name',
+		'to', 'to.id', 'to.latitude', 'to.longitude', 'to.address', 'to.name',
+	]
 	return journeys
 }
 

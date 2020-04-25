@@ -37,6 +37,11 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	locations.queryParameters = [
+		...Object.keys(parsers),
+		'query',
+	]
 	return locations
 }
 

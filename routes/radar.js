@@ -39,6 +39,12 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	radar.cache = false
+	radar.queryParameters = [
+		...Object.keys(parsers),
+		'north', 'west', 'south', 'east',
+	]
 	return radar
 }
 

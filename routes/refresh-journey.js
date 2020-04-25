@@ -34,6 +34,14 @@ const createRoute = (hafas, config) => {
 		})
 		.catch(next)
 	}
+
+	refreshJourney.cache = false
+	refreshJourney.pathParameters = [
+		'ref',
+	]
+	refreshJourney.queryParameters = [
+		...Object.keys(parsers),
+	]
 	return refreshJourney
 }
 
