@@ -22,7 +22,10 @@ const stationB = {
 	location: {type: 'location', latitude: 2.34, longitude: 4.32}
 }
 
-const createHealthCheck = hafas => () => hafas.stop('8011306').then(st => !!st)
+const createHealthCheck = hafas => async () => {
+	const stop = await hafas.stop('8011306')
+	return !!stop
+}
 
 const unmocked = createHafas(dbProfile, 'hafas-rest-api test')
 
@@ -31,6 +34,8 @@ const createTestApi = async (mocks, cfg) => {
 	cfg = Object.assign({
 		hostname: 'localhost',
 		name: 'test',
+		version: '1.2.3a',
+		homepage: 'http://example.org',
 		description: 'test API',
 		docsLink: 'https://example.org',
 		logging: false,
@@ -56,9 +61,17 @@ const createTestApi = async (mocks, cfg) => {
 	return {stop, fetch}
 }
 
+const fetchWithTestApi = async (mocks, cfg, path, opt = {}) => {
+	const {fetch, stop} = await createTestApi(mocks, cfg)
+	const res = await fetch(path, opt)
+	await stop()
+	return res
+}
+
 module.exports = {
 	stationA,
 	stationB,
 	unmocked,
-	createTestApi
+	createTestApi,
+	fetchWithTestApi,
 }

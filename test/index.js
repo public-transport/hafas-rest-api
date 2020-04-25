@@ -6,48 +6,48 @@ const tapePromise = require('tape-promise').default
 const {
 	stationA, stationB,
 	unmocked,
-	createTestApi
+	fetchWithTestApi,
 } = require('./util')
 
 const test = tapePromise(tape)
 
 test('/stop/:id', async(t) => {
-	const {fetch, stop} = await createTestApi({
+	const mockHafas = {
 		stop: (id) => {
 			if (id !== stationA.id) throw new Error('stop() called with invalid ID')
 			return Promise.resolve(stationA)
 		}
-	})
+	}
 
-	const {data} = await fetch('/stops/' + stationA.id)
+	const path = '/stops/' + stationA.id
+	const {data} = await fetchWithTestApi(mockHafas, {}, path)
 	t.deepEqual(data, stationA)
-
-	await stop()
 	t.end()
 })
 
 test('/stop/:id', async(t) => {
-	const {fetch, stop} = await createTestApi({
+	const mockHafas = {
 		nearby: (loc) => {
 			if (loc.latitude !== 123) throw new Error('nearby() called with invalid latitude')
 			if (loc.longitude !== 321) throw new Error('nearby() called with invalid longitude')
 			return Promise.resolve([stationA, stationB])
 		}
-	})
+	}
 
-	const {data} = await fetch('/stops/nearby?latitude=123&longitude=321')
+	const path = '/stops/nearby?latitude=123&longitude=321'
+	const {data} = await fetchWithTestApi(mockHafas, {}, path)
 	t.deepEqual(data, [stationA, stationB])
-
-	await stop()
 	t.end()
 })
 
 test('/journeys with POI', async(t) => {
 	// fake data
 	const someJourney = {_: Math.random().toString(16).slice(2)}
+	const earlierRef = 'some-earlier-ref'
+	const laterRef = 'some-later-ref'
 
-	const {fetch, stop} = await createTestApi({
-		journeys: (from, to) => {
+	const mockHafas = {
+		journeys: async (from, to) => {
 			t.equal(from, '123')
 			t.deepEqual(to, {
 				type: 'location',
@@ -57,14 +57,20 @@ test('/journeys with POI', async(t) => {
 				latitude: 1.23,
 				longitude: 3.21
 			})
-			return Promise.resolve([someJourney])
+			return {
+				earlierRef, laterRef,
+				journeys: [someJourney]
+			}
 		}
-	})
+	}
 
-	const {data} = await fetch('/journeys?from=123&to.id=321&to.name=Foo&to.latitude=1.23&to.longitude=3.21')
-	t.deepEqual(data, [someJourney])
+	const query = '?from=123&to.id=321&to.name=Foo&to.latitude=1.23&to.longitude=3.21'
+	const path = '/journeys' + query
+	const {data} = await fetchWithTestApi(mockHafas, {}, path)
 
-	await stop()
+	t.deepEqual(data.journeys, [someJourney])
+	t.equal(data.earlierRef, earlierRef)
+	t.equal(data.laterRef, laterRef)
 	t.end()
 })
 
