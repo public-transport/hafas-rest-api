@@ -12,14 +12,15 @@ const createApi = require('..')
 const config = {
 	hostname: process.env.HOSTNAME || '3.vbb.transport.rest',
 	name: 'vbb-rest',
+	version: '1.2.3',
 	description: 'An HTTP API for Berlin & Brandenburg public transport.',
 	homepage: 'http://example.org/',
 	docsLink: 'http://example.org/docs',
 	logging: true,
 	aboutPage: true,
-	healthCheck: () => {
-		return hafas.stop('900000100001')
-		.then((stop) => !!stop)
+	healthCheck: async () => {
+		const stop = await hafas.stop('900000100001')
+		return !!stop
 	}
 }
 

@@ -10,13 +10,14 @@ const createApi = require('..')
 const config = {
 	hostname: process.env.HOSTNAME || '3.db.transport.rest',
 	name: 'db-rest',
+	version: '1.2.3',
 	description: 'An HTTP API for Deutsche Bahn.',
 	homepage: 'http://example.org/',
 	docsLink: 'http://example.org/docs',
 	logging: true,
-	healthCheck: () => {
-		return hafas.stop('8011306')
-		.then((stop) => !!stop)
+	healthCheck: async () => {
+		const stop = await hafas.stop('8011306')
+		return !!stop
 	}
 }
 

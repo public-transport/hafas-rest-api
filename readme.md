@@ -58,7 +58,7 @@ key | description | mandatory? | default value
 `docsLink` | Used for the about page. | ✗ | –
 `addHafasOpts` | Computes additional `hafas-client` opts. `(opt, hafasClientMethod, httpReq) => additionaOpts` | ✗ | –
 
-*Pro Tip:* Use [`hafas-client-health-check`](https://github.com/derhuerst/hafas-client-health-check) for `config.healthCheck`.
+*Pro Tip:* Use [`hafas-client-health-check`](https://github.com/public-transport/hafas-client-health-check) for `config.healthCheck`.
 
 
 ## Contributing

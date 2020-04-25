@@ -19,6 +19,7 @@ const err400 = (msg) => {
 	return err
 }
 
+// todo: DRY with routes/departures.js
 const createRoute = (hafas, config) => {
 	const parsers = {
 		when: parseWhen(hafas.profile.timezone),
