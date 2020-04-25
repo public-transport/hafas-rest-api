@@ -11,8 +11,8 @@ const {
 
 const test = tapePromise(tape)
 
-test('basic headers', async(t) => {
-	const {headers: h} = await fetchWithTestApi({}, {}, '/', {
+test('/ & basic headers', async(t) => {
+	const {headers: h, data} = await fetchWithTestApi({}, {}, '/', {
 		headers: {accept: 'application/json'},
 	})
 	t.equal(h['x-powered-by'], 'test 1.2.3a http://example.org')
@@ -24,6 +24,8 @@ test('basic headers', async(t) => {
 	t.equal(h['content-type'] ,'application/json; charset=utf-8')
 	t.ok(h['content-length'])
 	t.ok(h['etag'])
+
+	t.equal(data.stopUrl, '/stops{/id}{?linesOfStops,language}')
 
 	const {headers: h2} = await fetchWithTestApi({}, {
 		cors: false,

@@ -7,6 +7,7 @@ const hsts = require('hsts')
 const pino = require('pino')
 const createCors = require('cors')
 const getRoutes = require('./routes')
+const routeUriTemplate = require('./lib/route-uri-template')
 
 const defaultConfig = {
 	cors: true,
@@ -108,6 +109,16 @@ const createApi = (hafas, config, attachMiddleware) => {
 		if (route.cache === false) api.get(path, noCache, route)
 		else api.get(path, route)
 	}
+
+	const rootLinks = {}
+	for (const [path, route] of Object.entries(routes)) {
+		rootLinks[route.name + 'Url'] = routeUriTemplate(path, route)
+	}
+	api.get('/', (req, res, next) => {
+		if (!req.accepts('json')) return next()
+		if (res.headersSent) return next()
+		res.json(rootLinks)
+	})
 
 	if (config.handleErrors) {
 		const handleErrors = require('./handle-errors')
