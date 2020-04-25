@@ -12,6 +12,7 @@ const linkHeader = require('./lib/link-header')
 
 const defaultConfig = {
 	cors: true,
+	etags: 'weak',
 	handleErrors: true,
 	aboutPage: true,
 	logging: false,
@@ -57,6 +58,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		api.options('*', cors)
 		api.use(cors)
 	}
+	api.set('etag', config.etags)
 	if (config.logging) {
 		const createLogging = require('./logging')
 		api.use(createLogging(api.locals.logger))

@@ -30,10 +30,13 @@ test('/ & basic headers', async(t) => {
 
 	const {headers: h2} = await fetchWithTestApi({}, {
 		cors: false,
+		etags: 'strong',
 	}, '/', {
 		headers: {accept: 'application/json'},
 	})
 	t.notOk(h2['access-control-allow-origin'])
+	t.ok(h2['etag'])
+	t.notOk(h2['etag'].slice(0, 2) === 'W/')
 	t.end()
 })
 

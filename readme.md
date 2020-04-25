@@ -46,6 +46,7 @@ key | description | mandatory? | default value
 `hostname` | The public hostname of the API. | ✔︎ | –
 `port` | The port to listen on. | ✔︎ | –
 `cors` | Enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)? | ✗ | `true`
+`etags` | [Express config](https://expressjs.com/en/4x/api.html#etag.options.table) for [`ETag` headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) | ✗ | `weak`
 `handleErrors` | Handle errors by sending `5**` codes and JSON. | ✗ | `true`
 `logging` | Log requests using [`pino`](https://npmjs.com/package/pino)? | ✗ | `false`
 `healthCheck` | A function that returning [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that resolve with `true` (for healthy) or `false`. | ✗ | –
