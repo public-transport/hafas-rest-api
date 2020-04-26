@@ -34,6 +34,8 @@
 		"date-fns": "^2.12.0",
 		"express": "^4.16.2",
 		"express-pino-logger": "^4.0.0",
+		"hafas-monitor-trips": "^3.0.0",
+		"hafas-monitor-trips-server": "^1.0.0",
 		"hsts": "^2.1.0",
 		"http-link-header": "^1.0.2",
 		"lodash": "^4.17.15",
@@ -42,6 +44,7 @@
 		"parse-human-relative-time": "^2.0.2",
 		"pino": "^5.11.3",
 		"shorthash": "0.0.2",
+		"ssestream": "^1.0.1",
 		"stringify-entities": "^3.0.0"
 	},
 	"devDependencies": {

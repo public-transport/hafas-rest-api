@@ -18,6 +18,7 @@ const config = {
 	docsLink: 'http://example.org/docs',
 	logging: true,
 	aboutPage: true,
+	events: true,
 	healthCheck: async () => {
 		const stop = await hafas.stop('900000100001')
 		return !!stop
