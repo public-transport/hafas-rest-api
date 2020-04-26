@@ -38,6 +38,7 @@ const createRoute = (hafas, config) => {
 			address: req.query.address,
 		}, opt)
 		.then((todo) => {
+			res.allowCachingFor(60) // 1 minute
 			res.json(todo)
 			next()
 		})

@@ -34,6 +34,7 @@ const createRoute = (hafas, config) => {
 		config.addHafasOpts(opt, 'radar', req)
 		hafas.radar({north: +q.north, west: +q.west, south: +q.south, east: +q.east}, opt)
 		.then((movements) => {
+			res.allowCachingFor(30) // 30 seconds
 			res.json(movements)
 			next()
 		})

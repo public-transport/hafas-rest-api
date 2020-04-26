@@ -77,13 +77,13 @@ const createRoute = (hafas, config) => {
 				),
 			})
 
+			res.allowCachingFor(60) // 1 minute
 			res.json(data)
 			next()
 		})
 		.catch(next)
 	}
 
-	journeys.cache = false
 	journeys.queryParameters = [
 		...hafas.profile.products.map(p => p.id),
 		...Object.keys(parsers),

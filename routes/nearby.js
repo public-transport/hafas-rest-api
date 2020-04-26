@@ -37,6 +37,7 @@ const createRoute = (hafas, config) => {
 			longitude: +req.query.longitude
 		}, opt)
 		.then((nearby) => {
+			res.allowCachingFor(5 * 60) // 5 minutes
 			res.json(nearby)
 			next()
 		})

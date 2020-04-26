@@ -2,7 +2,6 @@
 
 const express = require('express')
 const compression = require('compression')
-const nocache = require('nocache')
 const hsts = require('hsts')
 const pino = require('pino')
 const createCors = require('cors')
@@ -79,6 +78,18 @@ const createApi = (hafas, config, attachMiddleware) => {
 			}
 			return u.search
 		}
+		res.allowCachingFor = (sec) => {
+			if (!Number.isInteger(sec)) {
+				throw new Error('sec is invalid')
+			}
+
+			// Allow clients to use the cache when re-fetching fails
+			// for another `sec` seconds after expiry.
+			res.setHeader('cache-control', `public, max-age: ${sec}, s-maxage: ${sec}, stale-if-error=${sec}`)
+			// Allow CDNs to cache for another `sec` seconds while
+			// they're re-fetching the latest copy.
+			res.setHeader('surrogate-control', `stale-while-revalidate=${sec}`)
+		}
 
 		if (!res.headersSent) {
 			// https://helmetjs.github.io/docs/dont-sniff-mimetype/
@@ -102,10 +113,11 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 
 	attachMiddleware(api)
-	const noCache = nocache()
 
 	if (config.healthCheck) {
-		api.get('/health', noCache, (req, res, next) => {
+		api.get('/health', (req, res, next) => {
+			res.setHeader('cache-control', 'no-store')
+			res.setHeader('expires', '0')
 			try {
 				config.healthCheck()
 				.then((isHealthy) => {
@@ -125,8 +137,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	const routes = getRoutes(hafas, config)
 	for (const [path, route] of Object.entries(routes)) {
-		if (route.cache === false) api.get(path, noCache, route)
-		else api.get(path, route)
+		api.get(path, route)
 	}
 
 	const rootLinks = {}

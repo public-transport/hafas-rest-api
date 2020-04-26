@@ -68,13 +68,13 @@ const createRoute = (hafas, config) => {
 		hafas.departures(id, opt)
 		.then((deps) => {
 			res.setLinkHeader(linkHeader(req, opt, deps))
+			res.allowCachingFor(30) // 30 seconds
 			res.json(deps)
 			next()
 		})
 		.catch(next)
 	}
 
-	departures.cache = false
 	departures.pathParameters = [
 		'id',
 	]

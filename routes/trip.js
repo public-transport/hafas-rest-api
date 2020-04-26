@@ -31,6 +31,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.trip(id, lineName, opt)
 		.then((trip) => {
+			res.allowCachingFor(30) // 30 seconds
 			res.json(trip)
 			next()
 		})

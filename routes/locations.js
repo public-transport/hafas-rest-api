@@ -32,6 +32,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.locations(req.query.query, opt)
 		.then((locations) => {
+			res.allowCachingFor(5 * 60) // 5 minutes
 			res.json(locations)
 			next()
 		})

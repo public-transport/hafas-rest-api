@@ -29,6 +29,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.refreshJourney(ref, opt)
 		.then((journey) => {
+			res.allowCachingFor(60) // 1 minute
 			res.json(journey)
 			next()
 		})

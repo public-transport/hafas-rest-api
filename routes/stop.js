@@ -23,6 +23,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.stop(id, opt)
 		.then((stop) => {
+			res.allowCachingFor(5 * 60) // 5 minutes
 			res.json(stop)
 			next()
 		})
