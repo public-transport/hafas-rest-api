@@ -11,6 +11,19 @@ const {
 	parseLocation
 } = require('../lib/parse')
 
+const WITHOUT_FROM_TO = {
+	from: null,
+	'from.id': null,
+	'from.name': null,
+	'from.latitude': null,
+	'from.longitude': null,
+	to: null,
+	'to.id': null,
+	'to.name': null,
+	'to.latitude': null,
+	'to.longitude': null,
+}
+
 const err400 = (msg) => {
 	const err = new Error(msg)
 	err.statusCode = 400
@@ -63,6 +76,7 @@ const createRoute = (hafas, config) => {
 			res.setLinkHeader({
 				prev: (data.earlierRef
 					? req.searchWithNewParams({
+						...WITHOUT_FROM_TO,
 						departure: null, arrival: null,
 						earlierThan: data.earlierRef,
 					})
@@ -70,6 +84,7 @@ const createRoute = (hafas, config) => {
 				),
 				next: (data.laterRef
 					? req.searchWithNewParams({
+						...WITHOUT_FROM_TO,
 						departure: null, arrival: null,
 						laterThan: data.laterRef,
 					})

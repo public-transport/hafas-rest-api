@@ -13,8 +13,8 @@ const createErrorHandler = (logger) => {
 			code = 400
 		}
 		res.status(code || 500).json({
-			error: true,
 			...err,
+			error: true,
 			msg,
 		})
 		next()

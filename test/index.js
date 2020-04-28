@@ -93,7 +93,7 @@ test('/journeys with POI', async(t) => {
 		}
 	}
 
-	const query = '?from=123&to.id=321&to.name=Foo&to.latitude=1.23&to.longitude=3.21'
+	const query = '?from=123&to.id=321&to.name=Foo&to.latitude=1.23&to.longitude=3.21&foo=bar'
 	const path = '/journeys' + query
 	const {data, headers: h} = await fetchWithTestApi(mockHafas, {}, path)
 
@@ -105,10 +105,10 @@ test('/journeys with POI', async(t) => {
 	const l = LinkHeader.parse(h.link)
 	t.deepEqual(l.refs, [{
 		rel: 'prev',
-		uri: query + '&earlierThan=some-earlier-ref',
+		uri: '?foo=bar&earlierThan=some-earlier-ref',
 	}, {
 		rel: 'next',
-		uri: query + '&laterThan=some-later-ref',
+		uri: '?foo=bar&laterThan=some-later-ref',
 	}])
 	t.end()
 })
