@@ -13,11 +13,36 @@ const err400 = (msg) => {
 }
 
 const parsers = {
-	stopovers: parseBoolean,
-	tickets: parseBoolean,
-	polylines: parseBoolean,
-	remarks: parseBoolean,
-	language: parseString
+	stopovers: {
+		description: 'Fetch & parse stopovers on the way?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	tickets: {
+		description: 'Fetch & parse a shape for each journey leg?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	polylines: {
+		description: 'Return information about available tickets?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	remarks: {
+		description: 'Parse & return hints & warnings?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	language: {
+		description: 'Language of the results.',
+		type: 'string',
+		default: 'en',
+		parse: parseString,
+	},
 }
 
 const createRoute = (hafas, config) => {
@@ -36,13 +61,12 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	refreshJourney.cache = false
-	refreshJourney.pathParameters = [
-		'ref',
-	]
-	refreshJourney.queryParameters = [
-		...Object.keys(parsers),
-	]
+	refreshJourney.pathParameters = {
+		'ref': {type: 'string'},
+	}
+	refreshJourney.queryParameters = {
+		...parsers,
+	}
 	return refreshJourney
 }
 

@@ -8,8 +8,18 @@ const {
 } = require('../lib/parse')
 
 const parsers = {
-	linesOfStops: parseBoolean,
-	language: parseString
+	linesOfStops: {
+		description: 'Parse & expose lines at each stop/station?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	language: {
+		description: 'Language of the results.',
+		type: 'string',
+		default: 'en',
+		parse: parseString,
+	},
 }
 
 const createRoute = (hafas, config) => {
@@ -30,12 +40,15 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	stop.pathParameters = [
-		'id',
-	]
-	stop.queryParameters = [
-		...Object.keys(parsers),
-	]
+	stop.pathParameters = {
+		'id': {
+			description: 'stop/station ID',
+			type: 'string',
+		},
+	}
+	stop.queryParameters = {
+		...parsers,
+	}
 	return stop
 }
 

@@ -13,10 +13,30 @@ const err400 = (msg) => {
 }
 
 const parsers = {
-	stopovers: parseBoolean,
-	remarks: parseBoolean,
-	polyline: parseBoolean,
-	language: parseString
+	stopovers: {
+		description: 'Fetch & parse stopovers on the way?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	remarks: {
+		description: 'Parse & return hints & warnings?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	polyline: {
+		description: 'Fetch & parse the geographic shape of the trip?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	language: {
+		description: 'Language of the results.',
+		type: 'string',
+		default: 'en',
+		parse: parseString,
+	},
 }
 
 const createRoute = (hafas, config) => {
@@ -38,14 +58,21 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	trip.cache = false
-	trip.pathParameters = [
-		'id',
-	]
-	trip.queryParameters = [
-		'lineName',
-		...Object.keys(parsers),
-	]
+	trip.pathParameters = {
+		'id': {
+			description: 'trip ID',
+			type: 'string',
+		},
+	}
+	trip.queryParameters = {
+		'lineName': {
+			required: true,
+			description: 'Line name of the part\'s mode of transport, e.g. `RE7`.',
+			type: 'string',
+			defaultStr: '–',
+		},
+		...parsers,
+	}
 	return trip
 }
 

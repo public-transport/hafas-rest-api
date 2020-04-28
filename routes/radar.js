@@ -14,11 +14,36 @@ const err400 = (msg) => {
 }
 
 const parsers = {
-	results: parseInteger,
-	duration: parseInteger,
-	frames: parseInteger,
-	polylines: parseBoolean,
-	language: parseString
+	results: {
+		description: 'Max. number of vehicles.',
+		type: 'number',
+		default: 256,
+		parse: parseInteger,
+	},
+	duration: {
+		description: 'Compute frames for the next `n` seconds.',
+		type: 'number',
+		default: 30,
+		parse: parseInteger,
+	},
+	frames: {
+		description: 'Number of frames to compute.',
+		type: 'number',
+		default: 3,
+		parse: parseInteger,
+	},
+	polylines: {
+		description: 'Fetch & parse a geographic shape for the movement of each vehicle?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	language: {
+		description: 'Language of the results.',
+		type: 'string',
+		default: 'en',
+		parse: parseString,
+	},
 }
 
 const createRoute = (hafas, config) => {
@@ -41,11 +66,33 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	radar.cache = false
-	radar.queryParameters = [
-		...Object.keys(parsers),
-		'north', 'west', 'south', 'east',
-	]
+	radar.queryParameters = {
+		'north': {
+			required: true,
+			description: 'Northern latitude.',
+			type: 'number',
+			defaultStr: '–',
+		},
+		'west': {
+			required: true,
+			description: 'Western longitude.',
+			type: 'number',
+			defaultStr: '–',
+		},
+		'south': {
+			required: true,
+			description: 'Southern latitude.',
+			type: 'number',
+			defaultStr: '–',
+		},
+		'east': {
+			required: true,
+			description: 'Eastern longitude.',
+			type: 'number',
+			defaultStr: '–',
+		},
+		...parsers,
+	}
 	return radar
 }
 

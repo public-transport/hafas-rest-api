@@ -10,6 +10,7 @@ const {
 	parseProducts,
 	parseLocation
 } = require('../lib/parse')
+const formatProductParams = require('../lib/format-product-parameters')
 
 const WITHOUT_FROM_TO = {
 	from: null,
@@ -39,24 +40,107 @@ const parseWalkingSpeed = (key, val) => {
 
 const createRoute = (hafas, config) => {
 	const parsers = {
-		departure: parseWhen(hafas.profile.timezone),
-		arrival: parseWhen(hafas.profile.timezone),
-		earlierThan: parseString,
-		laterThan: parseString,
+		departure: {
+			description: 'Compute journeys departing at this date/time. Mutually exclusive with `arrival`.',
+			type: 'date+time',
+			defaultStr: '*now*',
+			parse: parseWhen(hafas.profile.timezone),
+		},
+		arrival: {
+			description: 'Compute journeys arriving at this date/time. Mutually exclusive with `departure`.',
+			type: 'date+time',
+			defaultStr: '*now*',
+			parse: parseWhen(hafas.profile.timezone),
+		},
+		earlierThan: {
+			description: 'Compute journeys "before" an `ealierRef`.',
+			type: 'string',
+			parse: parseString,
+		},
+		laterThan: {
+			description: 'Compute journeys "after" an `laterRef`.',
+			type: 'string',
+			parse: parseString,
+		},
 
-		results: parseInteger,
-		stopovers: parseBoolean,
-		transfers: parseInteger,
-		transferTime: parseNumber,
-		accessibility: parseString,
-		bike: parseBoolean,
-		tickets: parseBoolean,
-		polylines: parseBoolean,
-		remarks: parseBoolean,
-		walkingSpeed: parseWalkingSpeed,
-		startWithWalking: parseBoolean,
-		scheduledDays: parseBoolean,
-		language: parseString
+		results: {
+			description: 'Max. number of journeys.',
+			type: 'number',
+			default: 3,
+			parse: parseInteger,
+		},
+		stopovers: {
+			description: 'Fetch & parse stopovers on the way?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		transfers: {
+			description: 'Maximum number of transfers.',
+			type: 'number',
+			defaultStr: '*let HAFAS decide*',
+			parse: parseInteger,
+		},
+		transferTime: {
+			description: 'Minimum time in minutes for a single transfer.',
+			type: 'number',
+			default: 0,
+			parse: parseNumber,
+		},
+		accessibility: {
+			description: '`partial` or `complete`.',
+			type: 'string',
+			defaultStr: '*not accessible*',
+			parse: parseString,
+		},
+		bike: {
+			description: 'Compute only bike-friendly journeys?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		startWithWalking: {
+			description: 'Consider walking to nearby stations at the beginning of a journey?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		walkingSpeed: {
+			description: '`slow`, `normal` or `fast`.',
+			type: 'string',
+			default: 'normal',
+			parse: parseWalkingSpeed,
+		},
+		tickets: {
+			description: 'Return information about available tickets?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		polylines: {
+			description: 'Fetch & parse a shape for each journey leg?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		remarks: {
+			description: 'Parse & return hints & warnings?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		scheduledDays: {
+			description: 'Parse & return dates each journey is valid on?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
 	}
 
 	const journeys = (req, res, next) => {
@@ -99,13 +183,28 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	journeys.queryParameters = [
-		...hafas.profile.products.map(p => p.id),
-		...Object.keys(parsers),
-		'from', 'from.id', 'from.latitude', 'from.longitude', 'from.address', 'from.name',
-		'via', 'via.id', 'via.latitude', 'via.longitude', 'via.address', 'via.name',
-		'to', 'to.id', 'to.latitude', 'to.longitude', 'to.address', 'to.name',
-	]
+	journeys.queryParameters = {
+		'from': {docs: false},
+		'from.id': {docs: false},
+		'from.latitude': {docs: false}, 'from.longitude': {docs: false},
+		'from.address': {docs: false},
+		'from.name': {docs: false},
+
+		'via': {docs: false},
+		'via.id': {docs: false},
+		'via.latitude': {docs: false}, 'via.longitude': {docs: false},
+		'via.address': {docs: false},
+		'via.name': {docs: false},
+
+		'to': {docs: false},
+		'to.id': {docs: false},
+		'to.latitude': {docs: false}, 'to.longitude': {docs: false},
+		'to.address': {docs: false},
+		'to.name': {docs: false},
+
+		...parsers,
+		...formatProductParams(hafas.profile.products),
+	}
 	return journeys
 }
 

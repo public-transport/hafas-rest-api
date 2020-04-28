@@ -7,6 +7,7 @@ const {
 	parseQuery,
 	parseProducts
 } = require('../lib/parse')
+const formatProductParams = require('../lib/format-product-parameters')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -16,10 +17,30 @@ const err400 = (msg) => {
 
 const createRoute = (hafas, config) => {
 	const parsers = {
-		when: parseWhen(hafas.profile.timezone),
-		maxTransfers: parseInteger,
-		maxDuration: parseInteger,
-		language: parseString,
+		when: {
+			description: 'Date & time to compute the reachability for.',
+			type: 'date+time',
+			defaultStr: '*now*',
+			parse: parseWhen(hafas.profile.timezone),
+		},
+		maxTransfers: {
+			description: 'Maximum number of transfers.',
+			type: 'number',
+			default: 5,
+			parse: parseInteger,
+		},
+		maxDuration: {
+			description: 'Maximum travel duration, in minutes.',
+			type: 'number',
+			defaultStr: '*infinite*',
+			parse: parseInteger,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
 	}
 
 	const reachableFrom = (req, res, next) => {
@@ -45,11 +66,25 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	reachableFrom.queryParameters = [
-		...hafas.profile.products.map(p => p.id),
-		...Object.keys(parsers),
-		'latitude', 'longitude', 'address',
-	]
+	reachableFrom.queryParameters = {
+		'latitude': {
+			required: true,
+			type: 'number',
+			defaultStr: '–',
+		},
+		'longitude': {
+			required: true,
+			type: 'number',
+			defaultStr: '–',
+		},
+		'address': {
+			required: true,
+			type: 'string',
+			defaultStr: '–',
+		},
+		...parsers,
+		...formatProductParams(hafas.profile.products),
+	}
 	return reachableFrom
 }
 

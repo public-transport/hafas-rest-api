@@ -15,12 +15,42 @@ const err400 = (msg) => {
 }
 
 const parsers = {
-	results: parseInteger,
-	distance: parseNumber,
-	stops: parseBoolean,
-	poi: parseBoolean,
-	linesOfStops: parseBoolean,
-	language: parseString
+	results: {
+		description: 'maximum number of results',
+		type: 'number',
+		default: 8,
+		parse: parseInteger,
+	},
+	distance: {
+		description: 'maximum walking distance in meters',
+		type: 'number',
+		defaultStr: '–',
+		parse: parseNumber,
+	},
+	stops: {
+		description: 'Return stops/stations?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	poi: {
+		description: 'Return points of interest?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	linesOfStops: {
+		description: 'Parse & expose lines at each stop/station?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	language: {
+		description: 'Language of the results.',
+		type: 'string',
+		default: 'en',
+		parse: parseString,
+	},
 }
 
 const createRoute = (hafas, config) => {
@@ -44,10 +74,19 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	nearby.queryParameters = [
-		...Object.keys(parsers),
-		'latitude', 'longitude',
-	]
+	nearby.queryParameters = {
+		'latitude': {
+			required: true,
+			type: 'number',
+			defaultStr: '–',
+		},
+		'longitude': {
+			required: true,
+			type: 'number',
+			defaultStr: '–',
+		},
+		...parsers,
+	}
 	return nearby
 }
 

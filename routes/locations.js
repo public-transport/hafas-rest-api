@@ -14,13 +14,48 @@ const err400 = (msg) => {
 }
 
 const parsers = {
-	fuzzy: parseBoolean,
-	results: parseInteger,
-	stops: parseBoolean,
-	addresses: parseBoolean,
-	poi: parseBoolean,
-	linesOfStops: parseBoolean,
-	language: parseString
+	fuzzy: {
+		description: 'Find more than exact matches?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	results: {
+		description: 'How many stations shall be shown?',
+		type: 'number',
+		default: 10,
+		parse: parseInteger,
+	},
+	stops: {
+		description: 'Show stops/stations?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	addresses: {
+		description: 'Show points of interest?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	poi: {
+		description: 'Show addresses?',
+		type: 'boolean',
+		default: true,
+		parse: parseBoolean,
+	},
+	linesOfStops: {
+		description: 'Parse & return lines of each stop/station?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+	language: {
+		description: 'Language of the results.',
+		type: 'string',
+		default: 'en',
+		parse: parseString,
+	},
 }
 
 const createRoute = (hafas, config) => {
@@ -39,10 +74,14 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	locations.queryParameters = [
-		...Object.keys(parsers),
-		'query',
-	]
+	locations.queryParameters = {
+		'query': {
+			required: true,
+			type: 'string',
+			defaultStr: '–',
+		},
+		...parsers,
+	}
 	return locations
 }
 
