@@ -16,7 +16,8 @@ const defaultConfig = {
 	aboutPage: true,
 	logging: false,
 	healthCheck: null,
-	addHafasOpts: () => {}
+	addHafasOpts: () => {},
+	modifyRoutes: routes => routes,
 }
 
 const assertNonEmptyString = (cfg, key) => {
@@ -137,7 +138,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		})
 	}
 
-	const routes = getRoutes(hafas, config)
+	const routes = config.modifyRoutes(getRoutes(hafas, config), hafas, config)
 	for (const [path, route] of Object.entries(routes)) {
 		api.get(path, route)
 	}

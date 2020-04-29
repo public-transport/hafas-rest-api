@@ -3,7 +3,20 @@
 const createHafas = require('hafas-client')
 const dbProfile = require('hafas-client/p/db')
 
+const {parseBoolean} = require('../lib/parse')
 const createApi = require('..')
+
+const fooRoute = (req, res) => {
+	res.json(req.query.bar === 'true' ? 'bar' : 'foo')
+}
+fooRoute.queryParameters = {
+	bar: {
+		description: 'Return "bar"?',
+		type: 'boolean',
+		default: false,
+		parse: parseBoolean,
+	},
+}
 
 // pro tip: pipe this script into `pino-pretty` to get nice logs
 
@@ -18,7 +31,11 @@ const config = {
 	healthCheck: async () => {
 		const stop = await hafas.stop('8011306')
 		return !!stop
-	}
+	},
+	modifyRoutes: (routes) => ({
+		...routes,
+		'/foo': fooRoute,
+	}),
 }
 
 const hafas = createHafas(dbProfile, 'hafas-rest-api-example')
