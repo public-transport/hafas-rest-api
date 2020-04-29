@@ -53,7 +53,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 	api.locals.logger = pino()
 
 	if (config.cors) {
-		const cors = createCors()
+		const cors = createCors({
+			exposedHeaders: '*',
+		})
 		api.options('*', cors)
 		api.use(cors)
 	}
