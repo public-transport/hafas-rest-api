@@ -44,7 +44,7 @@ const createRoute = (hafas, config) => {
 		results: {
 			description: 'Max. number of departures.',
 			type: 'number',
-			defaultStr: '*whatever HAFAS wants',
+			defaultStr: '*whatever HAFAS wants*',
 			parse: parseInteger,
 		},
 		linesOfStops: {
