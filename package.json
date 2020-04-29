@@ -7,6 +7,7 @@
 		"index.js",
 		"routes",
 		"lib",
+		"tools",
 		"logging.js",
 		"handle-errors.js",
 		"about-page.js",

@@ -155,6 +155,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		api.use(handleErrors(api.locals.logger))
 	}
 
+	api.routes = routes
 	return api
 }
 
