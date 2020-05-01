@@ -1,6 +1,7 @@
 'use strict'
 
 const {inspect} = require('util')
+const Slugger = require('github-slugger')
 
 const generateRouteDoc = (path, route) => {
 	let doc = ''
@@ -39,25 +40,6 @@ parameter | description | type | default value
 	return doc
 }
 
-// todo: filter based on `routes`
-const listOfRoutes = `\
-## Routes
-
-*Note:* These routes only wrap [\`hafas-client@5\` methods](https://github.com/public-transport/hafas-client/blob/5/docs/readme.md), check their docs for more details.
-
-- [\`GET /locations\`](#get-locations)
-- [\`GET /stops/nearby\`](#get-stopsnearby)
-- [\`GET /stops/reachable-from\`](#get-stopsreachable-from)
-- [\`GET /stops/:id\`](#get-stopsid)
-- [\`GET /stops/:id/departures\`](#get-stopsiddepartures)
-- [\`GET /stops/:id/arrivals\`](#get-stopsidarrivals)
-- [\`GET /journeys\`](#get-journeys)
-- [\`GET /journeys/:ref\`](#get-journeysref)
-- [\`GET /trips/:id\`](#get-tripsid)
-- [\`GET /radar\`](#get-radar)
-- [date/time parameters](#datetime-parameters)
-`
-
 const tail = `\
 ## Date/Time Parameters
 
@@ -68,11 +50,27 @@ Possible formats:
 - [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time) (e.g. \`1587933780\`)
 `
 
+const slugger = new Slugger()
 const generateApiDocs = (routes) => {
 	const r = Object.create(null)
+	let listOfRoutes = `\
+## Routes
+
+*Note:* These routes only wrap [\`hafas-client@5\` methods](https://github.com/public-transport/hafas-client/blob/5/docs/readme.md), check their docs for more details.
+
+`
+
 	for (const [path, route] of Object.entries(routes)) {
 		r[path] = generateRouteDoc(path, route)
+		const spec = `GET ${path}`
+		listOfRoutes += `
+- [\`${spec}\`](#${slugger.slug(spec)})`
 	}
+
+	listOfRoutes += `
+- [date/time parameters](#datetime-parameters)
+`
+
 	return {
 		listOfRoutes,
 		routes: r,
