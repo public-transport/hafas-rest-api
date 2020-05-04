@@ -7,6 +7,7 @@ const {
 	parseQuery,
 	parseProducts
 } = require('../lib/parse')
+const sendServerTiming = require('../lib/server-timing')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const err400 = (msg) => {
@@ -58,9 +59,10 @@ const createRoute = (hafas, config) => {
 			longitude: +req.query.longitude,
 			address: req.query.address,
 		}, opt)
-		.then((todo) => {
+		.then((reachable) => {
+			sendServerTiming(res, reachable)
 			res.allowCachingFor(60) // 1 minute
-			res.json(todo)
+			res.json(reachable)
 			next()
 		})
 		.catch(next)

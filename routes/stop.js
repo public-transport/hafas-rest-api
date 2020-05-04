@@ -6,6 +6,7 @@ const {
 	parseString,
 	parseQuery
 } = require('../lib/parse')
+const sendServerTiming = require('../lib/server-timing')
 
 const parsers = {
 	linesOfStops: {
@@ -33,6 +34,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.stop(id, opt)
 		.then((stop) => {
+			sendServerTiming(res, stop)
 			res.allowCachingFor(5 * 60) // 5 minutes
 			res.json(stop)
 			next()

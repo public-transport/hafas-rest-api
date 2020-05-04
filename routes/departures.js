@@ -13,6 +13,7 @@ const {
 const {
 	formatWhen,
 } = require('../lib/format')
+const sendServerTiming = require('../lib/server-timing')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const MINUTE = 60 * 1000
@@ -113,6 +114,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.departures(id, opt)
 		.then((deps) => {
+			sendServerTiming(res, deps)
 			res.setLinkHeader(linkHeader(req, opt, deps))
 			res.allowCachingFor(30) // 30 seconds
 			res.json(deps)

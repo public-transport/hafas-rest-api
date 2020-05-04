@@ -10,6 +10,7 @@ const {
 	parseProducts,
 	parseLocation
 } = require('../lib/parse')
+const sendServerTiming = require('../lib/server-timing')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const WITHOUT_FROM_TO = {
@@ -157,6 +158,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.journeys(from, to, opt)
 		.then((data) => {
+			sendServerTiming(res, data)
 			res.setLinkHeader({
 				prev: (data.earlierRef
 					? req.searchWithNewParams({

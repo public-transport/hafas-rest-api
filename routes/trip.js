@@ -5,6 +5,7 @@ const {
 	parseString,
 	parseQuery
 } = require('../lib/parse')
+const sendServerTiming = require('../lib/server-timing')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -51,6 +52,7 @@ const createRoute = (hafas, config) => {
 
 		hafas.trip(id, lineName, opt)
 		.then((trip) => {
+			sendServerTiming(res, trip)
 			res.allowCachingFor(30) // 30 seconds
 			res.json(trip)
 			next()

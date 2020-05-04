@@ -5,9 +5,12 @@ const compression = require('compression')
 const hsts = require('hsts')
 const pino = require('pino')
 const createCors = require('cors')
+const onHeaders = require('on-headers')
 const getRoutes = require('./routes')
 const routeUriTemplate = require('./lib/route-uri-template')
 const linkHeader = require('./lib/link-header')
+
+const REQ_START_TIME = Symbol.for('request-start-time')
 
 const defaultConfig = {
 	cors: true,
@@ -93,6 +96,16 @@ const createApi = (hafas, config, attachMiddleware) => {
 			// they're re-fetching the latest copy.
 			res.setHeader('surrogate-control', `stale-while-revalidate=${sec}`)
 		}
+
+		res.serverTiming = Object.create(null)
+		res[REQ_START_TIME] = process.hrtime()
+		onHeaders(res, () => {
+			const t = Object.entries(res.serverTiming)
+			const dt = process.hrtime(res[REQ_START_TIME])
+			t.push(['total', Math.round(dt[0] * 1e3 + dt[1] / 1e6)])
+			const h = t.map(([name, dur]) => name + ';dur=' + dur).join(', ')
+			res.setHeader('server-timing', h)
+		})
 
 		if (!res.headersSent) {
 			// https://helmetjs.github.io/docs/dont-sniff-mimetype/
