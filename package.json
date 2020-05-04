@@ -1,7 +1,7 @@
 {
 	"name": "hafas-rest-api",
 	"description": "Expose a HAFAS client via an HTTP REST API.",
-	"version": "3.3.1",
+	"version": "3.4.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -49,6 +49,7 @@
 	},
 	"devDependencies": {
 		"axios": "^0.19.0",
+		"eslint": "^6.8.0",
 		"get-port": "^5.0.0",
 		"hafas-client": "^5.3.1",
 		"pino-pretty": "^3.2.0",
@@ -63,6 +64,7 @@
 	},
 	"scripts": {
 		"test": "node test/index.js | tap-min",
-		"prepublishOnly": "npm test"
+		"lint": "eslint .",
+		"prepublishOnly": "npm test && npm run lint"
 	}
 }
