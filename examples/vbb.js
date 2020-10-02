@@ -3,7 +3,6 @@
 const path = require('path')
 const createHafas = require('hafas-client')
 const vbbProfile = require('hafas-client/p/vbb')
-const serve = require('serve-static')
 
 const createApi = require('..')
 
@@ -24,13 +23,9 @@ const config = {
 	}
 }
 
-const logosDir = path.dirname(require.resolve('vbb-logos/package.json'))
-
 const hafas = createHafas(vbbProfile, 'hafas-rest-api-example')
 
-const api = createApi(hafas, config, (api) => {
-	api.use('/logos', serve(logosDir, {index: false}))
-})
+const api = createApi(hafas, config, () => {})
 
 const {logger} = api.locals
 const port = process.env.PORT || 3000

@@ -53,11 +53,9 @@
 		"get-port": "^5.0.0",
 		"hafas-client": "^5.3.1",
 		"pino-pretty": "^3.2.0",
-		"serve-static": "^1.13.2",
 		"tap-min": "^2.0.0",
 		"tape": "^4.9.0",
-		"tape-promise": "^4.0.0",
-		"vbb-logos": "github:derhuerst/vbb-logos#v2"
+		"tape-promise": "^4.0.0"
 	},
 	"peerDependencies": {
 		"hafas-client": "^5"
