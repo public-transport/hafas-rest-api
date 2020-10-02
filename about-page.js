@@ -16,7 +16,7 @@ const createRoute = (name, description, docsLink) => {
 	const msg = `\
 <h1><code>${escape(name)}</code></h1>
 <p>${escape(description)}</p>
-<p><a href="${escape(docsLink)}" rel="nofollow">documentation</a></p>`
+<p><a href="${escape(docsLink)}">documentation</a></p>`
 
 	const about = (req, res, next) => {
 		if (!req.accepts('html')) return next()

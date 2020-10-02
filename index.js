@@ -15,6 +15,7 @@ const REQ_START_TIME = Symbol.for('request-start-time')
 const defaultConfig = {
 	cors: true,
 	etags: 'weak',
+	csp: `default-src 'none'`,
 	handleErrors: true,
 	aboutPage: true,
 	logging: false,
@@ -110,7 +111,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		if (!res.headersSent) {
 			// https://helmetjs.github.io/docs/dont-sniff-mimetype/
 			res.setHeader('X-Content-Type-Options', 'nosniff')
-			res.setHeader('content-security-policy', `default-src 'none'`)
+			res.setHeader('content-security-policy', config.csp)
 			res.setHeader('X-Powered-By', [
 				config.name, config.version, config.homepage
 			].filter(str => !!str).join(' '))
