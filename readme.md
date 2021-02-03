@@ -5,8 +5,8 @@
 [![npm version](https://img.shields.io/npm/v/hafas-rest-api.svg)](https://www.npmjs.com/package/hafas-rest-api)
 [![build status](https://api.travis-ci.org/public-transport/hafas-rest-api.svg?branch=master)](https://travis-ci.org/public-transport/hafas-rest-api)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/hafas-rest-api.svg)
-[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
 [![support Jannis via GitHub Sponsors](https://img.shields.io/badge/support%20Jannis-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
+[![chat with Jannis on Twitter](https://img.shields.io/badge/chat%20with%20Jannis-on%20Twitter-1da1f2.svg)](https://twitter.com/derhuerst)
 
 
 ## Installing
