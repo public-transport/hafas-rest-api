@@ -48,13 +48,13 @@
 		"stringify-entities": "^3.0.0"
 	},
 	"devDependencies": {
-		"axios": "^0.19.0",
-		"eslint": "^6.8.0",
+		"axios": "^0.21.1",
+		"eslint": "^7.19.0",
 		"get-port": "^5.0.0",
 		"hafas-client": "^5.3.1",
-		"pino-pretty": "^3.2.0",
+		"pino-pretty": "^4.5.0",
 		"tap-min": "^2.0.0",
-		"tape": "^4.9.0",
+		"tape": "^5.1.1",
 		"tape-promise": "^4.0.0"
 	},
 	"peerDependencies": {
