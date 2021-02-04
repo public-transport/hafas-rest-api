@@ -15,6 +15,7 @@ const config = {
 	description: 'An HTTP API for Berlin & Brandenburg public transport.',
 	homepage: 'http://example.org/',
 	docsLink: 'http://example.org/docs',
+	openapiSpec: true,
 	logging: true,
 	aboutPage: true,
 	healthCheck: async () => {

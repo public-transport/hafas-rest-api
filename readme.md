@@ -56,6 +56,7 @@ key | description | mandatory? | default value
 `aboutPage` | Enable the about page on `GET /`? | ✗ | `true`
 `description` | Used for the about page. | ✗ | –
 `docsLink` | Used for the about page. | ✗ | –
+`openapiSpec` | Generate and serve an [OpenAPI spec](https://en.wikipedia.org/wiki/OpenAPI_Specification) of the API? | ✗ | `false`
 `addHafasOpts` | Computes additional `hafas-client` opts. `(opt, hafasClientMethod, httpReq) => additionaOpts` | ✗ | –
 `modifyRoutes` | Extend or modify the [default routes](routes/index.js). | ✗ | `routes => routes`
 

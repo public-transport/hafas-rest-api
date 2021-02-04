@@ -9,6 +9,7 @@ const onHeaders = require('on-headers')
 const getRoutes = require('./routes')
 const routeUriTemplate = require('./lib/route-uri-template')
 const linkHeader = require('./lib/link-header')
+const {setOpenapiLink, serveOpenapiSpec} = require('./lib/openapi-spec')
 
 const REQ_START_TIME = Symbol.for('request-start-time')
 
@@ -17,6 +18,7 @@ const defaultConfig = {
 	etags: 'weak',
 	csp: `default-src 'none'`,
 	handleErrors: true,
+	openapiSpec: false,
 	aboutPage: true,
 	logging: false,
 	healthCheck: null,
@@ -55,6 +57,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 	if ('docsLink' in config) assertNonEmptyString(config, 'docsLink')
 
 	const api = express()
+	api.locals.config = config
 	api.locals.logger = pino()
 
 	if (config.cors) {
@@ -75,7 +78,8 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}))
 	api.use((req, res, next) => {
 		res.setLinkHeader = (linkSpec) => {
-			res.setHeader('Link', linkHeader(linkSpec))
+			const link = linkHeader(res.getHeader('Link'), linkSpec)
+			res.setHeader('Link', link)
 		}
 		req.searchWithNewParams = (newParams) => {
 			const u = new URL(req.url, 'http://example.org')
@@ -116,6 +120,8 @@ const createApi = (hafas, config, attachMiddleware) => {
 				config.name, config.version, config.homepage
 			].filter(str => !!str).join(' '))
 			if (config.version) res.setHeader('X-API-Version', config.version)
+
+			if (config.openapiSpec) setOpenapiLink(res)
 		}
 		next()
 	})
@@ -153,9 +159,12 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 
 	const routes = config.modifyRoutes(getRoutes(hafas, config), hafas, config)
+	api.routes = routes
 	for (const [path, route] of Object.entries(routes)) {
 		api.get(path, route)
 	}
+
+	if (config.openapiSpec) serveOpenapiSpec(api)
 
 	const rootLinks = {}
 	for (const [path, route] of Object.entries(routes)) {
@@ -172,7 +181,6 @@ const createApi = (hafas, config, attachMiddleware) => {
 		api.use(handleErrors(api.locals.logger))
 	}
 
-	api.routes = routes
 	return api
 }
 
