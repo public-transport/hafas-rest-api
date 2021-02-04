@@ -13,6 +13,7 @@ const {
 	formatWhen,
 } = require('../lib/format')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const err400 = (msg) => {
@@ -109,6 +110,47 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	arrivals.openapiPaths = {
+		'/stops/{id}/arrivals': {
+			get: {
+				summary: 'Fetches arrivals at a stop/station.',
+				description: `\
+Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arrivals()\`](https://github.com/public-transport/hafas-client/blob/5/docs/arrivals.md) to **query arrivals at a stop/station**.`,
+				externalDocs: {
+					description: '`hafasClient.arrivals()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/arrivals.md',
+				},
+				parameters: [
+					{
+						name: 'id',
+						in: 'path',
+						description: 'stop/station ID to show arrivals for',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
+					...formatParsersAsOpenapiParams(parsers),
+				],
+				responses: {
+					'2XX': {
+						description: 'An array of arrivals, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/arrivals.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	arrivals.pathParameters = {

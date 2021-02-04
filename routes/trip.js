@@ -6,6 +6,7 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -58,6 +59,47 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	trip.openapiPaths = {
+		'/trips/{id}': {
+			get: {
+				summary: 'Fetches a trip by ID.',
+				description: `\
+Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/blob/5/docs/trip.md) to **fetch a trip by ID**.`,
+				externalDocs: {
+					description: '`hafasClient.trip()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/trip.md',
+				},
+				parameters: [
+					{
+						name: 'id',
+						in: 'path',
+						description: 'trip ID',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
+					...formatParsersAsOpenapiParams(parsers),
+				],
+				responses: {
+					'2XX': {
+						description: 'The trip, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/trip.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	trip.pathParameters = {

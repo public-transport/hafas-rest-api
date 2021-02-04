@@ -7,6 +7,7 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -74,6 +75,47 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	locations.openapiPaths = {
+		'/locations': {
+			get: {
+				summary: 'Finds stops/stations, POIs and addresses matching a query.',
+				description: `\
+Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-client/blob/5/docs/locations.md) to **find stops/stations, POIs and addresses matching \`query\`**.`,
+				externalDocs: {
+					description: '`hafasClient.locations()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/locations.md',
+				},
+				parameters: [
+					{
+						name: 'query',
+						in: 'query',
+						description: 'The term to search for.',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
+					...formatParsersAsOpenapiParams(parsers),
+				],
+				responses: {
+					'2XX': {
+						description: 'An array of locations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/locations.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	locations.queryParameters = {

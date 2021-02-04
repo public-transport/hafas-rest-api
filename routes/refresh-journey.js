@@ -6,6 +6,7 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -61,6 +62,49 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	refreshJourney.openapiPaths = {
+		'/journeys/{ref}/arrivals': {
+			get: {
+				summary: 'Fetches up-to-date realtime data for a journey computed before.',
+				description: `\
+Uses [\`hafasClient.refreshJourney()\`](https://github.com/public-transport/hafas-client/blob/5/docs/refresh-journey.md) to **"refresh" a journey, using its \`refreshToken\`**.
+
+The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehicles used), but you can get up-to-date realtime data, like delays & cancellations.`,
+				externalDocs: {
+					description: '`hafasClient.refreshJourney()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/refresh-journey.md',
+				},
+				parameters: [
+					{
+						name: 'ref',
+						in: 'path',
+						description: 'The journey\'s `refreshToken`.',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
+					...formatParsersAsOpenapiParams(parsers),
+				],
+				responses: {
+					'2XX': {
+						description: 'The up-to-date journey, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/refresh-journey.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	refreshJourney.pathParameters = {

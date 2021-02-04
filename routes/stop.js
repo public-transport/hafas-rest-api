@@ -7,6 +7,7 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const parsers = {
 	linesOfStops: {
@@ -40,6 +41,47 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	stop.openapiPaths = {
+		'/stops/{id}': {
+			get: {
+				summary: 'Finds a stop/station by ID.',
+				description: `\
+Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/blob/5/docs/stop.md) to **find a stop/station by ID**.`,
+				externalDocs: {
+					description: '`hafasClient.stop()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/stop.md',
+				},
+				parameters: [
+					{
+						name: 'id',
+						in: 'path',
+						description: 'stop/station ID',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
+					...formatParsersAsOpenapiParams(parsers),
+				],
+				responses: {
+					'2XX': {
+						description: 'The stop, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/stop.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	stop.pathParameters = {

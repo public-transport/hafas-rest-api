@@ -8,6 +8,7 @@ const {
 	parseProducts
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const err400 = (msg) => {
@@ -66,6 +67,37 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	reachableFrom.openapiPaths = {
+		'/stops/reachable-from': {
+			get: {
+				summary: 'Finds stops/stations reachable within a certain time from an address.',
+				description: `\
+Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md) to **find stops/stations reachable within a certain time from an address**.`,
+				externalDocs: {
+					description: '`hafasClient.reachableFrom()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md',
+				},
+				parameters: formatParsersAsOpenapiParams(parsers),
+				responses: {
+					'2XX': {
+						description: 'An array of stops/stations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	reachableFrom.queryParameters = {

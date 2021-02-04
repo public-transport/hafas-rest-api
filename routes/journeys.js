@@ -11,6 +11,7 @@ const {
 	parseLocation
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const WITHOUT_FROM_TO = {
@@ -109,6 +110,7 @@ const createRoute = (hafas, config) => {
 		walkingSpeed: {
 			description: '`slow`, `normal` or `fast`.',
 			type: 'string',
+			enum: ['slow', 'normal', 'fast'],
 			default: 'normal',
 			parse: parseWalkingSpeed,
 		},
@@ -183,6 +185,37 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	journeys.openapiPaths = {
+		'/journeys': {
+			get: {
+				summary: 'Finds journeys from A to B.',
+				description: `\
+Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md) to **find journeys from A (\`from\`) to B (\`to\`)**.`,
+				externalDocs: {
+					description: '`hafasClient.journeys()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md',
+				},
+				parameters: formatParsersAsOpenapiParams(parsers),
+				responses: {
+					'2XX': {
+						description: 'An array of journeys, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	journeys.queryParameters = {

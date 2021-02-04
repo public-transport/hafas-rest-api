@@ -8,6 +8,7 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -74,6 +75,37 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	nearby.openapiPaths = {
+		'/stops/nearby': {
+			get: {
+				summary: 'Finds stops/stations close to a geolocation.',
+				description: `\
+Uses [\`hafasClient.nearby()\`](https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md) to **find stops/stations close to the given geolocation**.`,
+				externalDocs: {
+					description: '`hafasClient.nearby()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md',
+				},
+				parameters: formatParsersAsOpenapiParams(parsers),
+				responses: {
+					'2XX': {
+						description: 'An array of locations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	nearby.queryParameters = {

@@ -14,6 +14,7 @@ const {
 	formatWhen,
 } = require('../lib/format')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
 const MINUTE = 60 * 1000
@@ -121,6 +122,47 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	departures.openapiPaths = {
+		'/stops/{id}/departures': {
+			get: {
+				summary: 'Fetches departures at a stop/station.',
+				description: `\
+Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-client/blob/5/docs/departures.md) to **query departures at a stop/station**.`,
+				externalDocs: {
+					description: '`hafasClient.departures()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/departures.md',
+				},
+				parameters: [
+					{
+						name: 'id',
+						in: 'path',
+						description: 'stop/station ID to show departures for',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
+					...formatParsersAsOpenapiParams(parsers),
+				],
+				responses: {
+					'2XX': {
+						description: 'An array of departures, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/departures.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	departures.pathParameters = {

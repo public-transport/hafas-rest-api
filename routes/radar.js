@@ -7,6 +7,7 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -66,6 +67,37 @@ const createRoute = (hafas, config) => {
 			next()
 		})
 		.catch(next)
+	}
+
+	radar.openapiPaths = {
+		'/radar': {
+			get: {
+				summary: 'Finds all vehicles currently in an area.',
+				description: `\
+Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/blob/5/docs/radar.md) to **find all vehicles currently in an area**, as well as their movements.`,
+				externalDocs: {
+					description: '`hafasClient.radar()` documentation',
+					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/radar.md',
+				},
+				parameters: formatParsersAsOpenapiParams(parsers),
+				responses: {
+					'2XX': {
+						description: 'An array of movements, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/radar.md).',
+						content: {
+							'application/json': {
+								schema: {
+									type: 'array',
+									items: {type: 'object'}, // todo
+								},
+								// todo: example(s)
+							},
+						},
+						// todo: links
+					},
+					// todo: non-2xx response
+				},
+			},
+		},
 	}
 
 	radar.queryParameters = {
