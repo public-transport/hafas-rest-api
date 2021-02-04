@@ -126,6 +126,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		next()
 	})
 
+	// todo [breaking]: move these down as far as possible
 	if (config.aboutPage) {
 		const aboutPage = require('./about-page')
 		api.get('/', aboutPage(config.name, config.description, config.docsLink))
