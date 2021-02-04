@@ -17,19 +17,19 @@ const err400 = (msg) => {
 const parsers = {
 	results: {
 		description: 'Max. number of vehicles.',
-		type: 'number',
+		type: 'integer',
 		default: 256,
 		parse: parseInteger,
 	},
 	duration: {
 		description: 'Compute frames for the next `n` seconds.',
-		type: 'number',
+		type: 'integer',
 		default: 30,
 		parse: parseInteger,
 	},
 	frames: {
 		description: 'Number of frames to compute.',
-		type: 'number',
+		type: 'integer',
 		default: 3,
 		parse: parseInteger,
 	},

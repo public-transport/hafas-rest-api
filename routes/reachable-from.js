@@ -26,13 +26,13 @@ const createRoute = (hafas, config) => {
 		},
 		maxTransfers: {
 			description: 'Maximum number of transfers.',
-			type: 'number',
+			type: 'integer',
 			default: 5,
 			parse: parseInteger,
 		},
 		maxDuration: {
 			description: 'Maximum travel duration, in minutes.',
-			type: 'number',
+			type: 'integer',
 			defaultStr: '*infinite*',
 			parse: parseInteger,
 		},

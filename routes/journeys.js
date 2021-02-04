@@ -66,7 +66,7 @@ const createRoute = (hafas, config) => {
 
 		results: {
 			description: 'Max. number of journeys.',
-			type: 'number',
+			type: 'integer',
 			default: 3,
 			parse: parseInteger,
 		},
@@ -78,13 +78,13 @@ const createRoute = (hafas, config) => {
 		},
 		transfers: {
 			description: 'Maximum number of transfers.',
-			type: 'number',
+			type: 'integer',
 			defaultStr: '*let HAFAS decide*',
 			parse: parseInteger,
 		},
 		transferTime: {
 			description: 'Minimum time in minutes for a single transfer.',
-			type: 'number',
+			type: 'integer',
 			default: 0,
 			parse: parseNumber,
 		},

@@ -23,7 +23,7 @@ const parsers = {
 	},
 	results: {
 		description: 'How many stations shall be shown?',
-		type: 'number',
+		type: 'integer',
 		default: 10,
 		parse: parseInteger,
 	},

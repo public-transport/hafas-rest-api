@@ -18,13 +18,13 @@ const err400 = (msg) => {
 const parsers = {
 	results: {
 		description: 'maximum number of results',
-		type: 'number',
+		type: 'integer',
 		default: 8,
 		parse: parseInteger,
 	},
 	distance: {
 		description: 'maximum walking distance in meters',
-		type: 'number',
+		type: 'integer',
 		defaultStr: '–',
 		parse: parseNumber,
 	},

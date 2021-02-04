@@ -41,13 +41,13 @@ const createRoute = (hafas, config) => {
 		},
 		duration: {
 			description: 'Show departures for how many minutes?',
-			type: 'number',
+			type: 'integer',
 			default: 10,
 			parse: parseInteger,
 		},
 		results: {
 			description: 'Max. number of departures.',
-			type: 'number',
+			type: 'integer',
 			defaultStr: '*whatever HAFAS wants',
 			parse: parseInteger,
 		},
