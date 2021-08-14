@@ -44,18 +44,17 @@ api.listen(3000, (err) => {
 key | description | mandatory? | default value
 ----|-------------|------------|--------------
 `hostname` | The public hostname of the API. | ✔︎ | –
-`port` | The port to listen on. | ✔︎ | –
+`name` | The name of the API. Used for the `X-Powered-By` header and the about page. | ✔︎ | –
+`description` | Used for the about page. | ✔︎ (with `aboutPage: true`) | –
+`docsLink` | Used for the about page. | ✔︎ (with `aboutPage: true`) | –
 `cors` | Enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)? | ✗ | `true`
 `etags` | [Express config](https://expressjs.com/en/4x/api.html#etag.options.table) for [`ETag` headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) | ✗ | `weak`
 `handleErrors` | Handle errors by sending `5**` codes and JSON. | ✗ | `true`
 `logging` | Log requests using [`pino`](https://npmjs.com/package/pino)? | ✗ | `false`
 `healthCheck` | A function that returning [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that resolve with `true` (for healthy) or `false`. | ✗ | –
-`name` | The name of the API. Used for the `X-Powered-By` header and the about page. | ✔︎ | –
 `version` | Used for the `X-Powered-By` and `X-API-Version` headers. | ✗ | –
 `homepage` | Used for the `X-Powered-By` header. | ✗ | –
 `aboutPage` | Enable the about page on `GET /`? | ✗ | `true`
-`description` | Used for the about page. | ✗ | –
-`docsLink` | Used for the about page. | ✗ | –
 `openapiSpec` | Generate and serve an [OpenAPI spec](https://en.wikipedia.org/wiki/OpenAPI_Specification) of the API? | ✗ | `false`
 `addHafasOpts` | Computes additional `hafas-client` opts. `(opt, hafasClientMethod, httpReq) => additionaOpts` | ✗ | –
 `modifyRoutes` | Extend or modify the [default routes](routes/index.js). | ✗ | `routes => routes`
