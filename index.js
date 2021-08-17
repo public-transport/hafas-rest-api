@@ -136,7 +136,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 		api.get('/docs', docs(config))
 	}
 
-	attachMiddleware(api)
+	if (attachMiddleware) attachMiddleware(api)
 
 	if (config.healthCheck) {
 		api.get('/health', (req, res, next) => {
