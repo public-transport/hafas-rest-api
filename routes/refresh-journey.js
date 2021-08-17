@@ -22,13 +22,13 @@ const parsers = {
 		parse: parseBoolean,
 	},
 	tickets: {
-		description: 'Fetch & parse a shape for each journey leg?',
+		description: 'Return information about available tickets?',
 		type: 'boolean',
 		default: false,
 		parse: parseBoolean,
 	},
 	polylines: {
-		description: 'Return information about available tickets?',
+		description: 'Fetch & parse a shape for each journey leg?',
 		type: 'boolean',
 		default: false,
 		parse: parseBoolean,
