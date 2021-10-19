@@ -7,6 +7,11 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
@@ -63,6 +68,7 @@ const createRoute = (hafas, config) => {
 		.then((movements) => {
 			sendServerTiming(res, movements)
 			res.allowCachingFor(30) // 30 seconds
+			configureJSONPrettyPrinting(req, res)
 			res.json(movements)
 			next()
 		})
@@ -79,7 +85,10 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 					description: '`hafasClient.radar()` documentation',
 					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/radar.md',
 				},
-				parameters: formatParsersAsOpenapiParams(parsers),
+				parameters: [
+					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
+				],
 				responses: {
 					'2XX': {
 						description: 'An array of movements, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/radar.md).',
@@ -126,6 +135,7 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 			defaultStr: '–',
 		},
 		...parsers,
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return radar
 }

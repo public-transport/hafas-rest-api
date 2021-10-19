@@ -6,6 +6,11 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
@@ -58,6 +63,7 @@ const createRoute = (hafas, config) => {
 		.then((journey) => {
 			sendServerTiming(res, journey)
 			res.allowCachingFor(60) // 1 minute
+			configureJSONPrettyPrinting(req, res)
 			res.json(journey)
 			next()
 		})
@@ -86,6 +92,7 @@ The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehic
 						// todo: examples?
 					},
 					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
 				],
 				responses: {
 					'2XX': {
@@ -112,6 +119,7 @@ The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehic
 	}
 	refreshJourney.queryParameters = {
 		...parsers,
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return refreshJourney
 }

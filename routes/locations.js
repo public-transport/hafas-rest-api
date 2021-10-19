@@ -7,6 +7,11 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
@@ -71,6 +76,7 @@ const createRoute = (hafas, config) => {
 		.then((locations) => {
 			sendServerTiming(res, locations)
 			res.allowCachingFor(5 * 60) // 5 minutes
+			configureJSONPrettyPrinting(req, res)
 			res.json(locations)
 			next()
 		})
@@ -97,6 +103,7 @@ Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-cli
 						// todo: examples?
 					},
 					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
 				],
 				responses: {
 					'2XX': {
@@ -125,6 +132,7 @@ Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-cli
 			defaultStr: '–',
 		},
 		...parsers,
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return locations
 }

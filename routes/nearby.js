@@ -8,6 +8,11 @@ const {
 	parseQuery
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const err400 = (msg) => {
@@ -71,6 +76,7 @@ const createRoute = (hafas, config) => {
 		.then((nearby) => {
 			sendServerTiming(res, nearby)
 			res.allowCachingFor(5 * 60) // 5 minutes
+			configureJSONPrettyPrinting(req, res)
 			res.json(nearby)
 			next()
 		})
@@ -87,7 +93,10 @@ Uses [\`hafasClient.nearby()\`](https://github.com/public-transport/hafas-client
 					description: '`hafasClient.nearby()` documentation',
 					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md',
 				},
-				parameters: formatParsersAsOpenapiParams(parsers),
+				parameters: [
+					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
+				],
 				responses: {
 					'2XX': {
 						description: 'An array of locations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md).',
@@ -120,6 +129,7 @@ Uses [\`hafasClient.nearby()\`](https://github.com/public-transport/hafas-client
 			defaultStr: '–',
 		},
 		...parsers,
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return nearby
 }

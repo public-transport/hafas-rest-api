@@ -8,6 +8,11 @@ const {
 	parseProducts
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
@@ -63,6 +68,7 @@ const createRoute = (hafas, config) => {
 		.then((reachable) => {
 			sendServerTiming(res, reachable)
 			res.allowCachingFor(60) // 1 minute
+			configureJSONPrettyPrinting(req, res)
 			res.json(reachable)
 			next()
 		})
@@ -79,7 +85,10 @@ Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas
 					description: '`hafasClient.reachableFrom()` documentation',
 					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md',
 				},
-				parameters: formatParsersAsOpenapiParams(parsers),
+				parameters: [
+					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
+				],
 				responses: {
 					'2XX': {
 						description: 'An array of stops/stations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md).',
@@ -118,6 +127,7 @@ Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas
 		},
 		...parsers,
 		...formatProductParams(hafas.profile.products),
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return reachableFrom
 }

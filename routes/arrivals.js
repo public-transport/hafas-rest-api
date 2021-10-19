@@ -13,6 +13,11 @@ const {
 	formatWhen,
 } = require('../lib/format')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
@@ -106,6 +111,7 @@ const createRoute = (hafas, config) => {
 			sendServerTiming(res, arrs)
 			res.setLinkHeader(linkHeader(req, opt, arrs))
 			res.allowCachingFor(30) // 30 seconds
+			configureJSONPrettyPrinting(req, res)
 			res.json(arrs)
 			next()
 		})
@@ -132,6 +138,7 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 						// todo: examples?
 					},
 					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
 				],
 				responses: {
 					'2XX': {
@@ -162,6 +169,7 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 	arrivals.queryParameters = {
 		...parsers,
 		...formatProductParams(hafas.profile.products),
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return arrivals
 }

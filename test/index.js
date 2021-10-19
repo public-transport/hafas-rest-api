@@ -26,7 +26,7 @@ test('/ & basic headers', async(t) => {
 	t.ok(h['content-length'])
 	t.ok(h['etag'])
 
-	t.equal(data.stopUrl, '/stops{/id}{?linesOfStops,language}')
+	t.equal(data.stopUrl, '/stops{/id}{?linesOfStops,language,pretty}')
 
 	const {headers: h2} = await fetchWithTestApi({}, {
 		cors: false,

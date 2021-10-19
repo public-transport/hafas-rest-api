@@ -11,6 +11,11 @@ const {
 	parseLocation
 } = require('../lib/parse')
 const sendServerTiming = require('../lib/server-timing')
+const {
+	configureJSONPrettyPrinting,
+	jsonPrettyPrintingOpenapiParam,
+	jsonPrettyPrintingParam,
+} = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 const formatProductParams = require('../lib/format-product-parameters')
 
@@ -181,6 +186,7 @@ const createRoute = (hafas, config) => {
 			})
 
 			res.allowCachingFor(60) // 1 minute
+			configureJSONPrettyPrinting(req, res)
 			res.json(data)
 			next()
 		})
@@ -197,7 +203,10 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 					description: '`hafasClient.journeys()` documentation',
 					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md',
 				},
-				parameters: formatParsersAsOpenapiParams(parsers),
+				parameters: [
+					...formatParsersAsOpenapiParams(parsers),
+					jsonPrettyPrintingOpenapiParam,
+				],
 				responses: {
 					'2XX': {
 						description: 'An array of journeys, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md).',
@@ -239,6 +248,7 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 
 		...parsers,
 		...formatProductParams(hafas.profile.products),
+		'pretty': jsonPrettyPrintingParam,
 	}
 	return journeys
 }
