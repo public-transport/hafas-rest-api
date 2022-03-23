@@ -27,7 +27,15 @@ const createHealthCheck = hafas => async () => {
 	return !!stop
 }
 
-const unmocked = createHafas(dbProfile, 'hafas-rest-api test')
+// prevent hafas-client's user-agent randomization
+// todo: introduce a flag for this
+const unmocked = createHafas({
+	...dbProfile,
+	transformReq: (ctx, req) => {
+		req.headers['user-agent'] = 'DB Navigator/21.10.04 (iPhone; iOS 14.8.1; Scale/3.00)'
+		return req
+	},
+}, 'hafas-rest-api test')
 
 const createTestApi = async (mocks, cfg) => {
 	const mocked = Object.assign(Object.create(unmocked), mocks)
