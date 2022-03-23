@@ -54,7 +54,7 @@ test('/stop/:id', async(t) => {
 	t.end()
 })
 
-test('/stop/:id', async(t) => {
+test('/locations/nearby', async(t) => {
 	const mockHafas = {
 		nearby: (loc) => {
 			if (loc.latitude !== 123) throw new Error('nearby() called with invalid latitude')
@@ -63,7 +63,7 @@ test('/stop/:id', async(t) => {
 		}
 	}
 
-	const path = '/stops/nearby?latitude=123&longitude=321'
+	const path = '/locations/nearby?latitude=123&longitude=321'
 	const {data} = await fetchWithTestApi(mockHafas, {}, path)
 	t.deepEqual(data, [stationA, stationB])
 	t.end()

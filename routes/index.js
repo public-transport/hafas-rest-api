@@ -10,7 +10,6 @@ const locations = require('./locations')
 const getRoutes = (hafas, config) => {
 	const routes = Object.create(null)
 
-	routes['/stops/nearby'] = nearby(hafas, config)
 	if (hafas.reachableFrom) {
 		const reachableFrom = require('./reachable-from')
 		routes['/stops/reachable-from'] = reachableFrom(hafas, config)
@@ -23,6 +22,7 @@ const getRoutes = (hafas, config) => {
 		const trip = require('./trip')
 		routes['/trips/:id'] = trip(hafas, config)
 	}
+	routes['/locations/nearby'] = nearby(hafas, config)
 	routes['/locations'] = locations(hafas, config)
 	if (hafas.radar) {
 		const radar = require('./radar')

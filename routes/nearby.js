@@ -86,9 +86,9 @@ const createRoute = (hafas, config) => {
 	nearby.openapiPaths = {
 		'/stops/nearby': {
 			get: {
-				summary: 'Finds stops/stations close to a geolocation.',
+				summary: 'Finds stops/stations & POIs close to a geolocation.',
 				description: `\
-Uses [\`hafasClient.nearby()\`](https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md) to **find stops/stations close to the given geolocation**.`,
+Uses [\`hafasClient.nearby()\`](https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md) to **find stops/stations & POIs close to the given geolocation**.`,
 				externalDocs: {
 					description: '`hafasClient.nearby()` documentation',
 					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/nearby.md',
