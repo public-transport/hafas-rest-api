@@ -86,6 +86,14 @@ Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/b
 						schema: {type: 'string'},
 						// todo: examples?
 					},
+					{
+						name: 'lineName',
+						in: 'query',
+						description: 'the trip\'s line name',
+						required: true,
+						schema: {type: 'string'},
+						// todo: examples?
+					},
 					...formatParsersAsOpenapiParams(parsers),
 					jsonPrettyPrintingOpenapiParam,
 				],
