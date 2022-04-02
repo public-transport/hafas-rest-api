@@ -71,7 +71,7 @@ const createRoute = (hafas, config) => {
 	}
 
 	refreshJourney.openapiPaths = {
-		'/journeys/{ref}/arrivals': {
+		'/journeys/{ref}': {
 			get: {
 				summary: 'Fetches up-to-date realtime data for a journey computed before.',
 				description: `\
