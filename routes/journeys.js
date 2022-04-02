@@ -46,7 +46,7 @@ const parseWalkingSpeed = (key, val) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('journeys', {
 		departure: {
 			description: 'Compute journeys departing at this date/time. Mutually exclusive with `arrival`.',
 			type: 'date+time',
@@ -149,7 +149,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const journeys = (req, res, next) => {
 		const from = parseLocation(req.query, 'from')
@@ -193,7 +193,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	journeys.openapiPaths = {
+	journeys.openapiPaths = config.mapRouteOpenapiPaths('journeys', {
 		'/journeys': {
 			get: {
 				summary: 'Finds journeys from A to B.',
@@ -225,7 +225,7 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 				},
 			},
 		},
-	}
+	})
 
 	journeys.queryParameters = {
 		'from': {docs: false},

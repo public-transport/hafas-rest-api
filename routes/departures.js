@@ -33,7 +33,7 @@ const err400 = (msg) => {
 // todo: DRY with routes/arrivals.js
 const createRoute = (hafas, config) => {
 	// todo: move to `hafas-client`
-	const parsers = {
+	const _parsers = {
 		when: {
 			description: 'Date & time to get departures for.',
 			type: 'date+time',
@@ -77,7 +77,7 @@ const createRoute = (hafas, config) => {
 		},
 	}
 	if (hafas.profile.departuresStbFltrEquiv !== false) {
-		parsers.includeRelatedStations = {
+		_parsers.includeRelatedStations = {
 			description: 'Fetch departures at related stops, e.g. those that belong together on the metro map?',
 			type: 'boolean',
 			default: true,
@@ -85,13 +85,14 @@ const createRoute = (hafas, config) => {
 		}
 	}
 	if (hafas.profile.departuresGetPasslist !== false) {
-		parsers.stopovers = {
+		_parsers.stopovers = {
 			description: 'Fetch & parse next stopovers of each departure?',
 			type: 'boolean',
 			default: false,
 			parse: parseBoolean,
 		}
 	}
+	const parsers = config.mapRouteParsers('departures', _parsers)
 
 	const linkHeader = (req, opt, departures) => {
 		let tNext = null
@@ -130,7 +131,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	departures.openapiPaths = {
+	departures.openapiPaths = config.mapRouteOpenapiPaths('departures', {
 		'/stops/{id}/departures': {
 			get: {
 				summary: 'Fetches departures at a stop/station.',
@@ -170,7 +171,7 @@ Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-cl
 				},
 			},
 		},
-	}
+	})
 
 	departures.pathParameters = {
 		'id': {

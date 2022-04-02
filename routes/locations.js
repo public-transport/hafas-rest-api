@@ -21,7 +21,7 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('locations', {
 		fuzzy: {
 			description: 'Find more than exact matches?',
 			type: 'boolean',
@@ -64,7 +64,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const locations = (req, res, next) => {
 		if (!req.query.query) return next(err400('Missing query.'))
@@ -83,7 +83,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	locations.openapiPaths = {
+	locations.openapiPaths = config.mapRouteOpenapiPaths('locations', {
 		'/locations': {
 			get: {
 				summary: 'Finds stops/stations, POIs and addresses matching a query.',
@@ -123,7 +123,7 @@ Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-cli
 				},
 			},
 		},
-	}
+	})
 
 	locations.queryParameters = {
 		'query': {
