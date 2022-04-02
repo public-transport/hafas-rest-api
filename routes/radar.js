@@ -21,7 +21,7 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('radar', {
 		results: {
 			description: 'Max. number of vehicles.',
 			type: 'integer',
@@ -52,7 +52,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const radar = (req, res, next) => {
 		const q = req.query
@@ -75,7 +75,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	radar.openapiPaths = {
+	radar.openapiPaths = config.mapRouteOpenapiPaths('radar', {
 		'/radar': {
 			get: {
 				summary: 'Finds all vehicles currently in an area.',
@@ -107,7 +107,7 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 				},
 			},
 		},
-	}
+	})
 
 	radar.queryParameters = {
 		'north': {

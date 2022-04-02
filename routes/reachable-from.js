@@ -23,7 +23,7 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('reachable-from', {
 		when: {
 			description: 'Date & time to compute the reachability for.',
 			type: 'date+time',
@@ -48,7 +48,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const reachableFrom = (req, res, next) => {
 		if (!req.query.latitude) return next(err400('Missing latitude.'))
@@ -75,7 +75,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	reachableFrom.openapiPaths = {
+	reachableFrom.openapiPaths = config.mapRouteOpenapiPaths('reachable-from', {
 		'/stops/reachable-from': {
 			get: {
 				summary: 'Finds stops/stations reachable within a certain time from an address.',
@@ -107,7 +107,7 @@ Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas
 				},
 			},
 		},
-	}
+	})
 
 	reachableFrom.queryParameters = {
 		'latitude': {

@@ -22,7 +22,7 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('nearby', {
 		results: {
 			description: 'maximum number of results',
 			type: 'integer',
@@ -59,7 +59,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const nearby = (req, res, next) => {
 		if (!req.query.latitude) return next(err400('Missing latitude.'))
@@ -83,7 +83,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	nearby.openapiPaths = {
+	nearby.openapiPaths = config.mapRouteOpenapiPaths('nearby', {
 		'/stops/nearby': {
 			get: {
 				summary: 'Finds stops/stations & POIs close to a geolocation.',
@@ -115,7 +115,7 @@ Uses [\`hafasClient.nearby()\`](https://github.com/public-transport/hafas-client
 				},
 			},
 		},
-	}
+	})
 
 	nearby.queryParameters = {
 		'latitude': {

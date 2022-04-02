@@ -30,7 +30,7 @@ const err400 = (msg) => {
 // todo: DRY with routes/departures.js
 const createRoute = (hafas, config) => {
 	// todo: move to `hafas-client`
-	const parsers = {
+	const _parsers = {
 		when: {
 			description: 'Date & time to get departures for.',
 			type: 'date+time',
@@ -74,7 +74,7 @@ const createRoute = (hafas, config) => {
 		},
 	}
 	if (hafas.profile.departuresStbFltrEquiv !== false) {
-		parsers.includeRelatedStations = {
+		_parsers.includeRelatedStations = {
 			description: 'Fetch departures at related stops, e.g. those that belong together on the metro map?',
 			type: 'boolean',
 			default: true,
@@ -82,13 +82,14 @@ const createRoute = (hafas, config) => {
 		}
 	}
 	if (hafas.profile.departuresGetPasslist !== false) {
-		parsers.stopovers = {
+		_parsers.stopovers = {
 			description: 'Fetch & parse next stopovers of each departure?',
 			type: 'boolean',
 			default: false,
 			parse: parseBoolean,
 		}
 	}
+	const parsers = config.mapRouteParsers('arrivals', _parsers)
 
 	const linkHeader = (req, opt, arrivals) => {
 		if (!opt.when || !Number.isInteger(opt.duration)) return {}
@@ -118,7 +119,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	arrivals.openapiPaths = {
+	arrivals.openapiPaths = config.mapRouteOpenapiPaths('arrivals', {
 		'/stops/{id}/arrivals': {
 			get: {
 				summary: 'Fetches arrivals at a stop/station.',
@@ -158,7 +159,7 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 				},
 			},
 		},
-	}
+	})
 
 	arrivals.pathParameters = {
 		'id': {

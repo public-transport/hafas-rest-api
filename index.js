@@ -22,6 +22,8 @@ const defaultConfig = {
 	aboutPage: true,
 	logging: false,
 	healthCheck: null,
+	mapRouteParsers: (route, parsers) => parsers,
+	mapRouteOpenapiPaths: (route, openapiPaths) => openapiPaths,
 	addHafasOpts: () => {},
 	modifyRoutes: routes => routes,
 }
@@ -55,6 +57,12 @@ const createApi = (hafas, config, attachMiddleware) => {
 	if ('aboutPage' in config) assertBoolean(config, 'aboutPage')
 	if ('description' in config) assertNonEmptyString(config, 'description')
 	if ('docsLink' in config) assertNonEmptyString(config, 'docsLink')
+	if ('function' !== typeof config.mapRouteParsers) {
+		throw new Error('cfg.mapRouteParsers must be a function')
+	}
+	if ('function' !== typeof config.mapRouteOpenapiPaths) {
+		throw new Error('cfg.mapRouteOpenapiPaths must be a function')
+	}
 
 	const api = express()
 	api.locals.config = config

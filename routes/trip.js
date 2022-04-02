@@ -20,7 +20,7 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('trip', {
 		stopovers: {
 			description: 'Fetch & parse stopovers on the way?',
 			type: 'boolean',
@@ -45,7 +45,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const trip = (req, res, next) => {
 		const id = req.params.id.trim()
@@ -67,7 +67,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	trip.openapiPaths = {
+	trip.openapiPaths = config.mapRouteOpenapiPaths('trip', {
 		'/trips/{id}': {
 			get: {
 				summary: 'Fetches a trip by ID.',
@@ -115,7 +115,7 @@ Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/b
 				},
 			},
 		},
-	}
+	})
 
 	trip.pathParameters = {
 		'id': {

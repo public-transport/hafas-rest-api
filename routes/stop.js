@@ -15,7 +15,7 @@ const {
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('stop', {
 		linesOfStops: {
 			description: 'Parse & expose lines at each stop/station?',
 			type: 'boolean',
@@ -28,7 +28,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const stop = (req, res, next) => {
 		if (res.headersSent) return next()
@@ -49,7 +49,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	stop.openapiPaths = {
+	stop.openapiPaths = config.mapRouteOpenapiPaths('stop', {
 		'/stops/{id}': {
 			get: {
 				summary: 'Finds a stop/station by ID.',
@@ -89,7 +89,7 @@ Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/b
 				},
 			},
 		},
-	}
+	})
 
 	stop.pathParameters = {
 		'id': {

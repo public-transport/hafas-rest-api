@@ -20,7 +20,7 @@ const err400 = (msg) => {
 }
 
 const createRoute = (hafas, config) => {
-	const parsers = {
+	const parsers = config.mapRouteParsers('refresh-journey', {
 		stopovers: {
 			description: 'Fetch & parse stopovers on the way?',
 			type: 'boolean',
@@ -51,7 +51,7 @@ const createRoute = (hafas, config) => {
 			default: 'en',
 			parse: parseString,
 		},
-	}
+	})
 
 	const refreshJourney = (req, res, next) => {
 		const ref = req.params.ref.trim()
@@ -70,7 +70,7 @@ const createRoute = (hafas, config) => {
 		.catch(next)
 	}
 
-	refreshJourney.openapiPaths = {
+	refreshJourney.openapiPaths = config.mapRouteOpenapiPaths('refresh-journey', {
 		'/journeys/{ref}': {
 			get: {
 				summary: 'Fetches up-to-date realtime data for a journey computed before.',
@@ -112,7 +112,7 @@ The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehic
 				},
 			},
 		},
-	}
+	})
 
 	refreshJourney.pathParameters = {
 		'ref': {type: 'string'},
