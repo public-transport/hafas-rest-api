@@ -20,52 +20,52 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	fuzzy: {
-		description: 'Find more than exact matches?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	results: {
-		description: 'How many stations shall be shown?',
-		type: 'integer',
-		default: 10,
-		parse: parseInteger,
-	},
-	stops: {
-		description: 'Show stops/stations?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	addresses: {
-		description: 'Show points of interest?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	poi: {
-		description: 'Show addresses?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	linesOfStops: {
-		description: 'Parse & return lines of each stop/station?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	language: {
-		description: 'Language of the results.',
-		type: 'string',
-		default: 'en',
-		parse: parseString,
-	},
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		fuzzy: {
+			description: 'Find more than exact matches?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		results: {
+			description: 'How many stations shall be shown?',
+			type: 'integer',
+			default: 10,
+			parse: parseInteger,
+		},
+		stops: {
+			description: 'Show stops/stations?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		addresses: {
+			description: 'Show points of interest?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		poi: {
+			description: 'Show addresses?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		linesOfStops: {
+			description: 'Parse & return lines of each stop/station?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
+	}
+
 	const locations = (req, res, next) => {
 		if (!req.query.query) return next(err400('Missing query.'))
 

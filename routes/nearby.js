@@ -21,46 +21,46 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	results: {
-		description: 'maximum number of results',
-		type: 'integer',
-		default: 8,
-		parse: parseInteger,
-	},
-	distance: {
-		description: 'maximum walking distance in meters',
-		type: 'integer',
-		defaultStr: '–',
-		parse: parseNumber,
-	},
-	stops: {
-		description: 'Return stops/stations?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	poi: {
-		description: 'Return points of interest?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	linesOfStops: {
-		description: 'Parse & expose lines at each stop/station?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	language: {
-		description: 'Language of the results.',
-		type: 'string',
-		default: 'en',
-		parse: parseString,
-	},
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		results: {
+			description: 'maximum number of results',
+			type: 'integer',
+			default: 8,
+			parse: parseInteger,
+		},
+		distance: {
+			description: 'maximum walking distance in meters',
+			type: 'integer',
+			defaultStr: '–',
+			parse: parseNumber,
+		},
+		stops: {
+			description: 'Return stops/stations?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		poi: {
+			description: 'Return points of interest?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		linesOfStops: {
+			description: 'Parse & expose lines at each stop/station?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
+	}
+
 	const nearby = (req, res, next) => {
 		if (!req.query.latitude) return next(err400('Missing latitude.'))
 		if (!req.query.longitude) return next(err400('Missing longitude.'))

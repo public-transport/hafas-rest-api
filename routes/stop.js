@@ -14,22 +14,22 @@ const {
 } = require('../lib/json-pretty-printing')
 const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
 
-const parsers = {
-	linesOfStops: {
-		description: 'Parse & expose lines at each stop/station?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	language: {
-		description: 'Language of the results.',
-		type: 'string',
-		default: 'en',
-		parse: parseString,
-	},
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		linesOfStops: {
+			description: 'Parse & expose lines at each stop/station?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
+	}
+
 	const stop = (req, res, next) => {
 		if (res.headersSent) return next()
 

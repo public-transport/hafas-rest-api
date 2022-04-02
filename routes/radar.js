@@ -20,40 +20,40 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	results: {
-		description: 'Max. number of vehicles.',
-		type: 'integer',
-		default: 256,
-		parse: parseInteger,
-	},
-	duration: {
-		description: 'Compute frames for the next `n` seconds.',
-		type: 'integer',
-		default: 30,
-		parse: parseInteger,
-	},
-	frames: {
-		description: 'Number of frames to compute.',
-		type: 'integer',
-		default: 3,
-		parse: parseInteger,
-	},
-	polylines: {
-		description: 'Fetch & parse a geographic shape for the movement of each vehicle?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	language: {
-		description: 'Language of the results.',
-		type: 'string',
-		default: 'en',
-		parse: parseString,
-	},
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		results: {
+			description: 'Max. number of vehicles.',
+			type: 'integer',
+			default: 256,
+			parse: parseInteger,
+		},
+		duration: {
+			description: 'Compute frames for the next `n` seconds.',
+			type: 'integer',
+			default: 30,
+			parse: parseInteger,
+		},
+		frames: {
+			description: 'Number of frames to compute.',
+			type: 'integer',
+			default: 3,
+			parse: parseInteger,
+		},
+		polylines: {
+			description: 'Fetch & parse a geographic shape for the movement of each vehicle?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
+	}
+
 	const radar = (req, res, next) => {
 		const q = req.query
 
