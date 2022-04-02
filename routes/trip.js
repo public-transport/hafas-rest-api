@@ -19,34 +19,34 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	stopovers: {
-		description: 'Fetch & parse stopovers on the way?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	remarks: {
-		description: 'Parse & return hints & warnings?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	polyline: {
-		description: 'Fetch & parse the geographic shape of the trip?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	language: {
-		description: 'Language of the results.',
-		type: 'string',
-		default: 'en',
-		parse: parseString,
-	},
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		stopovers: {
+			description: 'Fetch & parse stopovers on the way?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		remarks: {
+			description: 'Parse & return hints & warnings?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		polyline: {
+			description: 'Fetch & parse the geographic shape of the trip?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
+	}
+
 	const trip = (req, res, next) => {
 		const id = req.params.id.trim()
 

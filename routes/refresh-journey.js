@@ -19,40 +19,40 @@ const err400 = (msg) => {
 	return err
 }
 
-const parsers = {
-	stopovers: {
-		description: 'Fetch & parse stopovers on the way?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	tickets: {
-		description: 'Return information about available tickets?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	polylines: {
-		description: 'Fetch & parse a shape for each journey leg?',
-		type: 'boolean',
-		default: false,
-		parse: parseBoolean,
-	},
-	remarks: {
-		description: 'Parse & return hints & warnings?',
-		type: 'boolean',
-		default: true,
-		parse: parseBoolean,
-	},
-	language: {
-		description: 'Language of the results.',
-		type: 'string',
-		default: 'en',
-		parse: parseString,
-	},
-}
-
 const createRoute = (hafas, config) => {
+	const parsers = {
+		stopovers: {
+			description: 'Fetch & parse stopovers on the way?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		tickets: {
+			description: 'Return information about available tickets?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		polylines: {
+			description: 'Fetch & parse a shape for each journey leg?',
+			type: 'boolean',
+			default: false,
+			parse: parseBoolean,
+		},
+		remarks: {
+			description: 'Parse & return hints & warnings?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		language: {
+			description: 'Language of the results.',
+			type: 'string',
+			default: 'en',
+			parse: parseString,
+		},
+	}
+
 	const refreshJourney = (req, res, next) => {
 		const ref = req.params.ref.trim()
 
