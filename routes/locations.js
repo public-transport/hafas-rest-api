@@ -41,13 +41,13 @@ const createRoute = (hafas, config) => {
 			parse: parseBoolean,
 		},
 		addresses: {
-			description: 'Show points of interest?',
+			description: 'Show addresses?',
 			type: 'boolean',
 			default: true,
 			parse: parseBoolean,
 		},
 		poi: {
-			description: 'Show addresses?',
+			description: 'Show points of interest?',
 			type: 'boolean',
 			default: true,
 			parse: parseBoolean,
