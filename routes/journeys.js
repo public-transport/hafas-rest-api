@@ -269,8 +269,396 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'type': 'object',
+									'properties': {
+										'earlierRef': {
+											'type': 'string'
+										},
+										'laterRef': {
+											'type': 'string'
+										},
+										'journeys': {
+											'type': 'array',
+											'items': {
+												'type': 'object',
+												'properties': {
+													'type': {
+														'type': 'string'
+													},
+													'legs': {
+														'type': 'array',
+														'items': {
+															'type': 'object',
+															'properties': {
+																'origin': {
+																	'type': 'object',
+																	'properties': {
+																		'type': {
+																			'type': 'string'
+																		},
+																		'id': {
+																			'type': 'string'
+																		},
+																		'name': {
+																			'type': 'string'
+																		},
+																		'location': {
+																			'type': 'object',
+																			'properties': {
+																				'type': {
+																					'type': 'string'
+																				},
+																				'id': {
+																					'type': 'string'
+																				},
+																				'latitude': {
+																					'type': 'number'
+																				},
+																				'longitude': {
+																					'type': 'number'
+																				}
+																			},
+																			'required': [
+																				'type',
+																				'id',
+																				'latitude',
+																				'longitude'
+																			]
+																		},
+																		'products': {
+																			'type': 'object',
+																			'properties': {
+																				'nationalExpress': {
+																					'type': 'boolean'
+																				},
+																				'national': {
+																					'type': 'boolean'
+																				},
+																				'regionalExp': {
+																					'type': 'boolean'
+																				},
+																				'regional': {
+																					'type': 'boolean'
+																				},
+																				'suburban': {
+																					'type': 'boolean'
+																				},
+																				'bus': {
+																					'type': 'boolean'
+																				},
+																				'ferry': {
+																					'type': 'boolean'
+																				},
+																				'subway': {
+																					'type': 'boolean'
+																				},
+																				'tram': {
+																					'type': 'boolean'
+																				},
+																				'taxi': {
+																					'type': 'boolean'
+																				}
+																			}
+																		},
+																		'station': {
+																			'type': 'object',
+																			'properties': {
+																				'type': {
+																					'type': 'string'
+																				},
+																				'id': {
+																					'type': 'string'
+																				},
+																				'name': {
+																					'type': 'string'
+																				},
+																				'location': {
+																					'type': 'object',
+																					'properties': {
+																						'type': {
+																							'type': 'string'
+																						},
+																						'id': {
+																							'type': 'string'
+																						},
+																						'latitude': {
+																							'type': 'number'
+																						},
+																						'longitude': {
+																							'type': 'number'
+																						}
+																					},
+																					'required': [
+																						'id',
+																						'latitude',
+																						'longitude',
+																						'type'
+																					]
+																				},
+																				'products': {
+																					'type': 'object',
+																					'properties': {
+																						'nationalExpress': {
+																							'type': 'boolean'
+																						},
+																						'national': {
+																							'type': 'boolean'
+																						},
+																						'regionalExp': {
+																							'type': 'boolean'
+																						},
+																						'regional': {
+																							'type': 'boolean'
+																						},
+																						'suburban': {
+																							'type': 'boolean'
+																						},
+																						'bus': {
+																							'type': 'boolean'
+																						},
+																						'ferry': {
+																							'type': 'boolean'
+																						},
+																						'subway': {
+																							'type': 'boolean'
+																						},
+																						'tram': {
+																							'type': 'boolean'
+																						},
+																						'taxi': {
+																							'type': 'boolean'
+																						}
+																					}
+																				}
+																			},
+																			'required': [
+																				'type',
+																				'id'
+																			]
+																		}
+																	},
+																	'required': [
+																		'type',
+																		'id'
+																	]
+																},
+																'destination': {
+																	'type': 'object',
+																	'properties': {
+																		'type': {
+																			'type': 'string'
+																		},
+																		'id': {
+																			'type': 'string'
+																		},
+																		'name': {
+																			'type': 'string'
+																		},
+																		'location': {
+																			'type': 'object',
+																			'properties': {
+																				'type': {
+																					'type': 'string'
+																				},
+																				'id': {
+																					'type': 'string'
+																				},
+																				'latitude': {
+																					'type': 'number'
+																				},
+																				'longitude': {
+																					'type': 'number'
+																				}
+																			},
+																			'required': [
+																				'type',
+																				'id',
+																				'latitude',
+																				'longitude'
+																			]
+																		},
+																		'products': {
+																			'type': 'object',
+																			'properties': {
+																				'nationalExpress': {
+																					'type': 'boolean'
+																				},
+																				'national': {
+																					'type': 'boolean'
+																				},
+																				'regionalExp': {
+																					'type': 'boolean'
+																				},
+																				'regional': {
+																					'type': 'boolean'
+																				},
+																				'suburban': {
+																					'type': 'boolean'
+																				},
+																				'bus': {
+																					'type': 'boolean'
+																				},
+																				'ferry': {
+																					'type': 'boolean'
+																				},
+																				'subway': {
+																					'type': 'boolean'
+																				},
+																				'tram': {
+																					'type': 'boolean'
+																				},
+																				'taxi': {
+																					'type': 'boolean'
+																				}
+																			}
+																		}
+																	},
+																	'required': [
+																		'type',
+																		'id'
+																	]
+																},
+																'departure': {
+																	'type': 'string',
+																	'nullable': true,
+																	'format': 'date-time'
+																},
+																'plannedDeparture': {
+																	'type': 'string',
+																	'format': 'date-time'
+																},
+																'departureDelay': {
+																	'type': 'integer',
+																	'nullable': true
+																},
+																'arrival': {
+																	'type': 'string',
+																	'nullable': true,
+																	'format': 'date-time'
+																},
+																'plannedArrival': {
+																	'type': 'string',
+																	'format': 'date-time'
+																},
+																'arrivalDelay': {
+																	'type': 'integer',
+																	'nullable': true
+																},
+																'reachable': {
+																	'type': 'boolean'
+																},
+																'tripId': {
+																	'type': 'string'
+																},
+																'line': {
+																	'type': 'object',
+																	'properties': {
+																		'type': {
+																			'type': 'string'
+																		},
+																		'id': {
+																			'type': 'string'
+																		},
+																		'fahrtNr': {
+																			'type': 'string'
+																		},
+																		'name': {
+																			'type': 'string'
+																		},
+																		'public': {
+																			'type': 'boolean'
+																		},
+																		'adminCode': {
+																			'type': 'string'
+																		},
+																		'mode': {
+																			'type': 'string'
+																		},
+																		'product': {
+																			'type': 'string'
+																		},
+																		'operator': {
+																			'type': 'object',
+																			'properties': {
+																				'type': {
+																					'type': 'string'
+																				},
+																				'id': {
+																					'type': 'string'
+																				},
+																				'name': {
+																					'type': 'string'
+																				}
+																			},
+																			'required': [
+																				'type',
+																				'id'
+																			]
+																		}
+																	},
+																	'required': [
+																		'type',
+																		'id'
+																	]
+																},
+																'direction': {
+																	'type': 'string',
+																	'nullable': true
+																},
+																'arrivalPlatform': {
+																	'type': 'string',
+																	'nullable': true
+																},
+																'plannedArrivalPlatform': {
+																	'type': 'string',
+																	'nullable': true
+																},
+																'departurePlatform': {
+																	'type': 'string',
+																	'nullable': true
+																},
+																'plannedDeparturePlatform': {
+																	'type': 'string',
+																	'nullable': true
+																},
+																'cycle': {
+																	'type': 'object',
+																	'properties': {
+																		'min': {
+																			'type': 'integer'
+																		},
+																		'max': {
+																			'type': 'integer'
+																		},
+																		'nr': {
+																			'type': 'integer'
+																		}
+																	}
+																}
+															}
+														}
+													},
+													'refreshToken': {
+														'type': 'string'
+													},
+													'cycle': {
+														'type': 'object',
+														'properties': {
+															'min': {
+															'type': 'integer'
+															}
+														}
+													}
+												},
+												'required': [
+													'type'
+												]
+											}
+										}
+									},
+									'required': [
+										'journeys'
+									]
 								},
 								// todo: example(s)
 							},

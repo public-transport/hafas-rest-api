@@ -159,8 +159,284 @@ Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-cl
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'type': 'array',
+									'items': {
+										'type': 'object',
+										'properties': {
+											'tripId': {
+												'type': 'string'
+											},
+											'stop': {
+												'type': 'object',
+												'properties': {
+													'type': {
+														'type': 'string'
+													},
+													'id': {
+														'type': 'string'
+													},
+													'name': {
+														'type': 'string'
+													},
+													'location': {
+														'type': 'object',
+														'properties': {
+															'type': {
+																'type': 'string'
+															},
+															'id': {
+																'type': 'string'
+															},
+															'latitude': {
+																'type': 'number'
+															},
+															'longitude': {
+																'type': 'number'
+															}
+														},
+														'required': [
+															'type',
+															'id',
+															'latitude',
+															'longitude'
+														]
+													},
+													'products': {
+														'type': 'object',
+														'properties': {
+															'nationalExpress': {
+																'type': 'boolean'
+															},
+															'national': {
+																'type': 'boolean'
+															},
+															'regionalExp': {
+																'type': 'boolean'
+															},
+															'regional': {
+																'type': 'boolean'
+															},
+															'suburban': {
+																'type': 'boolean'
+															},
+															'bus': {
+																'type': 'boolean'
+															},
+															'ferry': {
+																'type': 'boolean'
+															},
+															'subway': {
+																'type': 'boolean'
+															},
+															'tram': {
+																'type': 'boolean'
+															},
+															'taxi': {
+																'type': 'boolean'
+															}
+														}
+													},
+													'station': {
+														'type': 'object',
+														'properties': {
+															'type': {
+																'type': 'string'
+															},
+															'id': {
+																'type': 'string'
+															},
+															'name': {
+																'type': 'string'
+															},
+															'location': {
+																'type': 'object',
+																'properties': {
+																	'type': {
+																		'type': 'string'
+																	},
+																	'id': {
+																		'type': 'string'
+																	},
+																	'latitude': {
+																		'type': 'number'
+																	},
+																	'longitude': {
+																		'type': 'number'
+																	}
+																},
+																'required': [
+																	'id',
+																	'latitude',
+																	'longitude',
+																	'type'
+																]
+															},
+															'products': {
+																'type': 'object',
+																'properties': {
+																	'nationalExpress': {
+																		'type': 'boolean'
+																	},
+																	'national': {
+																		'type': 'boolean'
+																	},
+																	'regionalExp': {
+																		'type': 'boolean'
+																	},
+																	'regional': {
+																		'type': 'boolean'
+																	},
+																	'suburban': {
+																		'type': 'boolean'
+																	},
+																	'bus': {
+																		'type': 'boolean'
+																	},
+																	'ferry': {
+																		'type': 'boolean'
+																	},
+																	'subway': {
+																		'type': 'boolean'
+																	},
+																	'tram': {
+																		'type': 'boolean'
+																	},
+																	'taxi': {
+																		'type': 'boolean'
+																	}
+																}
+															}
+														},
+														'required': [
+															'type',
+															'id'
+														]
+													}
+												},
+												'required': [
+													'type',
+													'id'
+												]
+											},
+											'when': {
+												'type': 'string',
+												'nullable': true,
+												'format': 'date-time'
+											},
+											'plannedWhen': {
+												'type': 'string',
+												'format': 'date-time'
+											},
+											'delay': {
+												'type': 'integer',
+												'nullable': true
+											},
+											'platform': {
+												'type': 'string',
+												'nullable': true
+											},
+											'plannedPlatform': {
+												'type': 'string',
+												'nullable': true
+											},
+											'direction': {
+												'type': 'string',
+												'nullable': true
+											},
+											'provenance': {
+												'type': 'string',
+												'nullable': true
+											},
+											'line': {
+												'type': 'object',
+												'properties': {
+													'type': {
+														'type': 'string'
+													},
+													'id': {
+														'type': 'string'
+													},
+													'fahrtNr': {
+														'type': 'string'
+													},
+													'name': {
+														'type': 'string'
+													},
+													'public': {
+														'type': 'boolean'
+													},
+													'adminCode': {
+														'type': 'string'
+													},
+													'productName': {
+														'type': 'string'
+													},
+													'mode': {
+														'type': 'string'
+													},
+													'product': {
+														'type': 'string'
+													},
+													'operator': {
+														'type': 'object',
+														'properties': {
+															'type': {
+																'type': 'string'
+															},
+															'id': {
+																'type': 'string'
+															},
+															'name': {
+																'type': 'string'
+															}
+														},
+														'required': [
+															'type',
+															'id',
+															'name'
+														]
+													}
+												},
+												'required': [
+													'type',
+													'id'
+												]
+											},
+											'remarks': {
+												'type': 'array',
+												'items': {
+													'type': 'object',
+													'properties': {
+														'type': {
+															'type': 'string'
+														},
+														'code': {
+															'type': 'string'
+														},
+														'text': {
+															'type': 'string'
+														},
+														'tripId': {
+															'type': 'string'
+														}
+													}
+												}
+											},
+											'cancelled': {
+												'type': 'boolean'
+											},
+											'loadFactor': {
+												'type': 'string'
+											}
+										},
+										'required': [
+											'tripId',
+											'stop',
+											'plannedWhen',
+											'plannedPlatform',
+											'line'
+										]
+									}
 								},
 								// todo: example(s)
 							},
