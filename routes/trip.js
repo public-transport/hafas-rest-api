@@ -103,8 +103,7 @@ Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/b
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'$ref': '#/components/schemas/createClient.Trip'
 								},
 								// todo: example(s)
 							},

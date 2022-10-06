@@ -48,6 +48,7 @@
 		"stringify-entities": "^3.1.0"
 	},
 	"devDependencies": {
+		"@types/hafas-client": "^5.25.0",
 		"axios": "^0.26.1",
 		"cached-hafas-client": "^4.0.6",
 		"eslint": "^8.0.1",
@@ -57,7 +58,8 @@
 		"pino-pretty": "^7.1.0",
 		"tap-min": "^2.0.0",
 		"tape": "^5.1.1",
-		"tape-promise": "^4.0.0"
+		"tape-promise": "^4.0.0",
+		"typescript-json-schema": "^0.54.0"
 	},
 	"peerDependencies": {
 		"hafas-client": "^5"

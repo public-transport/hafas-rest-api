@@ -95,8 +95,10 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'type': 'array',
+									'items': {
+										'$ref': '#/components/schemas/createClient.Movement'
+									}
 								},
 								// todo: example(s)
 							},

@@ -77,8 +77,17 @@ Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/b
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'anyOf': [
+										{
+											'$ref': '#/components/schemas/Location'
+										},
+										{
+											'$ref': '#/components/schemas/Station'
+										},
+										{
+											'$ref': '#/components/schemas/Stop'
+										}
+									]
 								},
 								// todo: example(s)
 							},
