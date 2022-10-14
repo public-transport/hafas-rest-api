@@ -21,9 +21,9 @@ fooRoute.queryParameters = {
 // pro tip: pipe this script into `pino-pretty` to get nice logs
 
 const config = {
-	hostname: process.env.HOSTNAME || '3.db.transport.rest',
+	hostname: process.env.HOSTNAME || 'v5.db.transport.rest',
 	name: 'db-rest',
-	version: '1.2.3',
+	version: '5.0.0',
 	description: 'An HTTP API for Deutsche Bahn.',
 	homepage: 'http://example.org/',
 	docsLink: 'http://example.org/docs',

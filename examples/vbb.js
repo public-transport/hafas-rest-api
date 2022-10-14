@@ -12,9 +12,9 @@ const createApi = require('..')
 // pro tip: pipe this script into `pino-pretty` to get nice logs
 
 const config = {
-	hostname: process.env.HOSTNAME || '3.vbb.transport.rest',
+	hostname: process.env.HOSTNAME || 'v5.vbb.transport.rest',
 	name: 'vbb-rest',
-	version: '1.2.3',
+	version: '5.0.0',
 	description: 'An HTTP API for Berlin & Brandenburg public transport.',
 	homepage: 'http://example.org/',
 	docsLink: 'http://example.org/docs',
