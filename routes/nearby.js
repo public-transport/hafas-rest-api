@@ -84,7 +84,7 @@ const createRoute = (hafas, config) => {
 	}
 
 	nearby.openapiPaths = config.mapRouteOpenapiPaths('nearby', {
-		'/stops/nearby': {
+		'/locations/nearby': {
 			get: {
 				summary: 'Finds stops/stations & POIs close to a geolocation.',
 				description: `\
