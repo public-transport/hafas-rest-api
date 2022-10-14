@@ -1,0 +1,3166 @@
+{
+  "components": {
+    "schemas": {
+      "createClient.ProductType": {
+        "description": "A ProductType relates to how a means of transport \"works\" in local context.\nExample: Even though S-Bahn and U-Bahn in Berlin are both trains, they have different operators, service patterns,\nstations and look different. Therefore, they are two distinct products subway and suburban.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "aircraft",
+              "bicycle",
+              "bus",
+              "car",
+              "gondola",
+              "taxi",
+              "train",
+              "walking",
+              "watercraft"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "short": {
+            "type": "string"
+          },
+          "bitmasks": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "default": {
+            "type": "boolean"
+          }
+        }
+      },
+      "createClient.Profile": {
+        "description": "A profile is a specific customisation for each endpoint.\nIt parses data from the API differently, add additional information, or enable non-default methods.",
+        "type": "object",
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductType"
+            }
+          },
+          "trip": {
+            "type": "boolean"
+          },
+          "radar": {
+            "type": "boolean"
+          },
+          "refreshJourney": {
+            "type": "boolean"
+          },
+          "journeysFromTrip": {
+            "type": "boolean"
+          },
+          "reachableFrom": {
+            "type": "boolean"
+          },
+          "journeysWalkingSpeed": {
+            "type": "boolean"
+          },
+          "tripsByName": {
+            "type": "boolean"
+          },
+          "remarks": {
+            "type": "boolean"
+          },
+          "remarksGetPolyline": {
+            "type": "boolean"
+          },
+          "lines": {
+            "type": "boolean"
+          }
+        }
+      },
+      "createClient.Location": {
+        "description": "A location object is used by other items to indicate their locations.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "location"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "poi": {
+            "type": "boolean"
+          },
+          "address": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "altitude": {
+            "type": "number"
+          },
+          "distance": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.Products": {
+        "description": "Each public transportation network exposes its products as boolean properties. See {@link ProductType}",
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      },
+      "createClient.Facilities": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "createClient.ReisezentrumOpeningHours": {
+        "type": "object",
+        "properties": {
+          "Mo": {
+            "type": "string"
+          },
+          "Di": {
+            "type": "string"
+          },
+          "Mi": {
+            "type": "string"
+          },
+          "Do": {
+            "type": "string"
+          },
+          "Fr": {
+            "type": "string"
+          },
+          "Sa": {
+            "type": "string"
+          },
+          "So": {
+            "type": "string"
+          }
+        }
+      },
+      "createClient.Station": {
+        "$ref": "#/components/schemas/Station",
+        "description": "A station is a larger building or area that can be identified by a name.\nIt is usually represented by a single node on a public transport map.\nWhereas a stop usually specifies a location, a station often is a broader area\nthat may span across multiple levels or buildings."
+      },
+      "createClient.Ids": {
+        "$ref": "#/components/schemas/Ids",
+        "description": "Ids of a Stop, i.e. dhid as 'DELFI Haltestellen ID'"
+      },
+      "createClient.Stop": {
+        "$ref": "#/components/schemas/Stop",
+        "description": "A stop is a single small point or structure at which vehicles stop.\nA stop always belongs to a station. It may for example be a sign, a basic shelter or a railway platform."
+      },
+      "createClient.Region": {
+        "description": "A region is a group of stations, for example a metropolitan area or a geographical or cultural region.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "region"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "stations": {
+            "description": "station ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "createClient.Line": {
+        "$ref": "#/components/schemas/Line"
+      },
+      "createClient.Route": {
+        "description": "A route represents a single set of stations, of a single line.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "route"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "line": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "aircraft",
+              "bicycle",
+              "bus",
+              "car",
+              "gondola",
+              "taxi",
+              "train",
+              "walking",
+              "watercraft"
+            ],
+            "type": "string"
+          },
+          "stops": {
+            "description": "stop ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "createClient.Cycle": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "nr": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.ArrivalDeparture": {
+        "type": "object",
+        "properties": {
+          "arrival": {
+            "type": "number"
+          },
+          "departure": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.Schedule": {
+        "description": "There are many ways to format schedules of public transport routes.\nThis one tries to balance the amount of data and consumability.\nIt is specifically geared towards urban public transport, with frequent trains and homogenous travels.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "schedule"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "route": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "aircraft",
+              "bicycle",
+              "bus",
+              "car",
+              "gondola",
+              "taxi",
+              "train",
+              "walking",
+              "watercraft"
+            ],
+            "type": "string"
+          },
+          "sequence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArrivalDeparture"
+            }
+          },
+          "starts": {
+            "description": "array of Unix timestamps",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "createClient.Operator": {
+        "$ref": "#/components/schemas/Operator"
+      },
+      "createClient.Hint": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "foreign-id",
+              "hint",
+              "local-fare-zone",
+              "status",
+              "stop-dhid",
+              "stop-website",
+              "transit-authority"
+            ],
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "tripId": {
+            "type": "string"
+          }
+        }
+      },
+      "createClient.Status": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "foreign-id",
+              "hint",
+              "local-fare-zone",
+              "status",
+              "stop-dhid",
+              "stop-website",
+              "transit-authority"
+            ],
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "tripId": {
+            "type": "string"
+          }
+        }
+      },
+      "createClient.IcoCrd": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "createClient.Edge": {
+        "type": "object",
+        "properties": {
+          "fromLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "toLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "icon": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": true
+          },
+          "dir": {
+            "type": "number"
+          },
+          "icoCrd": {
+            "$ref": "#/components/schemas/IcoCrd"
+          }
+        }
+      },
+      "createClient.Event": {
+        "type": "object",
+        "properties": {
+          "fromLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "toLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "createClient.Warning": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "status",
+              "warning"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": true
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Edge"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          },
+          "validFrom": {
+            "type": "string"
+          },
+          "validUntil": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "affectedLines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            }
+          },
+          "fromStops": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Location"
+                },
+                {
+                  "$ref": "#/components/schemas/Station"
+                },
+                {
+                  "$ref": "#/components/schemas/Stop"
+                }
+              ]
+            }
+          },
+          "toStops": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Location"
+                },
+                {
+                  "$ref": "#/components/schemas/Station"
+                },
+                {
+                  "$ref": "#/components/schemas/Stop"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "createClient.Geometry": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Point"
+            ]
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "createClient.Feature": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Feature"
+            ]
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {}
+              },
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/Geometry"
+          }
+        }
+      },
+      "createClient.FeatureCollection": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "FeatureCollection"
+            ]
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Feature"
+            }
+          }
+        }
+      },
+      "createClient.PrognosisType": {
+        "enum": [
+          "calculated",
+          "prognosed"
+        ],
+        "type": "string"
+      },
+      "createClient.StopOver": {
+        "description": "A stopover represents a vehicle stopping at a stop/station at a specific time.",
+        "type": "object",
+        "properties": {
+          "stop": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "departure": {
+            "description": "null, if last stopOver of trip",
+            "type": "string"
+          },
+          "departureDelay": {
+            "type": "number"
+          },
+          "prognosedDeparture": {
+            "type": "string"
+          },
+          "plannedDeparture": {
+            "type": "string"
+          },
+          "departurePlatform": {
+            "type": "string"
+          },
+          "prognosedDeparturePlatform": {
+            "type": "string"
+          },
+          "plannedDeparturePlatform": {
+            "type": "string"
+          },
+          "arrival": {
+            "description": "null, if first stopOver of trip",
+            "type": "string"
+          },
+          "arrivalDelay": {
+            "type": "number"
+          },
+          "prognosedArrival": {
+            "type": "string"
+          },
+          "plannedArrival": {
+            "type": "string"
+          },
+          "arrivalPlatform": {
+            "type": "string"
+          },
+          "prognosedArrivalPlatform": {
+            "type": "string"
+          },
+          "plannedArrivalPlatform": {
+            "type": "string"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "passBy": {
+            "type": "boolean"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "departurePrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          },
+          "arrivalPrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          }
+        }
+      },
+      "createClient.Trip": {
+        "description": "Trip – a vehicle stopping at a set of stops at specific times",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "departure": {
+            "type": "string"
+          },
+          "plannedDeparture": {
+            "type": "string"
+          },
+          "prognosedArrival": {
+            "type": "string"
+          },
+          "departureDelay": {
+            "type": "number"
+          },
+          "departurePlatform": {
+            "type": "string"
+          },
+          "prognosedDeparturePlatform": {
+            "type": "string"
+          },
+          "plannedDeparturePlatform": {
+            "type": "string"
+          },
+          "arrival": {
+            "type": "string"
+          },
+          "plannedArrival": {
+            "type": "string"
+          },
+          "prognosedDeparture": {
+            "type": "string"
+          },
+          "arrivalDelay": {
+            "type": "number"
+          },
+          "arrivalPlatform": {
+            "type": "string"
+          },
+          "prognosedArrivalPlatform": {
+            "type": "string"
+          },
+          "plannedArrivalPlatform": {
+            "type": "string"
+          },
+          "stopovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopOver"
+            }
+          },
+          "schedule": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "operator": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "line": {
+            "$ref": "#/components/schemas/Line"
+          },
+          "reachable": {
+            "type": "boolean"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "walking": {
+            "type": "boolean"
+          },
+          "loadFactor": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "transfer": {
+            "type": "boolean"
+          },
+          "cycle": {
+            "$ref": "#/components/schemas/Cycle"
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alternative"
+            }
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/FeatureCollection"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "createClient.Price": {
+        "$ref": "#/components/schemas/Price"
+      },
+      "createClient.Alternative": {
+        "$ref": "#/components/schemas/Alternative"
+      },
+      "createClient.Leg": {
+        "description": "Leg of journey",
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "string"
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "departure": {
+            "type": "string"
+          },
+          "plannedDeparture": {
+            "type": "string"
+          },
+          "prognosedArrival": {
+            "type": "string"
+          },
+          "departureDelay": {
+            "type": "number"
+          },
+          "departurePlatform": {
+            "type": "string"
+          },
+          "prognosedDeparturePlatform": {
+            "type": "string"
+          },
+          "plannedDeparturePlatform": {
+            "type": "string"
+          },
+          "arrival": {
+            "type": "string"
+          },
+          "plannedArrival": {
+            "type": "string"
+          },
+          "prognosedDeparture": {
+            "type": "string"
+          },
+          "arrivalDelay": {
+            "type": "number"
+          },
+          "arrivalPlatform": {
+            "type": "string"
+          },
+          "prognosedArrivalPlatform": {
+            "type": "string"
+          },
+          "plannedArrivalPlatform": {
+            "type": "string"
+          },
+          "stopovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopOver"
+            }
+          },
+          "schedule": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "operator": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "line": {
+            "$ref": "#/components/schemas/Line"
+          },
+          "reachable": {
+            "type": "boolean"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "walking": {
+            "type": "boolean"
+          },
+          "loadFactor": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "transfer": {
+            "type": "boolean"
+          },
+          "cycle": {
+            "$ref": "#/components/schemas/Cycle"
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alternative"
+            }
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/FeatureCollection"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "currentLocation": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "departurePrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          },
+          "arrivalPrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          },
+          "checkin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "createClient.ScheduledDays": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      },
+      "createClient.Journey": {
+        "description": "A journey is a computed set of directions to get from A to B at a specific time.\nIt would typically be the result of a route planning algorithm.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "journey"
+            ]
+          },
+          "legs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Leg"
+            }
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "cycle": {
+            "$ref": "#/components/schemas/Cycle"
+          },
+          "scheduledDays": {
+            "$ref": "#/components/schemas/ScheduledDays"
+          }
+        }
+      },
+      "createClient.Journeys": {
+        "type": "object",
+        "properties": {
+          "earlierRef": {
+            "type": "string"
+          },
+          "laterRef": {
+            "type": "string"
+          },
+          "journeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Journey"
+            }
+          },
+          "realtimeDataFrom": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.Duration": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "number"
+          },
+          "stations": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Location"
+                },
+                {
+                  "$ref": "#/components/schemas/Station"
+                },
+                {
+                  "$ref": "#/components/schemas/Stop"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "createClient.Frame": {
+        "$ref": "#/components/schemas/Frame"
+      },
+      "createClient.Movement": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "string"
+          },
+          "tripId": {
+            "type": "string"
+          },
+          "line": {
+            "$ref": "#/components/schemas/Line"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "nextStopovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopOver"
+            }
+          },
+          "frames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Frame"
+            }
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/FeatureCollection"
+          }
+        }
+      },
+      "createClient.ServerInfo": {
+        "type": "object",
+        "properties": {
+          "hciVersion": {
+            "type": "string"
+          },
+          "timetableStart": {
+            "type": "string"
+          },
+          "timetableEnd": {
+            "type": "string"
+          },
+          "serverTime": {
+            "type": "string"
+          },
+          "realtimeDataUpdatedAt": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.LoyaltyCard": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "discount": {
+            "type": "number"
+          },
+          "class": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.JourneysOptions": {
+        "type": "object",
+        "properties": {
+          "departure": {
+            "description": "departure date, undefined corresponds to Date.Now",
+            "default": "undefined",
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrival": {
+            "description": "arrival date, departure and arrival are mutually exclusive.",
+            "default": "undefined",
+            "type": "string",
+            "format": "date-time"
+          },
+          "earlierThan": {
+            "description": "earlierThan, use {@link Journeys#earlierRef}, earlierThan and departure/arrival are mutually exclusive.",
+            "default": "undefined",
+            "type": "string"
+          },
+          "laterThan": {
+            "description": "laterThan, use {@link Journeys#laterRef}, laterThan and departure/arrival are mutually exclusive.",
+            "default": "undefined",
+            "type": "string"
+          },
+          "results": {
+            "description": "how many search results?",
+            "default": 3,
+            "type": "number"
+          },
+          "via": {
+            "description": "let journeys pass this station",
+            "default": "undefined",
+            "type": "string"
+          },
+          "stopovers": {
+            "description": "return stations on the way?",
+            "default": false,
+            "type": "boolean"
+          },
+          "transfers": {
+            "description": "Maximum nr of transfers. Default: Let HAFAS decide.",
+            "default": 10,
+            "type": "number"
+          },
+          "transferTime": {
+            "description": "minimum time for a single transfer in minutes",
+            "default": 10,
+            "type": "number"
+          },
+          "accessibility": {
+            "description": "'none', 'partial' or 'complete'",
+            "default": "none",
+            "type": "string"
+          },
+          "bike": {
+            "description": "only bike-friendly journeys",
+            "default": false,
+            "type": "boolean"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "tickets": {
+            "description": "return tickets? only available with some profiles",
+            "default": false,
+            "type": "boolean"
+          },
+          "polylines": {
+            "description": "return a shape for each leg?",
+            "default": false,
+            "type": "boolean"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": false,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "remarks": {
+            "description": "parse & expose hints & warnings?",
+            "default": true,
+            "type": "boolean"
+          },
+          "walkingSpeed": {
+            "description": "'slow', 'normal', 'fast'",
+            "default": "slow",
+            "type": "string"
+          },
+          "startWithWalking": {
+            "description": "start with walking",
+            "default": false,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "language to get results in",
+            "default": "en",
+            "type": "string"
+          },
+          "scheduledDays": {
+            "description": "parse which days each journey is valid on",
+            "default": false,
+            "type": "boolean"
+          },
+          "firstClass": {
+            "description": "firstClass",
+            "default": false,
+            "type": "boolean"
+          },
+          "age": {
+            "description": "age",
+            "default": "none",
+            "type": "number"
+          },
+          "loyaltyCard": {
+            "$ref": "#/components/schemas/LoyaltyCard",
+            "description": "LoyaltyCard",
+            "default": "none"
+          },
+          "when": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "createClient.JourneysFromTripOptions": {
+        "type": "object",
+        "properties": {
+          "stopovers": {
+            "description": "return stations on the way?",
+            "default": false,
+            "type": "boolean"
+          },
+          "transferTime": {
+            "description": "minimum time for a single transfer in minutes",
+            "default": 0,
+            "type": "number"
+          },
+          "accessibility": {
+            "description": "'none', 'partial' or 'complete'",
+            "default": "'none'",
+            "type": "string"
+          },
+          "tickets": {
+            "description": "return tickets?",
+            "default": false,
+            "type": "boolean"
+          },
+          "polylines": {
+            "description": "return leg shapes?",
+            "default": false,
+            "type": "boolean"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "remarks": {
+            "description": "parse & expose hints & warnings?",
+            "default": true,
+            "type": "boolean"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products",
+            "description": "products",
+            "default": "undefined"
+          }
+        }
+      },
+      "createClient.LocationsOptions": {
+        "type": "object",
+        "properties": {
+          "fuzzy": {
+            "description": "find only exact matches?",
+            "default": true,
+            "type": "boolean"
+          },
+          "results": {
+            "description": "how many search results?",
+            "default": 10,
+            "type": "number"
+          },
+          "stops": {
+            "description": "return stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "addresses": {
+            "description": "return addresses",
+            "default": false,
+            "type": "boolean"
+          },
+          "poi": {
+            "description": "points of interest",
+            "default": true,
+            "type": "boolean"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": false,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "linesOfStops": {
+            "description": "parse & expose lines at each stop/station?",
+            "default": false,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "Language of the results",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.TripOptions": {
+        "type": "object",
+        "properties": {
+          "stopovers": {
+            "description": "return stations on the way?",
+            "default": true,
+            "type": "boolean"
+          },
+          "polyline": {
+            "description": "return a shape for the trip?",
+            "default": false,
+            "type": "boolean"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "remarks": {
+            "description": "parse & expose hints & warnings?",
+            "default": true,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "Language of the results",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.StopOptions": {
+        "type": "object",
+        "properties": {
+          "linesOfStops": {
+            "description": "parse & expose lines at the stop/station?",
+            "default": false,
+            "type": "boolean"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "remarks": {
+            "description": "parse & expose hints & warnings?",
+            "default": true,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "Language of the results",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.DeparturesArrivalsOptions": {
+        "type": "object",
+        "properties": {
+          "when": {
+            "description": "departure date, undefined corresponds to Date.Now",
+            "default": "undefined",
+            "type": "string",
+            "format": "date-time"
+          },
+          "direction": {
+            "description": "only show departures heading to this station",
+            "default": "undefined",
+            "type": "string"
+          },
+          "line": {
+            "description": "filter by line ID",
+            "default": "undefined",
+            "type": "string"
+          },
+          "duration": {
+            "description": "show departures for the next n minutes",
+            "default": 120,
+            "type": "number"
+          },
+          "results": {
+            "description": "max. number of results; `null` means \"whatever HAFAS wants\"",
+            "default": 10,
+            "type": "number"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "linesOfStops": {
+            "description": "parse & expose lines at the stop/station?",
+            "default": false,
+            "type": "boolean"
+          },
+          "remarks": {
+            "description": "parse & expose hints & warnings?",
+            "default": false,
+            "type": "boolean"
+          },
+          "stopovers": {
+            "description": "fetch & parse previous/next stopovers?",
+            "default": false,
+            "type": "boolean"
+          },
+          "includeRelatedStations": {
+            "description": "departures at related stations",
+            "default": false,
+            "type": "boolean"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products",
+            "description": "products",
+            "default": "undefined"
+          },
+          "language": {
+            "description": "language",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.RefreshJourneyOptions": {
+        "type": "object",
+        "properties": {
+          "stopovers": {
+            "description": "return stations on the way?",
+            "default": false,
+            "type": "boolean"
+          },
+          "polylines": {
+            "description": "return a shape for each leg?",
+            "default": false,
+            "type": "boolean"
+          },
+          "tickets": {
+            "description": "return tickets? only available with some profiles",
+            "default": false,
+            "type": "boolean"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "remarks": {
+            "description": "parse & expose hints & warnings?",
+            "default": true,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "language",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.NearByOptions": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "description": "maximum number of results",
+            "default": 8,
+            "type": "number"
+          },
+          "distance": {
+            "description": "maximum walking distance in meters",
+            "default": "undefined",
+            "type": "number"
+          },
+          "poi": {
+            "description": "return points of interest?",
+            "default": false,
+            "type": "boolean"
+          },
+          "stops": {
+            "description": "return stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products",
+            "description": "products",
+            "default": "undefined"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "linesOfStops": {
+            "description": "parse & expose lines at each stop/station?",
+            "default": false,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "language",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.ReachableFromOptions": {
+        "type": "object",
+        "properties": {
+          "when": {
+            "description": "when",
+            "default": "undefined",
+            "type": "string",
+            "format": "date-time"
+          },
+          "maxTransfers": {
+            "description": "maximum of transfers",
+            "default": 5,
+            "type": "number"
+          },
+          "maxDuration": {
+            "description": "maximum travel duration in minutes, pass `null` for infinite",
+            "default": 20,
+            "type": "number"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products",
+            "description": "products",
+            "default": "undefined"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "polylines": {
+            "description": "return leg shapes?",
+            "default": false,
+            "type": "boolean"
+          }
+        }
+      },
+      "createClient.BoundingBox": {
+        "type": "object",
+        "properties": {
+          "north": {
+            "type": "number"
+          },
+          "west": {
+            "type": "number"
+          },
+          "south": {
+            "type": "number"
+          },
+          "east": {
+            "type": "number"
+          }
+        }
+      },
+      "createClient.RadarOptions": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "description": "maximum number of vehicles",
+            "default": 256,
+            "type": "number"
+          },
+          "frames": {
+            "description": "nr of frames to compute",
+            "default": 3,
+            "type": "number"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products",
+            "description": "optionally an object of booleans",
+            "default": null
+          },
+          "duration": {
+            "description": "compute frames for the next n seconds",
+            "default": 20,
+            "type": "number"
+          },
+          "subStops": {
+            "description": "parse & expose sub-stops of stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "entrances": {
+            "description": "parse & expose entrances of stops/stations?",
+            "default": true,
+            "type": "boolean"
+          },
+          "polylines": {
+            "description": "return a shape for the trip?",
+            "default": false,
+            "type": "boolean"
+          },
+          "when": {
+            "description": "when",
+            "default": "undefined",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "createClient.Filter": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "createClient.TripsByNameOptions": {
+        "type": "object",
+        "properties": {
+          "when": {
+            "description": "departure date, undefined corresponds to Date.Now",
+            "default": "undefined",
+            "type": "string",
+            "format": "date-time"
+          },
+          "fromWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "untilWhen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "onlyCurrentlyRunning": {
+            "type": "boolean"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "currentlyStoppingAt": {
+            "type": "string"
+          },
+          "lineName": {
+            "type": "string"
+          },
+          "operatorNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "additionalFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            }
+          }
+        }
+      },
+      "createClient.RemarksOptions": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "results": {
+            "description": "maximum number of remarks",
+            "default": 100,
+            "type": "number"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "polylines": {
+            "description": "return leg shapes? (not supported by all endpoints)",
+            "default": false,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "Language of the results",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.LinesOptions": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "description": "Language of the results",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.ServerOptions": {
+        "type": "object",
+        "properties": {
+          "versionInfo": {
+            "description": "versionInfo",
+            "default": true,
+            "type": "boolean"
+          },
+          "language": {
+            "description": "Language of the results",
+            "default": "en",
+            "type": "string"
+          }
+        }
+      },
+      "createClient.HafasClient": {
+        "type": "object",
+        "properties": {
+          "journeys": {
+            "description": "Retrieves journeys",
+            "type": "object"
+          },
+          "refreshJourney": {
+            "description": "refreshes a Journey",
+            "type": "object"
+          },
+          "trip": {
+            "description": "Refetch information about a trip",
+            "type": "object"
+          },
+          "departures": {
+            "description": "Retrieves departures",
+            "type": "object"
+          },
+          "arrivals": {
+            "description": "Retrieves arrivals",
+            "type": "object"
+          },
+          "journeysFromTrip": {
+            "description": "Retrieves journeys from trip id to station",
+            "type": "object"
+          },
+          "locations": {
+            "description": "Retrieves locations or stops",
+            "type": "object"
+          },
+          "stop": {
+            "description": "Retrieves information about a stop",
+            "type": "object"
+          },
+          "nearby": {
+            "description": "Retrieves nearby stops from location",
+            "type": "object"
+          },
+          "reachableFrom": {
+            "description": "Retrieves stations reachable within a certain time from a location",
+            "type": "object"
+          },
+          "radar": {
+            "description": "Retrieves all vehicles currently in an area.",
+            "type": "object"
+          },
+          "tripsByName": {
+            "description": "Retrieves trips by name.",
+            "type": "object"
+          },
+          "remarks": {
+            "description": "Fetches all remarks known to the HAFAS endpoint",
+            "type": "object"
+          },
+          "lines": {
+            "description": "Fetches all lines known to the HAFAS endpoint",
+            "type": "object"
+          },
+          "serverInfo": {
+            "description": "Fetches meta information from the HAFAS endpoint",
+            "type": "object"
+          }
+        }
+      },
+      "ProductType": {
+        "description": "A ProductType relates to how a means of transport \"works\" in local context.\nExample: Even though S-Bahn and U-Bahn in Berlin are both trains, they have different operators, service patterns,\nstations and look different. Therefore, they are two distinct products subway and suburban.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "aircraft",
+              "bicycle",
+              "bus",
+              "car",
+              "gondola",
+              "taxi",
+              "train",
+              "walking",
+              "watercraft"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "short": {
+            "type": "string"
+          },
+          "bitmasks": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "default": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Station": {
+        "description": "A station is a larger building or area that can be identified by a name.\nIt is usually represented by a single node on a public transport map.\nWhereas a stop usually specifies a location, a station often is a broader area\nthat may span across multiple levels or buildings.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "station"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "station": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            }
+          },
+          "isMeta": {
+            "type": "boolean"
+          },
+          "regions": {
+            "description": "region ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "facilities": {
+            "$ref": "#/components/schemas/Facilities"
+          },
+          "reisezentrumOpeningHours": {
+            "$ref": "#/components/schemas/ReisezentrumOpeningHours"
+          },
+          "stops": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Location"
+                },
+                {
+                  "$ref": "#/components/schemas/Station"
+                },
+                {
+                  "$ref": "#/components/schemas/Stop"
+                }
+              ]
+            }
+          },
+          "entrances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          },
+          "transitAuthority": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number"
+          }
+        }
+      },
+      "Location": {
+        "description": "A location object is used by other items to indicate their locations.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "location"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "poi": {
+            "type": "boolean"
+          },
+          "address": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "altitude": {
+            "type": "number"
+          },
+          "distance": {
+            "type": "number"
+          }
+        }
+      },
+      "Products": {
+        "description": "Each public transportation network exposes its products as boolean properties. See {@link ProductType}",
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      },
+      "Line": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "line"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "adminCode": {
+            "type": "string"
+          },
+          "fahrtNr": {
+            "type": "string"
+          },
+          "additionalName": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "mode": {
+            "enum": [
+              "aircraft",
+              "bicycle",
+              "bus",
+              "car",
+              "gondola",
+              "taxi",
+              "train",
+              "walking",
+              "watercraft"
+            ],
+            "type": "string"
+          },
+          "routes": {
+            "description": "routes ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator"
+          },
+          "express": {
+            "type": "boolean"
+          },
+          "metro": {
+            "type": "boolean"
+          },
+          "night": {
+            "type": "boolean"
+          },
+          "nr": {
+            "type": "number"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "directions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "productName": {
+            "type": "string"
+          }
+        }
+      },
+      "Operator": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "operator"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Facilities": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "ReisezentrumOpeningHours": {
+        "type": "object",
+        "properties": {
+          "Mo": {
+            "type": "string"
+          },
+          "Di": {
+            "type": "string"
+          },
+          "Mi": {
+            "type": "string"
+          },
+          "Do": {
+            "type": "string"
+          },
+          "Fr": {
+            "type": "string"
+          },
+          "Sa": {
+            "type": "string"
+          },
+          "So": {
+            "type": "string"
+          }
+        }
+      },
+      "Stop": {
+        "description": "A stop is a single small point or structure at which vehicles stop.\nA stop always belongs to a station. It may for example be a sign, a basic shelter or a railway platform.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "stop"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "station": {
+            "$ref": "#/components/schemas/Station"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            }
+          },
+          "isMeta": {
+            "type": "boolean"
+          },
+          "reisezentrumOpeningHours": {
+            "$ref": "#/components/schemas/ReisezentrumOpeningHours"
+          },
+          "ids": {
+            "$ref": "#/components/schemas/Ids"
+          },
+          "loadFactor": {
+            "type": "string"
+          },
+          "entrances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          },
+          "transitAuthority": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number"
+          }
+        }
+      },
+      "Ids": {
+        "description": "Ids of a Stop, i.e. dhid as 'DELFI Haltestellen ID'",
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "ArrivalDeparture": {
+        "type": "object",
+        "properties": {
+          "arrival": {
+            "type": "number"
+          },
+          "departure": {
+            "type": "number"
+          }
+        }
+      },
+      "IcoCrd": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Edge": {
+        "type": "object",
+        "properties": {
+          "fromLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "toLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "icon": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": true
+          },
+          "dir": {
+            "type": "number"
+          },
+          "icoCrd": {
+            "$ref": "#/components/schemas/IcoCrd"
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "fromLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "toLoc": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Geometry": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Point"
+            ]
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "Feature": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Feature"
+            ]
+          },
+          "properties": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {}
+              },
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/Geometry"
+          }
+        }
+      },
+      "Hint": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "foreign-id",
+              "hint",
+              "local-fare-zone",
+              "status",
+              "stop-dhid",
+              "stop-website",
+              "transit-authority"
+            ],
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "tripId": {
+            "type": "string"
+          }
+        }
+      },
+      "Status": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "foreign-id",
+              "hint",
+              "local-fare-zone",
+              "status",
+              "stop-dhid",
+              "stop-website",
+              "transit-authority"
+            ],
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "tripId": {
+            "type": "string"
+          }
+        }
+      },
+      "Warning": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "status",
+              "warning"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": true
+          },
+          "summary": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "products": {
+            "$ref": "#/components/schemas/Products"
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Edge"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          },
+          "validFrom": {
+            "type": "string"
+          },
+          "validUntil": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "affectedLines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Line"
+            }
+          },
+          "fromStops": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Location"
+                },
+                {
+                  "$ref": "#/components/schemas/Station"
+                },
+                {
+                  "$ref": "#/components/schemas/Stop"
+                }
+              ]
+            }
+          },
+          "toStops": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Location"
+                },
+                {
+                  "$ref": "#/components/schemas/Station"
+                },
+                {
+                  "$ref": "#/components/schemas/Stop"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "StopOver": {
+        "description": "A stopover represents a vehicle stopping at a stop/station at a specific time.",
+        "type": "object",
+        "properties": {
+          "stop": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "departure": {
+            "description": "null, if last stopOver of trip",
+            "type": "string"
+          },
+          "departureDelay": {
+            "type": "number"
+          },
+          "prognosedDeparture": {
+            "type": "string"
+          },
+          "plannedDeparture": {
+            "type": "string"
+          },
+          "departurePlatform": {
+            "type": "string"
+          },
+          "prognosedDeparturePlatform": {
+            "type": "string"
+          },
+          "plannedDeparturePlatform": {
+            "type": "string"
+          },
+          "arrival": {
+            "description": "null, if first stopOver of trip",
+            "type": "string"
+          },
+          "arrivalDelay": {
+            "type": "number"
+          },
+          "prognosedArrival": {
+            "type": "string"
+          },
+          "plannedArrival": {
+            "type": "string"
+          },
+          "arrivalPlatform": {
+            "type": "string"
+          },
+          "prognosedArrivalPlatform": {
+            "type": "string"
+          },
+          "plannedArrivalPlatform": {
+            "type": "string"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "passBy": {
+            "type": "boolean"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "departurePrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          },
+          "arrivalPrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          }
+        }
+      },
+      "Price": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "hint": {
+            "type": "string"
+          }
+        }
+      },
+      "Cycle": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "nr": {
+            "type": "number"
+          }
+        }
+      },
+      "Alternative": {
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "line": {
+            "$ref": "#/components/schemas/Line"
+          },
+          "stop": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "when": {
+            "type": "string"
+          },
+          "plannedWhen": {
+            "type": "string"
+          },
+          "prognosedWhen": {
+            "type": "string"
+          },
+          "delay": {
+            "type": "number"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "plannedPlatform": {
+            "type": "string"
+          },
+          "prognosedPlatform": {
+            "type": "string"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "loadFactor": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "previousStopovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopOver"
+            }
+          },
+          "nextStopovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopOver"
+            }
+          },
+          "frames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Frame"
+            }
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/FeatureCollection"
+          },
+          "currentTripPosition": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "prognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          }
+        }
+      },
+      "Frame": {
+        "type": "object",
+        "properties": {
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "t": {
+            "type": "number"
+          }
+        }
+      },
+      "FeatureCollection": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "FeatureCollection"
+            ]
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Feature"
+            }
+          }
+        }
+      },
+      "Leg": {
+        "description": "Leg of journey",
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "string"
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "destination": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Station"
+              },
+              {
+                "$ref": "#/components/schemas/Stop"
+              }
+            ]
+          },
+          "departure": {
+            "type": "string"
+          },
+          "plannedDeparture": {
+            "type": "string"
+          },
+          "prognosedArrival": {
+            "type": "string"
+          },
+          "departureDelay": {
+            "type": "number"
+          },
+          "departurePlatform": {
+            "type": "string"
+          },
+          "prognosedDeparturePlatform": {
+            "type": "string"
+          },
+          "plannedDeparturePlatform": {
+            "type": "string"
+          },
+          "arrival": {
+            "type": "string"
+          },
+          "plannedArrival": {
+            "type": "string"
+          },
+          "prognosedDeparture": {
+            "type": "string"
+          },
+          "arrivalDelay": {
+            "type": "number"
+          },
+          "arrivalPlatform": {
+            "type": "string"
+          },
+          "prognosedArrivalPlatform": {
+            "type": "string"
+          },
+          "plannedArrivalPlatform": {
+            "type": "string"
+          },
+          "stopovers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopOver"
+            }
+          },
+          "schedule": {
+            "type": "number"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "operator": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "line": {
+            "$ref": "#/components/schemas/Line"
+          },
+          "reachable": {
+            "type": "boolean"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "walking": {
+            "type": "boolean"
+          },
+          "loadFactor": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "transfer": {
+            "type": "boolean"
+          },
+          "cycle": {
+            "$ref": "#/components/schemas/Cycle"
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alternative"
+            }
+          },
+          "polyline": {
+            "$ref": "#/components/schemas/FeatureCollection"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "currentLocation": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "departurePrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          },
+          "arrivalPrognosisType": {
+            "$ref": "#/components/schemas/createClient.PrognosisType"
+          },
+          "checkin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ScheduledDays": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      },
+      "Journey": {
+        "description": "A journey is a computed set of directions to get from A to B at a specific time.\nIt would typically be the result of a route planning algorithm.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "journey"
+            ]
+          },
+          "legs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Leg"
+            }
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "remarks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Hint"
+                },
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              ]
+            }
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "cycle": {
+            "$ref": "#/components/schemas/Cycle"
+          },
+          "scheduledDays": {
+            "$ref": "#/components/schemas/ScheduledDays"
+          }
+        }
+      },
+      "LoyaltyCard": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "discount": {
+            "type": "number"
+          },
+          "class": {
+            "type": "number"
+          }
+        }
+      },
+      "Filter": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

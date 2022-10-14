@@ -147,8 +147,10 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'type': 'array',
+									'items': {
+										'$ref': '#/components/schemas/createClient.Alternative'
+									}
 								},
 								// todo: example(s)
 							},

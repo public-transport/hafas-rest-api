@@ -7,6 +7,7 @@ const pino = require('pino')
 const createCors = require('cors')
 const onHeaders = require('on-headers')
 const getRoutes = require('./routes')
+const responseSchema = require('./routes/schema/responses.json')
 const routeUriTemplate = require('./lib/route-uri-template')
 const linkHeader = require('./lib/link-header')
 const {setOpenapiLink, serveOpenapiSpec} = require('./lib/openapi-spec')
@@ -66,6 +67,7 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	const api = express()
 	api.locals.config = config
+	api.locals.schemaDefinitions = responseSchema.components.schemas
 	api.locals.logger = pino()
 
 	if (config.cors) {

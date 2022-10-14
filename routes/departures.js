@@ -159,8 +159,10 @@ Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-cl
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'type': 'array',
+									'items': {
+										'$ref': '#/components/schemas/createClient.Alternative'
+									}
 								},
 								// todo: example(s)
 							},

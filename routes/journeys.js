@@ -204,6 +204,62 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md',
 				},
 				parameters: [
+					{
+						name: 'from',
+						in: 'query',
+						schema: {type: 'string'},
+						description: '"from" as stop/station ID (e.g. from=8010159 for Halle (Saale) Hbf)'
+					},
+					{
+						name: 'from.id',
+						in: 'query',
+						schema: {type: 'string'},
+						description: '"from" as POI (e.g. from.id=991561765&from.latitude=51.48364&from.longitude=11.98084 for Halle+(Saale),+Stadtpark+Halle+(Grünanlagen))'
+					},
+					{
+						name: 'from.address',
+						in: 'query',
+						schema: {type: 'string'},
+						description: '"from" as an address (e.g. from.latitude=51.25639&from.longitude=7.46685&from.address=Hansestadt+Breckerfeld,+Hansering+3 for Hansestadt Breckerfeld, Hansering 3)'
+					},
+					{
+						name: 'from.latitude',
+						in: 'query',
+						schema: {type: 'number'}
+					},
+					{
+						name: 'from.longitude',
+						in: 'query',
+						schema: {type: 'number'}
+					},
+					{
+						name: 'to',
+						in: 'query',
+						schema: {type: 'string'},
+						description: '"to" as stop/station ID'
+					},
+					{
+						name: 'to.id',
+						in: 'query',
+						schema: {type: 'string'},
+						description: '"to" as POI'
+					},
+					{
+						name: 'to.address',
+						in: 'query',
+						schema: {type: 'string'},
+						description: '"to" as an address'
+					},
+					{
+						name: 'to.latitude',
+						in: 'query',
+						schema: {type: 'number'}
+					},
+					{
+						name: 'to.longitude',
+						in: 'query',
+						schema: {type: 'number'}
+					},
 					...formatParsersAsOpenapiParams(parsers),
 					jsonPrettyPrintingOpenapiParam,
 				],
@@ -213,8 +269,7 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									'$ref': '#/components/schemas/createClient.Journeys'
 								},
 								// todo: example(s)
 							},
