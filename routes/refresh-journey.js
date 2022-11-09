@@ -39,10 +39,28 @@ const createRoute = (hafas, config) => {
 			default: false,
 			parse: parseBoolean,
 		},
+		subStops: {
+			description: 'Parse & return sub-stops of stations?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
+		entrances: {
+			description: 'Parse & return entrances of stops/stations?',
+			type: 'boolean',
+			default: true,
+			parse: parseBoolean,
+		},
 		remarks: {
 			description: 'Parse & return hints & warnings?',
 			type: 'boolean',
 			default: true,
+			parse: parseBoolean,
+		},
+		scheduledDays: {
+			description: 'Parse & return dates the journey is valid on?',
+			type: 'boolean',
+			default: false,
 			parse: parseBoolean,
 		},
 		language: {
