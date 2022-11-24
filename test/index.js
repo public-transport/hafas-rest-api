@@ -1,14 +1,13 @@
-'use strict'
+import tape from 'tape'
+import _tapePromise from 'tape-promise'
+const {default: tapePromise} = _tapePromise
+import LinkHeader from 'http-link-header'
 
-const tape = require('tape')
-const tapePromise = require('tape-promise').default
-const LinkHeader = require('http-link-header')
-
-const {
+import {
 	stationA, stationB,
 	unmocked,
 	fetchWithTestApi,
-} = require('./util')
+} from './util.js'
 
 const test = tapePromise(tape)
 

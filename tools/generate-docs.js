@@ -1,7 +1,5 @@
-'use strict'
-
-const {inspect} = require('util')
-const Slugger = require('github-slugger')
+import {inspect} from 'util'
+import Slugger from 'github-slugger'
 
 const generateRouteDoc = (path, route) => {
 	let doc = ''
@@ -78,4 +76,6 @@ const generateApiDocs = (routes) => {
 	}
 }
 
-module.exports = generateApiDocs
+export {
+	generateApiDocs,
+}

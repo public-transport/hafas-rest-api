@@ -1,8 +1,6 @@
-'use strict'
+import escape from 'stringify-entities'
 
-const escape = require('stringify-entities')
-
-const createRoute = (name, description, docsLink) => {
+const createAboutPageRoute = (name, description, docsLink) => {
 	if ('string' !== typeof name || !name) {
 		throw new Error('name must be a string.')
 	}
@@ -28,4 +26,6 @@ const createRoute = (name, description, docsLink) => {
 	return about
 }
 
-module.exports = createRoute
+export {
+	createAboutPageRoute,
+}

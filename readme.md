@@ -18,10 +18,9 @@ npm install hafas-rest-api
 ## Usage
 
 ```js
-const createHafas = require('hafas-client')
-const dbProfile = require('hafas-client/p/db')
-
-const createApi = require('.')
+import createHafas from 'hafas-client'
+import {dbProfile} from 'hafas-client/p/db/index.js'
+import {createHafasRestApi as createApi} from 'hafas-rest-api'
 
 const config = {
 	hostname: 'example.org',

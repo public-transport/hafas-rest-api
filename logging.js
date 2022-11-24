@@ -1,8 +1,7 @@
-'use strict'
-
-const {stdSerializers} = require('pino')
-const shorthash = require('shorthash').unique
-const expressPino = require('express-pino-logger')
+import {stdSerializers} from 'pino'
+import _shorthash from 'shorthash'
+const {unique: shorthash} = _shorthash
+import pinoHttp from 'pino-http'
 
 const reqSerializer = stdSerializers.req
 const withoutRemoteAddress = (req) => {
@@ -14,6 +13,8 @@ const withoutRemoteAddress = (req) => {
 
 const serializers = Object.assign({}, stdSerializers, {req: withoutRemoteAddress})
 
-const createLoggingMiddleware = logger => expressPino({logger, serializers})
+const createLoggingMiddleware = logger => pinoHttp({logger, serializers})
 
-module.exports = createLoggingMiddleware
+export {
+	createLoggingMiddleware,
+}

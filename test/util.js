@@ -1,13 +1,11 @@
-'use strict'
+import createHafas from 'hafas-client'
+import dbProfile from 'hafas-client/p/db/index.js'
+import getPort from 'get-port'
+import {createServer} from 'http'
+import {promisify} from 'util'
+import axios from 'axios'
 
-const createHafas = require('hafas-client')
-const dbProfile = require('hafas-client/p/db')
-const getPort = require('get-port')
-const {createServer} = require('http')
-const {promisify} = require('util')
-const axios = require('axios')
-
-const createApi = require('..')
+import {createHafasRestApi as createApi} from '../index.js'
 
 const stationA = {
 	type: 'station',
@@ -50,7 +48,7 @@ const createTestApi = async (mocks, cfg) => {
 		healthCheck: createHealthCheck(mocked)
 	}, cfg)
 
-	const api = createApi(mocked, cfg, () => {})
+	const api = await createApi(mocked, cfg, () => {})
 	const server = createServer(api)
 
 	const port = await getPort()
@@ -76,7 +74,7 @@ const fetchWithTestApi = async (mocks, cfg, path, opt = {}) => {
 	return res
 }
 
-module.exports = {
+export {
 	stationA,
 	stationB,
 	unmocked,

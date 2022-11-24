@@ -1,5 +1,3 @@
-'use strict'
-
 const createErrorHandler = (logger) => {
 	const handleErrors = (err, req, res, next) => {
 		logger.error(err)
@@ -22,4 +20,6 @@ const createErrorHandler = (logger) => {
 	return handleErrors
 }
 
-module.exports = createErrorHandler
+export {
+	createErrorHandler,
+}

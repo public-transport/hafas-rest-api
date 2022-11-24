@@ -1,7 +1,5 @@
-'use strict'
-
-const max = require('lodash/max')
-const {
+import max from 'lodash/max.js'
+import {
 	parseWhen,
 	parseStop,
 	parseInteger,
@@ -9,18 +7,18 @@ const {
 	parseString,
 	parseQuery,
 	parseProducts
-} = require('../lib/parse')
-const {
+} from '../lib/parse.js'
+import {
 	formatWhen,
-} = require('../lib/format')
-const sendServerTiming = require('../lib/server-timing')
-const {
+} from '../lib/format.js'
+import {sendServerTiming} from '../lib/server-timing.js'
+import {
 	configureJSONPrettyPrinting,
 	jsonPrettyPrintingOpenapiParam,
 	jsonPrettyPrintingParam,
-} = require('../lib/json-pretty-printing')
-const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
-const formatProductParams = require('../lib/format-product-parameters')
+} from '../lib/json-pretty-printing.js'
+import {formatParsersAsOpenapiParams} from '../lib/format-parsers-as-openapi.js'
+import {formatProductParams} from '../lib/format-product-parameters.js'
 
 const MINUTE = 60 * 1000
 
@@ -31,7 +29,7 @@ const err400 = (msg) => {
 }
 
 // todo: DRY with routes/arrivals.js
-const createRoute = (hafas, config) => {
+const createDeparturesRoute = (hafas, config) => {
 	// todo: move to `hafas-client`
 	const _parsers = {
 		when: {
@@ -187,4 +185,6 @@ Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-cl
 	return departures
 }
 
-module.exports = createRoute
+export {
+	createDeparturesRoute,
+}

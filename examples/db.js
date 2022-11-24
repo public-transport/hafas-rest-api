@@ -1,10 +1,8 @@
-'use strict'
+import createHafas from 'hafas-client'
+import dbProfile from 'hafas-client/p/db/index.js'
 
-const createHafas = require('hafas-client')
-const dbProfile = require('hafas-client/p/db')
-
-const {parseBoolean} = require('../lib/parse')
-const createApi = require('..')
+import {parseBoolean} from '../lib/parse.js'
+import {createHafasRestApi} from '../index.js'
 
 const fooRoute = (req, res) => {
 	res.json(req.query.bar === 'true' ? 'bar' : 'foo')
@@ -40,7 +38,7 @@ const config = {
 
 const hafas = createHafas(dbProfile, 'hafas-rest-api-example')
 
-const api = createApi(hafas, config, () => {})
+const api = await createHafasRestApi(hafas, config, () => {})
 
 const {logger} = api.locals
 const port = process.env.PORT || 3000
@@ -49,6 +47,6 @@ api.listen(port, (err) => {
 		logger.error(err)
 		process.exitCode = 1
 	} else {
-		logger.info(`Listening on ${config.hostname}:${port}.`)
+		logger.info(`listening on ${port} (${config.hostname}).`)
 	}
 })

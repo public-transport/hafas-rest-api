@@ -1,20 +1,18 @@
-'use strict'
-
-const {
+import {
 	parseWhen,
 	parseInteger,
 	parseString,
 	parseQuery,
 	parseProducts
-} = require('../lib/parse')
-const sendServerTiming = require('../lib/server-timing')
-const {
+} from '../lib/parse.js'
+import {sendServerTiming} from '../lib/server-timing.js'
+import {
 	configureJSONPrettyPrinting,
 	jsonPrettyPrintingOpenapiParam,
 	jsonPrettyPrintingParam,
-} = require('../lib/json-pretty-printing')
-const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
-const formatProductParams = require('../lib/format-product-parameters')
+} from '../lib/json-pretty-printing.js'
+import {formatParsersAsOpenapiParams} from '../lib/format-parsers-as-openapi.js'
+import {formatProductParams} from '../lib/format-product-parameters.js'
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -22,7 +20,7 @@ const err400 = (msg) => {
 	return err
 }
 
-const createRoute = (hafas, config) => {
+const createReachableFromRoute = (hafas, config) => {
 	const parsers = config.mapRouteParsers('reachable-from', {
 		when: {
 			description: 'Date & time to compute the reachability for.',
@@ -132,4 +130,6 @@ Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas
 	return reachableFrom
 }
 
-module.exports = createRoute
+export {
+	createReachableFromRoute,
+}

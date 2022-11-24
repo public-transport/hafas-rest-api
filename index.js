@@ -1,15 +1,13 @@
-'use strict'
-
-const express = require('express')
-const compression = require('compression')
-const hsts = require('hsts')
-const pino = require('pino')
-const createCors = require('cors')
-const onHeaders = require('on-headers')
-const getRoutes = require('./routes')
-const routeUriTemplate = require('./lib/route-uri-template')
-const linkHeader = require('./lib/link-header')
-const {setOpenapiLink, serveOpenapiSpec} = require('./lib/openapi-spec')
+import express from 'express'
+import compression from 'compression'
+import hsts from 'hsts'
+import pino from 'pino'
+import createCors from 'cors'
+import onHeaders from 'on-headers'
+import {getAllRoutes as getRoutes} from './routes/index.js'
+import {routeUriTemplate} from './lib/route-uri-template.js'
+import {formatLinkHeader as linkHeader} from './lib/link-header.js'
+import {setOpenapiLink, serveOpenapiSpec} from './lib/openapi-spec.js'
 
 const REQ_START_TIME = Symbol.for('request-start-time')
 
@@ -40,7 +38,7 @@ const assertBoolean = (cfg, key) => {
 	}
 }
 
-const createApi = (hafas, config, attachMiddleware) => {
+const createHafasRestApi = async (hafas, config, attachMiddleware) => {
 	config = Object.assign({}, defaultConfig, config)
 	// mandatory
 	assertNonEmptyString(config, 'hostname')
@@ -77,7 +75,9 @@ const createApi = (hafas, config, attachMiddleware) => {
 	}
 	api.set('etag', config.etags)
 	if (config.logging) {
-		const createLogging = require('./logging')
+		const {
+			createLoggingMiddleware: createLogging,
+		} = await import('./logging.js')
 		api.use(createLogging(api.locals.logger))
 	}
 	api.use(compression())
@@ -136,11 +136,15 @@ const createApi = (hafas, config, attachMiddleware) => {
 
 	// todo [breaking]: move these down as far as possible
 	if (config.aboutPage) {
-		const aboutPage = require('./about-page')
+		const {
+			createAboutPageRoute: aboutPage,
+		} = await import('./about-page.js')
 		api.get('/', aboutPage(config.name, config.description, config.docsLink))
 	}
 	if (config.docsAsMarkdown) {
-		const docs = require('./docs')
+		const {
+			createDocsRoute: docs,
+		} = await import('./docs.js')
 		api.get('/docs', docs(config))
 	}
 
@@ -167,7 +171,8 @@ const createApi = (hafas, config, attachMiddleware) => {
 		})
 	}
 
-	const routes = config.modifyRoutes(getRoutes(hafas, config), hafas, config)
+	const _routes = await getRoutes(hafas, config)
+	const routes = config.modifyRoutes(_routes, hafas, config)
 	api.routes = routes
 	for (const [path, route] of Object.entries(routes)) {
 		api.get(path, route)
@@ -186,11 +191,15 @@ const createApi = (hafas, config, attachMiddleware) => {
 	})
 
 	if (config.handleErrors) {
-		const handleErrors = require('./handle-errors')
+		const {
+			createErrorHandler: handleErrors,
+		} = await import('./handle-errors.js')
 		api.use(handleErrors(api.locals.logger))
 	}
 
 	return api
 }
 
-module.exports = createApi
+export {
+	createHafasRestApi,
+}

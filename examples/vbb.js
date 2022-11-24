@@ -1,13 +1,11 @@
-'use strict'
+import path from 'path'
+import createHafas from 'hafas-client'
+import vbbProfile from 'hafas-client/p/vbb/index.js'
+import Redis from 'ioredis'
+import withCaching from 'cached-hafas-client'
+import createRedisStore from 'cached-hafas-client/stores/redis.js'
 
-const path = require('path')
-const createHafas = require('hafas-client')
-const vbbProfile = require('hafas-client/p/vbb')
-const Redis = require('ioredis')
-const withCaching = require('cached-hafas-client')
-const createRedisStore = require('cached-hafas-client/stores/redis')
-
-const createApi = require('..')
+import {createHafasRestApi} from '../index.js'
 
 // pro tip: pipe this script into `pino-pretty` to get nice logs
 
@@ -43,7 +41,7 @@ if (process.env.REDIS_URL) {
 	hafas = withCaching(rawHafas, createRedisStore(redis))
 }
 
-const api = createApi(hafas, config, () => {})
+const api = await createHafasRestApi(hafas, config, () => {})
 
 const {logger} = api.locals
 const port = process.env.PORT || 3000
@@ -52,6 +50,6 @@ api.listen(port, (err) => {
 		logger.error(err)
 		process.exitCode = 1
 	} else {
-		logger.info(`Listening on ${config.hostname}:${port}.`)
+		logger.info(`listening on ${port} (${config.hostname}).`)
 	}
 })

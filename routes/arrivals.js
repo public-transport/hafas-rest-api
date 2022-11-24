@@ -1,6 +1,4 @@
-'use strict'
-
-const {
+import {
 	parseWhen,
 	parseStop,
 	parseInteger,
@@ -8,18 +6,18 @@ const {
 	parseString,
 	parseQuery,
 	parseProducts
-} = require('../lib/parse')
-const {
+} from '../lib/parse.js'
+import {
 	formatWhen,
-} = require('../lib/format')
-const sendServerTiming = require('../lib/server-timing')
-const {
+} from '../lib/format.js'
+import {sendServerTiming} from '../lib/server-timing.js'
+import {
 	configureJSONPrettyPrinting,
 	jsonPrettyPrintingOpenapiParam,
 	jsonPrettyPrintingParam,
-} = require('../lib/json-pretty-printing')
-const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
-const formatProductParams = require('../lib/format-product-parameters')
+} from '../lib/json-pretty-printing.js'
+import {formatParsersAsOpenapiParams} from '../lib/format-parsers-as-openapi.js'
+import {formatProductParams} from '../lib/format-product-parameters.js'
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -28,7 +26,7 @@ const err400 = (msg) => {
 }
 
 // todo: DRY with routes/departures.js
-const createRoute = (hafas, config) => {
+const createArrivalsRoute = (hafas, config) => {
 	// todo: move to `hafas-client`
 	const _parsers = {
 		when: {
@@ -175,4 +173,6 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 	return arrivals
 }
 
-module.exports = createRoute
+export {
+	createArrivalsRoute,
+}

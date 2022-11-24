@@ -1,17 +1,17 @@
-'use strict'
+import {createNearbyRoute as nearby} from './nearby.js'
+import {createStopRoute as stop} from './stop.js'
+import {createDeparturesRoute as departures} from './departures.js'
+import {createArrivalsRoute as arrivals} from './arrivals.js'
+import {createJourneysRoute as journeys} from './journeys.js'
+import {createLocationsRoute as locations} from './locations.js'
 
-const nearby = require('./nearby')
-const stop = require('./stop')
-const departures = require('./departures')
-const arrivals = require('./arrivals')
-const journeys = require('./journeys')
-const locations = require('./locations')
-
-const getRoutes = (hafas, config) => {
+const getAllRoutes = async (hafas, config) => {
 	const routes = Object.create(null)
 
 	if (hafas.reachableFrom) {
-		const reachableFrom = require('./reachable-from')
+		const {
+			createReachableFromRoute: reachableFrom,
+		} = await import('./reachable-from.js')
 		routes['/stops/reachable-from'] = reachableFrom(hafas, config)
 	}
 	routes['/stops/:id'] = stop(hafas, config)
@@ -19,21 +19,29 @@ const getRoutes = (hafas, config) => {
 	routes['/stops/:id/arrivals'] = arrivals(hafas, config)
 	routes['/journeys'] = journeys(hafas, config)
 	if (hafas.trip) {
-		const trip = require('./trip')
+		const {
+			createTripRoute: trip,
+		} = await import('./trip.js')
 		routes['/trips/:id'] = trip(hafas, config)
 	}
 	routes['/locations/nearby'] = nearby(hafas, config)
 	routes['/locations'] = locations(hafas, config)
 	if (hafas.radar) {
-		const radar = require('./radar')
+		const {
+			createRadarRoute: radar,
+		} = await import('./radar.js')
 		routes['/radar'] = radar(hafas, config)
 	}
 	if (hafas.refreshJourney) {
-		const refreshJourney = require('./refresh-journey')
+		const {
+			createRefreshJourneyRoute: refreshJourney,
+		} = await import('./refresh-journey.js')
 		routes['/journeys/:ref'] = refreshJourney(hafas, config)
 	}
 
 	return routes
 }
 
-module.exports = getRoutes
+export {
+	getAllRoutes,
+}

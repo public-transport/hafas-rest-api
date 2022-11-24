@@ -1,6 +1,4 @@
-'use strict'
-
-const {
+import {
 	parseWhen,
 	parseInteger,
 	parseNumber,
@@ -9,15 +7,15 @@ const {
 	parseQuery,
 	parseProducts,
 	parseLocation
-} = require('../lib/parse')
-const sendServerTiming = require('../lib/server-timing')
-const {
+} from '../lib/parse.js'
+import {sendServerTiming} from '../lib/server-timing.js'
+import {
 	configureJSONPrettyPrinting,
 	jsonPrettyPrintingOpenapiParam,
 	jsonPrettyPrintingParam,
-} = require('../lib/json-pretty-printing')
-const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
-const formatProductParams = require('../lib/format-product-parameters')
+} from '../lib/json-pretty-printing.js'
+import {formatParsersAsOpenapiParams} from '../lib/format-parsers-as-openapi.js'
+import {formatProductParams} from '../lib/format-product-parameters.js'
 
 const WITHOUT_FROM_TO = {
 	from: null,
@@ -45,7 +43,7 @@ const parseWalkingSpeed = (key, val) => {
 	return val
 }
 
-const createRoute = (hafas, config) => {
+const createJourneysRoute = (hafas, config) => {
 	const parsers = config.mapRouteParsers('journeys', {
 		departure: {
 			description: 'Compute journeys departing at this date/time. Mutually exclusive with `arrival`.',
@@ -265,4 +263,6 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 	return journeys
 }
 
-module.exports = createRoute
+export {
+	createJourneysRoute,
+}

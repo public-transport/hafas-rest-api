@@ -1,20 +1,18 @@
-'use strict'
-
-const {
+import {
 	parseStop,
 	parseBoolean,
 	parseString,
 	parseQuery
-} = require('../lib/parse')
-const sendServerTiming = require('../lib/server-timing')
-const {
+} from '../lib/parse.js'
+import {sendServerTiming} from '../lib/server-timing.js'
+import {
 	configureJSONPrettyPrinting,
 	jsonPrettyPrintingOpenapiParam,
 	jsonPrettyPrintingParam,
-} = require('../lib/json-pretty-printing')
-const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
+} from '../lib/json-pretty-printing.js'
+import {formatParsersAsOpenapiParams} from '../lib/format-parsers-as-openapi.js'
 
-const createRoute = (hafas, config) => {
+const createStopRoute = (hafas, config) => {
 	const parsers = config.mapRouteParsers('stop', {
 		linesOfStops: {
 			description: 'Parse & expose lines at each stop/station?',
@@ -104,4 +102,6 @@ Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/b
 	return stop
 }
 
-module.exports = createRoute
+export {
+	createStopRoute,
+}

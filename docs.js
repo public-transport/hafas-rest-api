@@ -1,6 +1,4 @@
-'use strict'
-
-const MarkdownRender = require('markdown-it')
+import MarkdownRender from 'markdown-it'
 
 const md = new MarkdownRender()
 // todo: https://github.com/markdown-it/markdown-it/issues/28
@@ -19,4 +17,6 @@ const createDocsRoute = (cfg) => {
 	return docs
 }
 
-module.exports = createDocsRoute
+export {
+	createDocsRoute,
+}

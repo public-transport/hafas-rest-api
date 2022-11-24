@@ -1,18 +1,16 @@
-'use strict'
-
-const {
+import {
 	parseInteger,
 	parseBoolean,
 	parseString,
 	parseQuery
-} = require('../lib/parse')
-const sendServerTiming = require('../lib/server-timing')
-const {
+} from '../lib/parse.js'
+import {sendServerTiming} from '../lib/server-timing.js'
+import {
 	configureJSONPrettyPrinting,
 	jsonPrettyPrintingOpenapiParam,
 	jsonPrettyPrintingParam,
-} = require('../lib/json-pretty-printing')
-const formatParsersAsOpenapiParams = require('../lib/format-parsers-as-openapi')
+} from '../lib/json-pretty-printing.js'
+import {formatParsersAsOpenapiParams} from '../lib/format-parsers-as-openapi.js'
 
 const err400 = (msg) => {
 	const err = new Error(msg)
@@ -20,7 +18,7 @@ const err400 = (msg) => {
 	return err
 }
 
-const createRoute = (hafas, config) => {
+const createRadarRoute = (hafas, config) => {
 	const parsers = config.mapRouteParsers('radar', {
 		results: {
 			description: 'Max. number of vehicles.',
@@ -140,4 +138,6 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 	return radar
 }
 
-module.exports = createRoute
+export {
+	createRadarRoute,
+}
