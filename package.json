@@ -50,10 +50,10 @@
 	},
 	"devDependencies": {
 		"axios": "^0.26.1",
-		"cached-hafas-client": "^4.0.6",
+		"cached-hafas-client": "^5.0.0",
 		"eslint": "^8.0.1",
 		"get-port": "^5.1.1",
-		"hafas-client": "^5.3.1",
+		"hafas-client": "^6.0.0",
 		"ioredis": "^4.28.5",
 		"pino-pretty": "^7.1.0",
 		"tap-min": "^2.0.0",
@@ -61,7 +61,7 @@
 		"tape-promise": "^4.0.0"
 	},
 	"peerDependencies": {
-		"hafas-client": "^5"
+		"hafas-client": "^6"
 	},
 	"scripts": {
 		"test": "node test/index.js | tap-min",

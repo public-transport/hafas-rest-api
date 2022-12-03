@@ -54,7 +54,7 @@ const generateApiDocs = (routes) => {
 	let listOfRoutes = `\
 ## Routes
 
-*Note:* These routes only wrap [\`hafas-client@5\` methods](https://github.com/public-transport/hafas-client/blob/5/docs/readme.md), check their docs for more details.
+*Note:* These routes only wrap [\`hafas-client@6\` methods](https://github.com/public-transport/hafas-client/blob/6/docs/api.md), check their docs for more details.
 
 `
 

@@ -52,10 +52,10 @@ const createStopRoute = (hafas, config) => {
 			get: {
 				summary: 'Finds a stop/station by ID.',
 				description: `\
-Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/blob/5/docs/stop.md) to **find a stop/station by ID**.`,
+Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/blob/6/docs/stop.md) to **find a stop/station by ID**.`,
 				externalDocs: {
 					description: '`hafasClient.stop()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/stop.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/stop.md',
 				},
 				parameters: [
 					{
@@ -71,7 +71,7 @@ Uses [\`hafasClient.stop()\`](https://github.com/public-transport/hafas-client/b
 				],
 				responses: {
 					'2XX': {
-						description: 'The stop, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/stop.md).',
+						description: 'The stop, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/stop.md).',
 						content: {
 							'application/json': {
 								schema: {

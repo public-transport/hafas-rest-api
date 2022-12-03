@@ -78,10 +78,10 @@ const createReachableFromRoute = (hafas, config) => {
 			get: {
 				summary: 'Finds stops/stations reachable within a certain time from an address.',
 				description: `\
-Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md) to **find stops/stations reachable within a certain time from an address**.`,
+Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas-client/blob/6/docs/reachable-from.md) to **find stops/stations reachable within a certain time from an address**.`,
 				externalDocs: {
 					description: '`hafasClient.reachableFrom()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/reachable-from.md',
 				},
 				parameters: [
 					...formatParsersAsOpenapiParams(parsers),
@@ -89,7 +89,7 @@ Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of stops/stations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/reachable-from.md).',
+						description: 'An array of stops/stations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/reachable-from.md).',
 						content: {
 							'application/json': {
 								schema: {

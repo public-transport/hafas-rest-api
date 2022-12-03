@@ -76,11 +76,11 @@ const createRefreshJourneyRoute = (hafas, config) => {
 		config.addHafasOpts(opt, 'refreshJourney', req)
 
 		hafas.refreshJourney(ref, opt)
-		.then((journey) => {
-			sendServerTiming(res, journey)
+		.then((journeyRes) => {
+			sendServerTiming(res, journeyRes)
 			res.allowCachingFor(60) // 1 minute
 			configureJSONPrettyPrinting(req, res)
-			res.json(journey)
+			res.json(journeyRes)
 			next()
 		})
 		.catch(next)
@@ -91,12 +91,12 @@ const createRefreshJourneyRoute = (hafas, config) => {
 			get: {
 				summary: 'Fetches up-to-date realtime data for a journey computed before.',
 				description: `\
-Uses [\`hafasClient.refreshJourney()\`](https://github.com/public-transport/hafas-client/blob/5/docs/refresh-journey.md) to **"refresh" a journey, using its \`refreshToken\`**.
+Uses [\`hafasClient.refreshJourney()\`](https://github.com/public-transport/hafas-client/blob/6/docs/refresh-journey.md) to **"refresh" a journey, using its \`refreshToken\`**.
 
 The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehicles used), but you can get up-to-date realtime data, like delays & cancellations.`,
 				externalDocs: {
 					description: '`hafasClient.refreshJourney()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/refresh-journey.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/refresh-journey.md',
 				},
 				parameters: [
 					{
@@ -112,7 +112,7 @@ The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehic
 				],
 				responses: {
 					'2XX': {
-						description: 'The up-to-date journey, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/refresh-journey.md).',
+						description: 'The up-to-date journey, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/refresh-journey.md).',
 						content: {
 							'application/json': {
 								schema: {

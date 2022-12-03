@@ -48,18 +48,15 @@ const createTripRoute = (hafas, config) => {
 	const trip = (req, res, next) => {
 		const id = req.params.id.trim()
 
-		const lineName = req.query.lineName
-		if (!lineName) return next(err400('Missing lineName.'))
-
 		const opt = parseQuery(parsers, req.query)
 		config.addHafasOpts(opt, 'trip', req)
 
-		hafas.trip(id, lineName, opt)
-		.then((trip) => {
-			sendServerTiming(res, trip)
+		hafas.trip(id, opt)
+		.then((tripRes) => {
+			sendServerTiming(res, tripRes)
 			res.allowCachingFor(30) // 30 seconds
 			configureJSONPrettyPrinting(req, res)
-			res.json(trip)
+			res.json(tripRes)
 			next()
 		})
 		.catch(next)
@@ -70,10 +67,10 @@ const createTripRoute = (hafas, config) => {
 			get: {
 				summary: 'Fetches a trip by ID.',
 				description: `\
-Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/blob/5/docs/trip.md) to **fetch a trip by ID**.`,
+Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/blob/6/docs/trip.md) to **fetch a trip by ID**.`,
 				externalDocs: {
 					description: '`hafasClient.trip()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/trip.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/trip.md',
 				},
 				parameters: [
 					{
@@ -84,20 +81,12 @@ Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/b
 						schema: {type: 'string'},
 						// todo: examples?
 					},
-					{
-						name: 'lineName',
-						in: 'query',
-						description: 'the trip\'s line name',
-						required: true,
-						schema: {type: 'string'},
-						// todo: examples?
-					},
 					...formatParsersAsOpenapiParams(parsers),
 					jsonPrettyPrintingOpenapiParam,
 				],
 				responses: {
 					'2XX': {
-						description: 'The trip, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/trip.md).',
+						description: 'The trip, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/trip.md).',
 						content: {
 							'application/json': {
 								schema: {
@@ -122,12 +111,6 @@ Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/b
 		},
 	}
 	trip.queryParameters = {
-		'lineName': {
-			required: true,
-			description: 'Line name of the part\'s mode of transport, e.g. `RE7`.',
-			type: 'string',
-			defaultStr: '–',
-		},
 		...parsers,
 		'pretty': jsonPrettyPrintingParam,
 	}

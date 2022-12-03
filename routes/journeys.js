@@ -208,10 +208,10 @@ const createJourneysRoute = (hafas, config) => {
 			get: {
 				summary: 'Finds journeys from A to B.',
 				description: `\
-Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md) to **find journeys from A (\`from\`) to B (\`to\`)**.`,
+Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-client/blob/6/docs/journeys.md) to **find journeys from A (\`from\`) to B (\`to\`)**.`,
 				externalDocs: {
 					description: '`hafasClient.journeys()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/journeys.md',
 				},
 				parameters: [
 					...formatParsersAsOpenapiParams(parsers),
@@ -219,7 +219,7 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of journeys, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/journeys.md).',
+						description: 'An array of journeys, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/journeys.md).',
 						content: {
 							'application/json': {
 								schema: {

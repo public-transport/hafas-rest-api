@@ -1,9 +1,9 @@
 import path from 'path'
-import createHafas from 'hafas-client'
-import vbbProfile from 'hafas-client/p/vbb/index.js'
+import {createClient as createHafas} from 'hafas-client'
+import {profile as vbbProfile} from 'hafas-client/p/vbb/index.js'
 import Redis from 'ioredis'
-import withCaching from 'cached-hafas-client'
-import createRedisStore from 'cached-hafas-client/stores/redis.js'
+import {createCachedHafasClient as withCaching} from 'cached-hafas-client'
+import {createRedisStore} from 'cached-hafas-client/stores/redis.js'
 
 import {createHafasRestApi} from '../index.js'
 

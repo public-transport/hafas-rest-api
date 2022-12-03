@@ -1,5 +1,5 @@
-import createHafas from 'hafas-client'
-import dbProfile from 'hafas-client/p/db/index.js'
+import {createClient as createHafas} from 'hafas-client'
+import {profile as dbProfile} from 'hafas-client/p/db/index.js'
 import getPort from 'get-port'
 import {createServer} from 'http'
 import {promisify} from 'util'

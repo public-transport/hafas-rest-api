@@ -64,7 +64,14 @@ const createHafasRestApi = async (hafas, config, attachMiddleware) => {
 
 	const api = express()
 	api.locals.config = config
-	api.locals.logger = pino()
+	api.locals.logger = pino({
+		redact: {
+			paths: [
+				'err.request', 'err.response',
+			],
+			remove: true,
+		},
+	})
 
 	if (config.cors) {
 		const cors = createCors({

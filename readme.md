@@ -1,6 +1,6 @@
 # hafas-rest-api
 
-**Expose a [`hafas-client@5`](https://github.com/public-transport/hafas-client/tree/5) instance as an HTTP REST API.**
+**Expose a [`hafas-client@6`](https://github.com/public-transport/hafas-client/tree/6) instance as an HTTP REST API.**
 
 [![npm version](https://img.shields.io/npm/v/hafas-rest-api.svg)](https://www.npmjs.com/package/hafas-rest-api)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/hafas-rest-api.svg)
@@ -18,8 +18,8 @@ npm install hafas-rest-api
 ## Usage
 
 ```js
-import createHafas from 'hafas-client'
-import {dbProfile} from 'hafas-client/p/db/index.js'
+import {createClient as createHafas} from 'hafas-client'
+import {profile as dbProfile} from 'hafas-client/p/db/index.js'
 import {createHafasRestApi as createApi} from 'hafas-rest-api'
 
 const config = {

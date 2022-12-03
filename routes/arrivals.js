@@ -106,12 +106,13 @@ const createArrivalsRoute = (hafas, config) => {
 		config.addHafasOpts(opt, 'arrivals', req)
 
 		hafas.arrivals(id, opt)
-		.then((arrs) => {
-			sendServerTiming(res, arrs)
-			res.setLinkHeader(linkHeader(req, opt, arrs))
+		.then((arrsRes) => {
+			sendServerTiming(res, arrsRes)
+			res.setLinkHeader(linkHeader(req, opt, arrsRes.arrivals))
+			// todo: send res.realtimeDataUpdatedAt as Last-Modified?
 			res.allowCachingFor(30) // 30 seconds
 			configureJSONPrettyPrinting(req, res)
-			res.json(arrs)
+			res.json(arrsRes)
 			next()
 		})
 		.catch(next)
@@ -122,10 +123,10 @@ const createArrivalsRoute = (hafas, config) => {
 			get: {
 				summary: 'Fetches arrivals at a stop/station.',
 				description: `\
-Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arrivals()\`](https://github.com/public-transport/hafas-client/blob/5/docs/arrivals.md) to **query arrivals at a stop/station**.`,
+Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arrivals()\`](https://github.com/public-transport/hafas-client/blob/6/docs/arrivals.md) to **query arrivals at a stop/station**.`,
 				externalDocs: {
 					description: '`hafasClient.arrivals()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/arrivals.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/arrivals.md',
 				},
 				parameters: [
 					{
@@ -141,7 +142,7 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of arrivals, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/arrivals.md).',
+						description: 'An array of arrivals, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/arrivals.md).',
 						content: {
 							'application/json': {
 								schema: {

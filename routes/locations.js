@@ -86,10 +86,10 @@ const createLocationsRoute = (hafas, config) => {
 			get: {
 				summary: 'Finds stops/stations, POIs and addresses matching a query.',
 				description: `\
-Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-client/blob/5/docs/locations.md) to **find stops/stations, POIs and addresses matching \`query\`**.`,
+Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-client/blob/6/docs/locations.md) to **find stops/stations, POIs and addresses matching \`query\`**.`,
 				externalDocs: {
 					description: '`hafasClient.locations()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/locations.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/locations.md',
 				},
 				parameters: [
 					{
@@ -105,7 +105,7 @@ Uses [\`hafasClient.locations()\`](https://github.com/public-transport/hafas-cli
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of locations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/locations.md).',
+						description: 'An array of locations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/locations.md).',
 						content: {
 							'application/json': {
 								schema: {

@@ -118,12 +118,13 @@ const createDeparturesRoute = (hafas, config) => {
 		config.addHafasOpts(opt, 'departures', req)
 
 		hafas.departures(id, opt)
-		.then((deps) => {
-			sendServerTiming(res, deps)
-			res.setLinkHeader(linkHeader(req, opt, deps))
+		.then((depsRes) => {
+			sendServerTiming(res, depsRes)
+			res.setLinkHeader(linkHeader(req, opt, depsRes.departures))
+			// todo: send res.realtimeDataUpdatedAt as Last-Modified?
 			res.allowCachingFor(30) // 30 seconds
 			configureJSONPrettyPrinting(req, res)
-			res.json(deps)
+			res.json(depsRes)
 			next()
 		})
 		.catch(next)
@@ -134,10 +135,10 @@ const createDeparturesRoute = (hafas, config) => {
 			get: {
 				summary: 'Fetches departures at a stop/station.',
 				description: `\
-Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-client/blob/5/docs/departures.md) to **query departures at a stop/station**.`,
+Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-client/blob/6/docs/departures.md) to **query departures at a stop/station**.`,
 				externalDocs: {
 					description: '`hafasClient.departures()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/departures.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/departures.md',
 				},
 				parameters: [
 					{
@@ -153,7 +154,7 @@ Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-cl
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of departures, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/departures.md).',
+						description: 'An array of departures, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/departures.md).',
 						content: {
 							'application/json': {
 								schema: {

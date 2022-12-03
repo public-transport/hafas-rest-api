@@ -78,10 +78,10 @@ const createRadarRoute = (hafas, config) => {
 			get: {
 				summary: 'Finds all vehicles currently in an area.',
 				description: `\
-Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/blob/5/docs/radar.md) to **find all vehicles currently in an area**, as well as their movements.`,
+Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/blob/6/docs/radar.md) to **find all vehicles currently in an area**, as well as their movements.`,
 				externalDocs: {
 					description: '`hafasClient.radar()` documentation',
-					url: 'https://github.com/public-transport/hafas-client/blob/5/docs/radar.md',
+					url: 'https://github.com/public-transport/hafas-client/blob/6/docs/radar.md',
 				},
 				parameters: [
 					...formatParsersAsOpenapiParams(parsers),
@@ -89,7 +89,7 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of movements, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/5/docs/radar.md).',
+						description: 'An array of movements, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/radar.md).',
 						content: {
 							'application/json': {
 								schema: {

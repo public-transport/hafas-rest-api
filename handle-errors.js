@@ -1,19 +1,30 @@
+import {
+	HafasError,
+	HafasInvalidRequestError,
+	HafasNotFoundError,
+} from 'hafas-client/lib/errors.js'
+
 const createErrorHandler = (logger) => {
 	const handleErrors = (err, req, res, next) => {
 		logger.error(err)
 		if (res.headersSent) return next()
 
 		let msg = err.message, code = err.statusCode || null
-		if (err.isHafasError) {
+		if (err instanceof HafasError) {
 			msg = 'HAFAS error: ' + msg
-			code = 502
-		} else if (err.name === 'TypeError') {
-			code = 400
+			if (err instanceof HafasInvalidRequestError) {
+				code = 400
+			} else if (err instanceof HafasNotFoundError) {
+				code = 404
+			} else {
+				code = 502
+			}
 		}
+
 		res.status(code || 500).json({
 			...err,
-			error: true,
-			msg,
+			request: undefined,
+			response: undefined,
 		})
 		next()
 	}
