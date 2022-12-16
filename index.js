@@ -141,20 +141,6 @@ const createHafasRestApi = async (hafas, config, attachMiddleware) => {
 		next()
 	})
 
-	// todo [breaking]: move these down as far as possible
-	if (config.aboutPage) {
-		const {
-			createAboutPageRoute: aboutPage,
-		} = await import('./about-page.js')
-		api.get('/', aboutPage(config.name, config.description, config.docsLink))
-	}
-	if (config.docsAsMarkdown) {
-		const {
-			createDocsRoute: docs,
-		} = await import('./docs.js')
-		api.get('/docs', docs(config))
-	}
-
 	if (attachMiddleware) attachMiddleware(api)
 
 	if (config.healthCheck) {
@@ -176,6 +162,19 @@ const createHafasRestApi = async (hafas, config, attachMiddleware) => {
 				next(err)
 			}
 		})
+	}
+
+	if (config.aboutPage) {
+		const {
+			createAboutPageRoute: aboutPage,
+		} = await import('./about-page.js')
+		api.get('/', aboutPage(config.name, config.description, config.docsLink))
+	}
+	if (config.docsAsMarkdown) {
+		const {
+			createDocsRoute: docs,
+		} = await import('./docs.js')
+		api.get('/docs', docs(config))
 	}
 
 	const _routes = await getRoutes(hafas, config)
