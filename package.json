@@ -1,7 +1,7 @@
 {
 	"name": "hafas-rest-api",
 	"description": "Expose a HAFAS client via an HTTP REST API.",
-	"version": "4.1.2",
+	"version": "5.0.0",
 	"main": "index.js",
 	"type": "module",
 	"files": [
@@ -40,7 +40,7 @@
 		"http-link-header": "^1.0.2",
 		"lodash": "^4.17.15",
 		"luxon": "^3.1.1",
-		"markdown-it": "^12.2.0",
+		"markdown-it": "^13.0.1",
 		"on-headers": "^1.0.2",
 		"parse-human-relative-time": "^3.0.0",
 		"pino": "^8.8.0",
