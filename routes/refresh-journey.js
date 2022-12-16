@@ -118,8 +118,8 @@ The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehic
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									type: 'object',
+									// todo
 								},
 								// todo: example(s)
 							},
