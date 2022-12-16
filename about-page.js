@@ -1,4 +1,4 @@
-import escape from 'stringify-entities'
+import {stringifyEntitiesLight as escape} from 'stringify-entities'
 
 const createAboutPageRoute = (name, description, docsLink) => {
 	if ('string' !== typeof name || !name) {
