@@ -89,12 +89,23 @@ Uses [\`hafasClient.radar()\`](https://github.com/public-transport/hafas-client/
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of movements, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/radar.md).',
+						description: 'An object with an array of movements, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/radar.md).',
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									type: 'object',
+									properties: {
+										movements: {
+											type: 'array',
+											items: {type: 'object'}, // todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+									},
+									required: [
+										'movements',
+									],
 								},
 								// todo: example(s)
 							},

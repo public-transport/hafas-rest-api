@@ -86,12 +86,23 @@ Uses [\`hafasClient.trip()\`](https://github.com/public-transport/hafas-client/b
 				],
 				responses: {
 					'2XX': {
-						description: 'The trip, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/trip.md).',
+						description: 'An object with the trip, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/trip.md).',
 						content: {
 							'application/json': {
 								schema: {
 									type: 'object',
-									// todo
+									properties: {
+										trip: {
+											type: 'object',
+											// todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+									},
+									required: [
+										'trip',
+									],
 								},
 								// todo: example(s)
 							},

@@ -142,12 +142,23 @@ Works like \`/stops/{id}/departures\`, except that it uses [\`hafasClient.arriva
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of arrivals, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/arrivals.md).',
+						description: 'An object with an array of arrivals, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/arrivals.md).',
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									type: 'object',
+									properties: {
+										arrivals: {
+											type: 'array',
+											items: {type: 'object'}, // todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+									},
+									required: [
+										'arrivals',
+									],
 								},
 								// todo: example(s)
 							},

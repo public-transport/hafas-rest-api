@@ -154,12 +154,23 @@ Uses [\`hafasClient.departures()\`](https://github.com/public-transport/hafas-cl
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of departures, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/departures.md).',
+						description: 'An object with an array of departures, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/departures.md).',
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									type: 'object',
+									properties: {
+										departures: {
+											type: 'array',
+											items: {type: 'object'}, // todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+									},
+									required: [
+										'departures',
+									],
 								},
 								// todo: example(s)
 							},

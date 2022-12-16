@@ -89,12 +89,23 @@ Uses [\`hafasClient.reachableFrom()\`](https://github.com/public-transport/hafas
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of stops/stations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/reachable-from.md).',
+						description: 'An object with an array of stops/stations, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/reachable-from.md).',
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									type: 'object',
+									properties: {
+										reachable: {
+											type: 'array',
+											items: {type: 'object'}, // todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+									},
+									required: [
+										'reachable',
+									],
 								},
 								// todo: example(s)
 							},

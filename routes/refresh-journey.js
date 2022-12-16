@@ -112,12 +112,23 @@ The journey will be the same (equal \`from\`, \`to\`, \`via\`, date/time & vehic
 				],
 				responses: {
 					'2XX': {
-						description: 'The up-to-date journey, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/refresh-journey.md).',
+						description: 'An object with the up-to-date journey, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/refresh-journey.md).',
 						content: {
 							'application/json': {
 								schema: {
 									type: 'object',
-									// todo
+									properties: {
+										journey: {
+											type: 'object',
+											// todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+									},
+									required: [
+										'journey',
+									],
 								},
 								// todo: example(s)
 							},
