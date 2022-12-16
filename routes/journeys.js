@@ -219,12 +219,29 @@ Uses [\`hafasClient.journeys()\`](https://github.com/public-transport/hafas-clie
 				],
 				responses: {
 					'2XX': {
-						description: 'An array of journeys, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/journeys.md).',
+						description: 'An object with an array of journeys, in the [`hafas-client` format](https://github.com/public-transport/hafas-client/blob/6/docs/journeys.md).',
 						content: {
 							'application/json': {
 								schema: {
-									type: 'array',
-									items: {type: 'object'}, // todo
+									type: 'object',
+									properties: {
+										journeys: {
+											type: 'array',
+											items: {type: 'object'}, // todo
+										},
+										realtimeDataUpdatedAt: {
+											type: 'integer',
+										},
+										earlierRef: {
+											type: 'string',
+										},
+										laterRef: {
+											type: 'string',
+										},
+									},
+									required: [
+										'journeys',
+									],
 								},
 								// todo: example(s)
 							},
