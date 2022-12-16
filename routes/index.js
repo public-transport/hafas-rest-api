@@ -24,6 +24,12 @@ const getAllRoutes = async (hafas, config) => {
 		} = await import('./trip.js')
 		routes['/trips/:id'] = trip(hafas, config)
 	}
+	if (hafas.tripsByName) {
+		const {
+			createTripsRoute: trips,
+		} = await import('./trips.js')
+		routes['/trips'] = trips(hafas, config)
+	}
 	routes['/locations/nearby'] = nearby(hafas, config)
 	routes['/locations'] = locations(hafas, config)
 	if (hafas.radar) {

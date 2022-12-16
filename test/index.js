@@ -112,4 +112,27 @@ test('/journeys with POI', async(t) => {
 	t.end()
 })
 
+test('/trips', async(t) => {
+	const mockTrips = [{
+		id: 'trip-1234',
+		line: {name: 'foo'},
+	}]
+	const mockHafas = {
+		tripsByName: async (query, opt) => {
+			t.equal(query, 'RE 1', 'invalid query')
+			t.equal(opt.onlyCurrentlyRunning, false, 'invalid opt.onlyCurrentlyRunning')
+			t.same(opt.operatorNames, ['foo', 'bAr'], 'invalid opt.operatorNames')
+			return {
+				trips: mockTrips,
+				realtimeDataUpdatedAt: 123,
+			}
+		}
+	}
+
+	const path = '/trips?query=RE%201&onlyCurrentlyRunning=false&operatorNames=foo,bAr'
+	const {data} = await fetchWithTestApi(mockHafas, {}, path)
+	t.deepEqual(data.trips, mockTrips)
+	t.end()
+})
+
 // todo
