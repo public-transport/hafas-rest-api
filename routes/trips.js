@@ -1,3 +1,4 @@
+import omit from 'lodash/omit.js'
 import {
 	parseWhen,
 	parseStop,
@@ -27,6 +28,11 @@ const err400 = (msg) => {
 const createTripsRoute = (hafas, config) => {
 	// todo: move to `hafas-client`
 	const _parsers = {
+		query: {
+			description: 'line name or Fahrtnummer',
+			type: 'string',
+			parse: parseString,
+		},
 		when: {
 			description: 'Date & time to get trips for.',
 			type: 'date+time',
@@ -100,14 +106,16 @@ const createTripsRoute = (hafas, config) => {
 	const parsers = config.mapRouteParsers('trips', _parsers)
 
 	const tripsRoute = (req, res, next) => {
-		if (!req.query.query) return next(err400('Missing query.'))
-		const {query} = req.query
+		const _parsedQuery = parseQuery(parsers, req.query)
+		// todo: default to '*'?
+		if (!_parsedQuery.query) return next(err400('Missing query.'))
+		const {query} = _parsedQuery
 
-		const opt = parseQuery(parsers, req.query)
+		const opt = omit(_parsedQuery, ['query'])
 		opt.products = parseProducts(hafas.profile.products, req.query)
 		config.addHafasOpts(opt, 'tripsByName', req)
 
-		hafas.tripsByName(query, opt)
+		hafas.tripsByName(_parsedQuery.query, opt)
 		.then((tripsRes) => {
 			sendServerTiming(res, tripsRes)
 			// todo: send res.realtimeDataUpdatedAt as Last-Modified?
