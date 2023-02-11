@@ -22,6 +22,7 @@ const createErrorHandler = (logger) => {
 		}
 
 		res.status(code || 500).json({
+			message: err.message || null,
 			...err,
 			request: undefined,
 			response: undefined,
