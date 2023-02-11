@@ -31,6 +31,7 @@ const createTripsRoute = (hafas, config) => {
 		query: {
 			description: 'line name or Fahrtnummer',
 			type: 'string',
+			default: '*',
 			parse: parseString,
 		},
 		when: {
@@ -107,7 +108,6 @@ const createTripsRoute = (hafas, config) => {
 
 	const tripsRoute = (req, res, next) => {
 		const _parsedQuery = parseQuery(parsers, req.query)
-		// todo: default to '*'?
 		if (!_parsedQuery.query) return next(err400('Missing query.'))
 		const {query} = _parsedQuery
 
