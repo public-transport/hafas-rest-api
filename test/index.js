@@ -135,4 +135,19 @@ test('/trips', async(t) => {
 	t.end()
 })
 
+test('/trips works without `query` query param', async(t) => {
+	const mockHafas = {
+		tripsByName: async (query, opt) => {
+			t.equal(query, '*', 'invalid query')
+			return {
+				trips: [],
+				realtimeDataUpdatedAt: 123,
+			}
+		}
+	}
+
+	const {data} = await fetchWithTestApi(mockHafas, {}, '/trips')
+	t.end()
+})
+
 // todo

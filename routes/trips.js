@@ -108,8 +108,7 @@ const createTripsRoute = (hafas, config) => {
 
 	const tripsRoute = (req, res, next) => {
 		const _parsedQuery = parseQuery(parsers, req.query)
-		if (!_parsedQuery.query) return next(err400('Missing query.'))
-		const {query} = _parsedQuery
+		const query = 'query' in _parsedQuery ? _parsedQuery.query : '*'
 
 		const opt = omit(_parsedQuery, ['query'])
 		opt.products = parseProducts(hafas.profile.products, req.query)
