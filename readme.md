@@ -31,7 +31,7 @@ const config = {
 }
 
 const hafas = createHafas(dbProfile, 'my-hafas-rest-api')
-const api = createApi(hafas, config)
+const api = await createApi(hafas, config)
 
 api.listen(3000, (err) => {
 	if (err) console.error(err)
