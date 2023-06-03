@@ -8,6 +8,7 @@ import {
 	parseProducts,
 	parseLocation
 } from '../lib/parse.js'
+import {snapWhenToSteps} from '../lib/snap-when.js'
 import {sendServerTiming} from '../lib/server-timing.js'
 import {
 	configureJSONPrettyPrinting,
@@ -48,7 +49,7 @@ const createJourneysRoute = (hafas, config) => {
 		departure: {
 			description: 'Compute journeys departing at this date/time. Mutually exclusive with `arrival`.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '*now, with 10s accuracy*',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		arrival: {
@@ -171,6 +172,9 @@ const createJourneysRoute = (hafas, config) => {
 		const via = parseLocation(req.query, 'via')
 		if (via) opt.via = via
 		opt.products = parseProducts(hafas.profile.products, req.query)
+		if (!('departure' in opt) && !('arrival' in opt)) {
+			opt.departure = snapWhenToSteps()
+		}
 		config.addHafasOpts(opt, 'journeys', req)
 
 		hafas.journeys(from, to, opt)

@@ -8,6 +8,7 @@ import {
 	parseQuery,
 	parseProducts,
 } from '../lib/parse.js'
+import {snapWhenToSteps} from '../lib/snap-when.js'
 import {sendServerTiming} from '../lib/server-timing.js'
 import {
 	configureJSONPrettyPrinting,
@@ -37,13 +38,13 @@ const createTripsRoute = (hafas, config) => {
 		when: {
 			description: 'Date & time to get trips for.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '*now, with 10s accuracy*',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		fromWhen: {
 			description: 'Together with untilWhen, forms a time frame to get trips for. Mutually exclusive with `when`.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '*now, with 10s accuracy*',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		untilWhen: {
@@ -112,6 +113,9 @@ const createTripsRoute = (hafas, config) => {
 
 		const opt = omit(_parsedQuery, ['query'])
 		opt.products = parseProducts(hafas.profile.products, req.query)
+		if (!('when' in opt) && !('fromWhen' in opt) && !('untilWhen' in opt)) {
+			opt.when = snapWhenToSteps()
+		}
 		config.addHafasOpts(opt, 'tripsByName', req)
 
 		hafas.tripsByName(_parsedQuery.query, opt)
