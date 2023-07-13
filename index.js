@@ -1,3 +1,4 @@
+import {hostname as osHostname} from 'node:os'
 import express from 'express'
 import compression from 'compression'
 import hsts from 'hsts'
@@ -12,6 +13,7 @@ import {setOpenapiLink, serveOpenapiSpec} from './lib/openapi-spec.js'
 const REQ_START_TIME = Symbol.for('request-start-time')
 
 const defaultConfig = {
+	hostname: osHostname(),
 	cors: true,
 	etags: 'weak',
 	csp: `default-src 'none'`,
