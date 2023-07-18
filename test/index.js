@@ -151,4 +151,14 @@ test('/trips works without `query` query param', async(t) => {
 	t.end()
 })
 
+test('OPTIONS /', async (t) => {
+	const {headers: h} = await fetchWithTestApi({}, {}, '/', {
+		method: 'OPTIONS',
+	})
+
+	t.equal(h['access-control-max-age'], '86400')
+
+	t.end()
+})
+
 // todo

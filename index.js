@@ -78,6 +78,7 @@ const createHafasRestApi = async (hafas, config, attachMiddleware) => {
 	if (config.cors) {
 		const cors = createCors({
 			exposedHeaders: '*',
+			maxAge: 24 * 60 * 60, // 1 day
 		})
 		api.options('*', cors)
 		api.use(cors)
