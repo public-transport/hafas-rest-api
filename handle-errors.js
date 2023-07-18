@@ -2,6 +2,7 @@ import {
 	HafasError,
 	HafasInvalidRequestError,
 	HafasNotFoundError,
+	HafasServerError,
 } from 'hafas-client/lib/errors.js'
 
 const createErrorHandler = (logger) => {
@@ -37,6 +38,12 @@ const createErrorHandler = (logger) => {
 				_.status = 400
 			} else if (err instanceof HafasNotFoundError) {
 				_.status = 404
+			} else if (err instanceof HafasServerError) {
+				_.status = 502
+				if (err.shouldRetry === true) {
+					// Servers send the "Retry-After" header field to indicate how long the user agent ought to wait before making a follow-up request.
+					res.set('retry-after', '30') // seconds
+				}
 			} else {
 				_.status = 502
 			}
