@@ -28,7 +28,7 @@
 	"bugs": "https://github.com/public-transport/hafas-rest-api/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=18"
+		"node": ">=20"
 	},
 	"dependencies": {
 		"compression": "^1.7.2",
