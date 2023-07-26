@@ -50,7 +50,7 @@ const createTripsRoute = (hafas, config) => {
 		untilWhen: {
 			description: 'Together with fromWhen, forms a time frame to get trips for. Mutually exclusive with `when`.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '–',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		onlyCurrentlyRunning: {

@@ -26,6 +26,7 @@ const defaultConfig = {
 	mapRouteParsers: (route, parsers) => parsers,
 	mapRouteOpenapiPaths: (route, openapiPaths) => openapiPaths,
 	addHafasOpts: (opt, method, req) => {
+		// todo: once cached-hafas-client supports specifying a max age, read it from Cache-Control: max-age/max-stale and pass it in
 		if (['no-cache', 'no-store'].includes(req.headers['cache-control'])) {
 			opt[CACHED] = false
 		}

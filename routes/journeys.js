@@ -55,7 +55,7 @@ const createJourneysRoute = (hafas, config) => {
 		arrival: {
 			description: 'Compute journeys arriving at this date/time. Mutually exclusive with `departure`.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '–',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		earlierThan: {
