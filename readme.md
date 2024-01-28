@@ -42,12 +42,13 @@ api.listen(3000, (err) => {
 
 key | description | mandatory? | default value
 ----|-------------|------------|--------------
-`hostname` | The public hostname of the API. | ✔︎ | –
+`hostname` | The public hostname of the API. | ✔︎ | [`os.hostname()`](https://nodejs.org/docs/latest-v18.x/api/os.html#oshostname)
 `name` | The name of the API. Used for the `X-Powered-By` header and the about page. | ✔︎ | –
 `description` | Used for the about page. | ✔︎ (with `aboutPage: true`) | –
 `docsLink` | Used for the about page. | ✔︎ (with `aboutPage: true`) | –
 `cors` | Enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)? | ✗ | `true`
 `etags` | [Express config](https://expressjs.com/en/4x/api.html#etag.options.table) for [`ETag` headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) | ✗ | `weak`
+`csp` | The [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) sent as an HTTP header | ✗ | `default-src 'none'`
 `handleErrors` | Handle errors by sending `5**` codes and JSON. | ✗ | `true`
 `logging` | Log requests using [`pino`](https://npmjs.com/package/pino)? | ✗ | `false`
 `healthCheck` | A function that returning [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that resolve with `true` (for healthy) or `false`. | ✗ | –
