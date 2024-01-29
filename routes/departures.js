@@ -116,7 +116,10 @@ const createDeparturesRoute = (hafas, config) => {
 
 		const opt = parseQuery(parsers, req.query)
 		if (!('when' in opt)) {
-			opt.when = snapWhenToSteps()
+			res.redirect(307, req.searchWithNewParams({
+				when: snapWhenToSteps() / 1000 | 0,
+			}))
+			return next()
 		}
 
 		opt.products = parseProducts(hafas.profile.products, req.query)

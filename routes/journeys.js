@@ -173,7 +173,10 @@ const createJourneysRoute = (hafas, config) => {
 		if (via) opt.via = via
 		opt.products = parseProducts(hafas.profile.products, req.query)
 		if (!('departure' in opt) && !('arrival' in opt)) {
-			opt.departure = snapWhenToSteps()
+			res.redirect(307, req.searchWithNewParams({
+				departure: snapWhenToSteps() / 1000 | 0,
+			}))
+			return next()
 		}
 		config.addHafasOpts(opt, 'journeys', req)
 

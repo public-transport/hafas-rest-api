@@ -69,6 +69,57 @@ test('/locations/nearby', async(t) => {
 	t.end()
 })
 
+test('/stops/:id/departures redirects if ?when is missing', async(t) => {
+	// fake data
+	const someDeps = [
+		{_: Math.random().toString(16).slice(2)},
+	]
+	const earlierRef = 'some-earlier-ref'
+	const laterRef = 'some-later-ref'
+
+	const mockHafas = {
+		departures: async (stopId, opt) => {
+			t.equal(stopId, '123')
+			t.ok('when' in opt)
+			const when = +new Date(opt.when)
+			t.ok(Number.isInteger(when))
+			// todo: this is a race condition
+			t.ok(when <= Date.now())
+			t.ok((Date.now() - when) <= 10 * 1000)
+
+			return {
+				departures: someDeps,
+			}
+		}
+	}
+
+	const path = '/stops/123/departures'
+	{
+		let hasThrown = false
+		try {
+			await fetchWithTestApi(mockHafas, {}, path, {
+				maxRedirects: 0, // don't follow redirects
+			})
+		} catch (err) {
+			hasThrown = true
+			t.equal(err.name, 'AxiosError', 'should throw an AxiosError')
+			t.equal(err.response.status, 307, 'should redirect with 307')
+			t.ok(/^\?when=\d{7,}$/g.test(err.response.headers.location), 'Location header should make sense')
+		}
+		t.ok(hasThrown, 'should throw')
+	}
+
+	{
+		const {data} = await fetchWithTestApi(mockHafas, {}, path, {
+			maxRedirects: 1,
+		})
+		t.deepEqual(data, {
+			departures: someDeps,
+		})
+	}
+	t.end()
+})
+
 test('/journeys with POI', async(t) => {
 	// fake data
 	const someJourney = {_: Math.random().toString(16).slice(2)}

@@ -49,6 +49,12 @@ const createTripRoute = (hafas, config) => {
 		const id = req.params.id.trim()
 
 		const opt = parseQuery(parsers, req.query)
+		if (!('when' in opt)) {
+			res.redirect(307, req.searchWithNewParams({
+				when: snapWhenToSteps() / 1000 | 0,
+			}))
+			return next()
+		}
 		config.addHafasOpts(opt, 'trip', req)
 
 		hafas.trip(id, opt)
