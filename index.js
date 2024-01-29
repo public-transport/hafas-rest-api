@@ -5,6 +5,7 @@ import hsts from 'hsts'
 import pino from 'pino'
 import createCors from 'cors'
 import onHeaders from 'on-headers'
+import {CACHED} from './lib/caching.js'
 import {getAllRoutes as getRoutes} from './routes/index.js'
 import {routeUriTemplate} from './lib/route-uri-template.js'
 import {formatLinkHeader as linkHeader} from './lib/link-header.js'
@@ -24,7 +25,12 @@ const defaultConfig = {
 	healthCheck: null,
 	mapRouteParsers: (route, parsers) => parsers,
 	mapRouteOpenapiPaths: (route, openapiPaths) => openapiPaths,
-	addHafasOpts: () => {},
+	addHafasOpts: (opt, method, req) => {
+		// todo: once cached-hafas-client supports specifying a max age, read it from Cache-Control: max-age/max-stale and pass it in
+		if (['no-cache', 'no-store'].includes(req.headers['cache-control'])) {
+			opt[CACHED] = false
+		}
+	},
 	modifyRoutes: routes => routes,
 }
 

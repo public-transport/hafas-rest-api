@@ -60,6 +60,13 @@ const createRadarRoute = (hafas, config) => {
 		if (!q.south) return next(err400('Missing south latitude.'))
 		if (!q.east) return next(err400('Missing east longitude.'))
 
+		if (!('when' in opt)) {
+			res.redirect(307, req.searchWithNewParams({
+				when: snapWhenToSteps() / 1000 | 0,
+			}))
+			return next()
+		}
+
 		const opt = parseQuery(parsers, q)
 		config.addHafasOpts(opt, 'radar', req)
 		hafas.radar({north: +q.north, west: +q.west, south: +q.south, east: +q.east}, opt)

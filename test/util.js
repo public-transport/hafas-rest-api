@@ -69,9 +69,12 @@ const createTestApi = async (mocks, cfg) => {
 
 const fetchWithTestApi = async (mocks, cfg, path, opt = {}) => {
 	const {fetch, stop} = await createTestApi(mocks, cfg)
-	const res = await fetch(path, opt)
-	await stop()
-	return res
+	try {
+		const res = await fetch(path, opt)
+		return res
+	} finally {
+		await stop()
+	}
 }
 
 export {

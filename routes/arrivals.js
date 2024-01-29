@@ -10,6 +10,7 @@ import {
 import {
 	formatWhen,
 } from '../lib/format.js'
+import {snapWhenToSteps} from '../lib/snap-when.js'
 import {sendServerTiming} from '../lib/server-timing.js'
 import {
 	configureJSONPrettyPrinting,
@@ -32,7 +33,7 @@ const createArrivalsRoute = (hafas, config) => {
 		when: {
 			description: 'Date & time to get departures for.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '*now, with 10s accuracy*',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		direction: {
@@ -102,6 +103,13 @@ const createArrivalsRoute = (hafas, config) => {
 		const id = parseStop('id', req.params.id)
 
 		const opt = parseQuery(parsers, req.query)
+		if (!('when' in opt)) {
+			res.redirect(307, req.searchWithNewParams({
+				when: snapWhenToSteps(Date.now(), true) / 1000 | 0,
+			}))
+			return next()
+		}
+
 		opt.products = parseProducts(hafas.profile.products, req.query)
 		config.addHafasOpts(opt, 'arrivals', req)
 

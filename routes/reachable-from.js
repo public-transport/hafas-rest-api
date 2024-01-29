@@ -5,6 +5,7 @@ import {
 	parseQuery,
 	parseProducts
 } from '../lib/parse.js'
+import {snapWhenToSteps} from '../lib/snap-when.js'
 import {sendServerTiming} from '../lib/server-timing.js'
 import {
 	configureJSONPrettyPrinting,
@@ -25,7 +26,7 @@ const createReachableFromRoute = (hafas, config) => {
 		when: {
 			description: 'Date & time to compute the reachability for.',
 			type: 'date+time',
-			defaultStr: '*now*',
+			defaultStr: '*now, with 10s accuracy*',
 			parse: parseWhen(hafas.profile.timezone),
 		},
 		maxTransfers: {
@@ -55,6 +56,12 @@ const createReachableFromRoute = (hafas, config) => {
 
 		const opt = parseQuery(parsers, req.query)
 		opt.products = parseProducts(hafas.profile.products, req.query)
+		if (!('when' in opt)) {
+			res.redirect(307, req.searchWithNewParams({
+				when: snapWhenToSteps() / 1000 | 0,
+			}))
+			return next()
+		}
 		config.addHafasOpts(opt, 'reachableFrom', req)
 
 		hafas.reachableFrom({
